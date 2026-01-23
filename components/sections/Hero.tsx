@@ -5,10 +5,11 @@ import Image from 'next/image';
 import { Github, Linkedin, Mail, Instagram } from 'lucide-react';
 import type { Profile } from '@/types/profile';
 import MagneticButton from '@/components/animations/MagneticButton';
-import FloatingParticles from '@/components/animations/FloatingParticles';
+// import FloatingParticles from '@/components/animations/FloatingParticles';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import { HoverBorderGradient } from '@/components/ui/hover-border-gradient';
-import { BackgroundBeams } from '@/components/ui/background-beams';
+// import { BackgroundBeams } from '@/components/ui/background-beams';
+import Threads from '@/components/ui/Threads';
 
 interface HeroProps {
   profile: Profile | null;
@@ -30,10 +31,9 @@ export default function Hero({ profile }: HeroProps) {
   return (
     <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden w-full py-20 lg:py-0">
       {/* Background Beams and Particles */}
-      <div className="absolute inset-0 z-0">
-        <BackgroundBeams className="opacity-40" />
+      <div className="absolute inset-0 z-0 bg-black">
+        <Threads amplitude={1} distance={0} enableMouseInteraction={true} />
         <div className="absolute inset-0 bg-gradient-to-br from-background via-surface/30 to-background pointer-events-none" />
-        <FloatingParticles count={25} />
       </div>
 
       <div className="container mx-auto px-6 relative z-10 w-full max-w-7xl h-full flex flex-col justify-center">

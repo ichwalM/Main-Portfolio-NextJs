@@ -8,8 +8,10 @@ import { fadeInDown, staggerContainer, staggerItem } from '@/lib/animations/vari
 
 const navItems = [
   { name: 'Home', href: '/' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'Blog', href: '/blog' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'Skills', href: '#skills' },
+  { name: 'Experience', href: '#experience' },
+  { name: 'Blog', href: '#blog' },
 ];
 
 export default function Header() {
