@@ -123,14 +123,15 @@ export default function Header() {
               animate="open"
               exit="closed"
               variants={menuVariants}
-              className="fixed inset-0 bg-background/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center md:hidden"
+              className="fixed inset-0 top-0 left-0 w-full h-dvh bg-background/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center space-y-8 md:hidden overflow-hidden"
+              style={{ padding: '2rem' }}
             >
-              <ul className="flex flex-col items-center gap-8 text-center">
+              <ul className="flex flex-col items-center gap-6 text-center w-full">
                 {navItems.map((item) => (
-                  <motion.li key={item.name} variants={itemVariants}>
+                  <motion.li key={item.name} variants={itemVariants} className="w-full">
                     <Link
                       href={item.href}
-                      className="text-3xl font-bold text-foreground hover:text-primary transition-colors"
+                      className="block text-4xl font-black text-foreground hover:text-primary transition-colors py-2 tracking-tight"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {item.name}
@@ -138,10 +139,10 @@ export default function Header() {
                   </motion.li>
                 ))}
                 
-                <motion.li variants={itemVariants} className="mt-4">
+                <motion.li variants={itemVariants} className="mt-8 w-full flex justify-center">
                   <a
                     href="#contact"
-                    className="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-white font-bold text-lg hover:shadow-lg hover:shadow-primary/50 transition-all duration-300 inline-block"
+                    className="px-8 py-4 rounded-full bg-gradient-to-r from-primary to-accent text-white font-bold text-xl hover:shadow-lg hover:shadow-primary/50 transition-all duration-300 w-full max-w-xs text-center"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Contact Me
