@@ -11,8 +11,13 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 export default async function BlogPage() {
-  const blogRes = await getBlogPosts();
-  const posts = blogRes.data;
+  let blogRes: any = { data: [] };
+  try {
+    blogRes = await getBlogPosts();
+  } catch (error) {
+    console.error('Failed to fetch blog posts:', error);
+  }
+  const posts = blogRes?.data || [];
 
   return (
     <div className="pt-32 pb-20">
@@ -27,7 +32,7 @@ export default async function BlogPage() {
         </ScrollReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post, index) => (
+          {posts.map((post: any, index: number) => (
             <BlogCard key={post.id} post={post} index={index} />
           ))}
         </div>

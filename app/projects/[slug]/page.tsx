@@ -8,12 +8,9 @@ import { notFound } from 'next/navigation';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 
 export async function generateStaticParams() {
-  try {
-    const slugs = await getAllProjectSlugs();
-    return slugs.map((slug) => ({ slug }));
-  } catch {
-    return [];
-  }
+  // Return empty array to skip static generation for projects during build
+  // They will be rendered on demand
+  return [];
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

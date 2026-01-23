@@ -8,8 +8,9 @@ import { notFound } from 'next/navigation';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 
 export async function generateStaticParams() {
-  const slugs = await getAllBlogSlugs();
-  return slugs.map((slug) => ({ slug }));
+  // Return empty array to skip static generation for blog posts during build
+  // They will be rendered on demand
+  return [];
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

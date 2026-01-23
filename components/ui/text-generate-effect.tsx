@@ -25,7 +25,7 @@ export const TextGenerateEffect = ({
         el.classList.add("opacity-100");
         el.classList.remove("opacity-0");
         if (filter) {
-          el.style.filter = "blur(0px)";
+          (el as HTMLElement).style.filter = "blur(0px)";
         }
       }, idx * (duration * 1000) / wordsArray.length);
     });
