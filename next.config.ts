@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
         port: '8000',
         pathname: '/storage/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cms.walldev.my.id',
+        port: '',
+        pathname: '/storage/**',
+      },
     ],
     // Allow localhost images
     dangerouslyAllowSVG: true,
