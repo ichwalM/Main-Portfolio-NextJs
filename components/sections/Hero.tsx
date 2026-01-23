@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail, Instagram } from 'lucide-react';
 import type { Profile } from '@/types/profile';
 import MagneticButton from '@/components/animations/MagneticButton';
 import FloatingParticles from '@/components/animations/FloatingParticles';
@@ -19,6 +19,7 @@ export default function Hero({ profile }: HeroProps) {
     github: Github,
     linkedin: Linkedin,
     email: Mail,
+    instagram: Instagram,
   };
 
   const name = profile?.name || 'Ichwal';

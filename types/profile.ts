@@ -7,6 +7,7 @@ export interface Profile {
     github?: string;
     linkedin?: string;
     twitter?: string;
+    instagram?: string;
     email?: string;
   };
 }
