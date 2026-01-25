@@ -15,7 +15,15 @@ export async function apiClient<T>(
   endpoint: string,
   options?: RequestInit
 ): Promise<T> {
-  const url = `${API_BASE_URL}${endpoint}`;
+  /* 
+   * Handle API Key Injection
+   * Appends ?api_key=KEY or &api_key=KEY to the endpoint
+   */
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+  const separator = endpoint.includes('?') ? '&' : '?';
+  const endpointWithKey = apiKey ? `${endpoint}${separator}api_key=${apiKey}` : endpoint;
+
+  const url = `${API_BASE_URL}${endpointWithKey}`;
 
   try {
     const response = await fetch(url, {

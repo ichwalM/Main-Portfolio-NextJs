@@ -5,10 +5,8 @@ import Image from 'next/image';
 import { Github, Linkedin, Mail, Instagram } from 'lucide-react';
 import type { Profile } from '@/types/profile';
 import MagneticButton from '@/components/animations/MagneticButton';
-// import FloatingParticles from '@/components/animations/FloatingParticles';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import { HoverBorderGradient } from '@/components/ui/hover-border-gradient';
-// import { BackgroundBeams } from '@/components/ui/background-beams';
 import Threads from '@/components/ui/Threads';
 
 interface HeroProps {
@@ -148,35 +146,48 @@ export default function Hero({ profile }: HeroProps) {
             </motion.div>
           </motion.div>
 
-          {/* Hero Image with 3D Card Effect */}
+          {/* Futuristic HUD Frame */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            className="w-full lg:w-1/2 flex justify-center lg:justify-end relative mb-8 lg:mb-0"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+            className="w-full lg:w-1/2 flex justify-center lg:justify-end relative mb-12 lg:mb-0"
           >
-            <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-full lg:max-w-md aspect-square">
-              {/* Rotating gradient ring */}
-              <motion.div
-                className="absolute -inset-4 rounded-[2rem] sm:rounded-[2.5rem] opacity-70 blur-2xl"
-                style={{
-                  background: 'conic-gradient(from 0deg, rgba(6, 182, 212, 0) 0deg, rgba(6, 182, 212, 0.5) 120deg, rgba(168, 85, 247, 0.5) 240deg, rgba(6, 182, 212, 0) 360deg)',
-                }}
-                animate={{ rotate: 360 }}
-                transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-              />
-              
-              {/* Image container with border gradient */}
-              <HoverBorderGradient
-                containerClassName="rounded-[1.5rem] sm:rounded-[2rem] w-full h-full shadow-2xl shadow-primary/20"
-                className="w-full h-full p-0 overflow-hidden bg-surface"
-                duration={3}
-              >
-                <motion.div
-                  className="relative w-full h-full group"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.4 }}
-                >
+            <div className="relative w-80 h-80 sm:w-96 sm:h-96 md:w-[450px] md:h-[450px]">
+               {/* Rotating Rings Layer 1 (Slow) */}
+               <motion.div 
+                 className="absolute inset-0 rounded-full border border-primary/20 border-dashed"
+                 animate={{ rotate: 360 }}
+                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+               />
+               
+               {/* Rotating Rings Layer 2 (Medium Reverse) */}
+               <motion.div 
+                 className="absolute inset-[20px] rounded-full border border-accent/20"
+                 style={{ borderTopColor: 'transparent', borderBottomColor: 'transparent' }}
+                 animate={{ rotate: -360 }}
+                 transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+               />
+
+               {/* Rotating Rings Layer 3 (Fast) */}
+               <motion.div 
+                 className="absolute inset-[40px] rounded-full border-[2px] border-primary/30"
+                 style={{ borderRightColor: 'transparent', borderLeftColor: 'transparent' }}
+                 animate={{ rotate: 360 }}
+                 transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+               />
+
+               {/* Tech Corners (HUD) */}
+               <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-primary" />
+               <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary" />
+               <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-primary" />
+               <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-primary" />
+
+               {/* Main Hex/Circle Frame */}
+               <div className="absolute inset-[15px] rounded-[3rem] overflow-hidden border border-white/10 bg-surface/50 backdrop-blur-sm z-10 group">
+                  {/* Internal Glow */}
+                  <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors duration-500" />
+                  
                   {heroImage ? (
                     <Image
                       src={heroImage}
@@ -187,30 +198,43 @@ export default function Hero({ profile }: HeroProps) {
                       unoptimized
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-surface to-background flex items-center justify-center">
-                      <span className="text-7xl sm:text-9xl font-black gradient-text opacity-50">{name[0]}</span>
+                    <div className="w-full h-full flex items-center justify-center">
+                       <span className="text-9xl font-black text-white/10">{name[0]}</span>
                     </div>
                   )}
-                  
-                  {/* Overlay gradient */}
-                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background/80 to-transparent" />
-                </motion.div>
-              </HoverBorderGradient>
 
-              {/* Status Badge */}
-              <motion.div
-                className="absolute -bottom-4 sm:-bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 sm:px-6 sm:py-3 rounded-full glass border border-primary/30 backdrop-blur-xl shadow-xl shadow-primary/10 whitespace-nowrap z-20"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2 }}
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
+               </div>
+
+               {/* Floating Badges */}
+               <motion.div 
+                  className="absolute -right-4 top-1/4 px-4 py-2 bg-black/80 backdrop-blur-md rounded-lg border border-primary/30 text-xs text-primary font-mono z-20"
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+               >
+                  SYS.ONLINE
+               </motion.div>
+
+               <motion.div 
+                  className="absolute -left-4 bottom-1/3 px-4 py-2 bg-black/80 backdrop-blur-md rounded-lg border border-accent/30 text-xs text-accent font-mono z-20"
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+               >
+                  NET.SECURE
+               </motion.div>
+
+               {/* Status Badge (Integrated) */}
+               <motion.div
+                className="absolute -bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full bg-[#0a0a0a] border border-primary/50 shadow-[0_0_20px_rgba(6,182,212,0.3)] z-30"
                 whileHover={{ scale: 1.05 }}
               >
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <span className="relative flex h-2 w-2 sm:h-3 sm:w-3">
+                <div className="flex items-center gap-3">
+                  <span className="relative flex h-3 w-3">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 sm:h-3 sm:w-3 bg-green-500"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                   </span>
-                  <span className="font-bold text-xs sm:text-sm bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Available for work</span>
+                  <span className="font-bold text-sm text-white tracking-wider uppercase">Available for work</span>
                 </div>
               </motion.div>
             </div>

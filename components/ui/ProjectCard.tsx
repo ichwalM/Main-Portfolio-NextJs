@@ -228,9 +228,9 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               </motion.a>
             )}
             
-            {project.live_url && (
+            {project.demo_url && (
               <motion.a
-                href={project.live_url}
+                href={project.demo_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05, x: -2 }}

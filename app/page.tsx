@@ -1,7 +1,7 @@
 import Hero from '@/components/sections/Hero';
 import Skills from '@/components/sections/Skills';
 import ExperienceTimeline from '@/components/sections/Experience';
-import ProjectCard from '@/components/ui/ProjectCard';
+import ProjectCarousel from '@/components/ui/ProjectCarousel';
 import BlogCard from '@/components/ui/BlogCard';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import { getProfile } from '@/lib/api/profile';
@@ -15,18 +15,21 @@ import { VelocityScroll } from '@/components/ui/scroll-based-velocity';
 
 import { getGithubStats } from '@/lib/api/github';
 import GithubStats from '@/components/sections/GithubStats';
+import { getAbout } from '@/lib/api/about';
+import AboutSection from '@/components/sections/About';
 
 export const revalidate = 10; // Revalidate every hour
 
 export default async function Home() {
   // Fetch all data in parallel with error handling
-  const [profile, projectsRes, skills, experiences, blogRes, githubStats] = await Promise.all([
+  const [profile, projectsRes, skills, experiences, blogRes, githubStats, about] = await Promise.all([
     getProfile().catch(() => null),
     getProjects().catch(() => ({ data: [] })),
     getSkills().catch(() => ({})),
     getExperiences().catch(() => []),
     getBlogPosts().catch(() => ({ data: [] })),
-    getGithubStats('IchwalM').catch(() => null), // Replace with dynamic username if needed
+    getGithubStats('IchwalM').catch(() => null),
+    getAbout().catch(() => null),
   ]);
 
   const projects = (projectsRes?.data || []).slice(0, 6);
@@ -39,47 +42,23 @@ export default async function Home() {
       <Hero profile={profile} />
 
       {/* Marquee Separator */}
-      <section className="py-20 relative bg-surface/30 backdrop-blur-sm border-y border-white/5 overflow-hidden">
+      <section className="py-10 relative bg-surface/30 backdrop-blur-sm border-y border-white/5 overflow-hidden">
         <VelocityScroll
-          text={`${name} Full Stack Developer ${name} Network Engineer ${name} Creative Coder `}
+          text={`Full Stack Web Developer - Network Administrator - Server Administrator`}
           default_velocity={7}
-          className="text-7xl md:text-9xl font-black text-foreground/30 uppercase tracking-tighter"
+          className="text-5xl md:text-6xl font-black text-foreground/30 uppercase tracking-tighter"
         />
       </section>
+
+      {/* About Section */}
+      <AboutSection about={about} />
 
       {/* GitHub Stats Section */}
       <GithubStats stats={githubStats} />
 
-      {/* Projects Section */}
-      <section id="projects" className="py-32 relative">
-        <div className="container mx-auto px-6">
-          <ScrollReveal>
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-bold gradient-text mb-4">Featured Projects</h2>
-              <p className="text-foreground/60 text-lg max-w-2xl mx-auto">
-                A showcase of my recent work and side projects
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {projects.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
-            ))}
-          </div>
-
-          <ScrollReveal>
-            <div className="text-center">
-              <Link
-                href="/projects"
-                className="inline-flex items-center gap-2 px-8 py-3 rounded-full glass border border-white/20 hover:border-primary/50 transition-all duration-300 group"
-              >
-                View All Projects
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-          </ScrollReveal>
-        </div>
+      {/* Featured Projects Carousel Section */}
+      <section id="projects" className="py-20 bg-background">
+        <ProjectCarousel projects={projects} />
       </section>
 
       {/* Skills Section */}
