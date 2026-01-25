@@ -75,7 +75,7 @@ export default async function Home() {
   const name = profile?.name || 'IchwalM';
 
   return (
-    <>
+    <main>
       <PersonJsonLd />
       {/* Hero Section */}
       <Hero profile={profile} />
@@ -157,6 +157,6 @@ export default async function Home() {
           </ScrollReveal>
         </div>
       </section>
-    </>
+    </main>
   );
 }
