@@ -1,6 +1,7 @@
 export interface Skill {
   name: string;
   proficiency: number;
+  icon: string;
 }
 
 export interface SkillsByCategory {

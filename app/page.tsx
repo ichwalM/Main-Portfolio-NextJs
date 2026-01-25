@@ -16,7 +16,7 @@ import { VelocityScroll } from '@/components/ui/scroll-based-velocity';
 import { getGithubStats } from '@/lib/api/github';
 import GithubStats from '@/components/sections/GithubStats';
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 10; // Revalidate every hour
 
 export default async function Home() {
   // Fetch all data in parallel with error handling

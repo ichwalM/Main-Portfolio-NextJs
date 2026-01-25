@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import Image from 'next/image';
 import type { SkillsByCategory } from '@/types/skill';
 import { staggerContainer, staggerItem } from '@/lib/animations/variants';
 import ScrollReveal from '@/components/animations/ScrollReveal';
@@ -115,11 +116,21 @@ export default function Skills({ skills }: SkillsProps) {
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/5 to-transparent rounded-bl-full" />
                 
                 <div className="relative z-10">
-                  {/* Skill name and percentage */}
+                  {/* Skill name and icon */}
                   <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">
-                      {skill.name}
-                    </h3>
+                    <div className="flex items-center gap-3">
+                      <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-white/5 p-1.5 border border-white/10 group-hover:border-primary/30 transition-colors">
+                        <Image
+                          src={skill.icon}
+                          alt={skill.name}
+                          fill
+                          className="object-contain p-1"
+                        />
+                      </div>
+                      <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
+                        {skill.name}
+                      </h3>
+                    </div>
                     <motion.span
                       className="text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent"
                       initial={{ opacity: 0, scale: 0 }}
