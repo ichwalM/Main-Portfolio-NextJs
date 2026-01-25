@@ -3,7 +3,7 @@
 import React from "react";
 import { GitHubCalendar } from "react-github-calendar";
 import { motion } from "framer-motion";
-import { Github, Star, GitFork, Users, BookMarked } from "lucide-react";
+import { Github, Star, GitFork, Users, BookMarked, GitCommitHorizontal } from "lucide-react";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
 interface GithubStatsProps {
@@ -12,6 +12,7 @@ interface GithubStatsProps {
     public_repos: number;
     total_stars: number;
     total_forks: number;
+    total_contributions: number;
     username: string;
     profile_url: string;
   } | null;
@@ -43,9 +44,9 @@ export default function GithubStats({ stats }: GithubStatsProps) {
       bg: "bg-green-400/10",
     },
     {
-      label: "Git Forks",
-      value: stats.total_forks,
-      icon: GitFork,
+      label: "Commits",
+      value: stats.total_contributions,
+      icon: GitCommitHorizontal,
       color: "text-purple-400",
       bg: "bg-purple-400/10",
     },

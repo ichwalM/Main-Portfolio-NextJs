@@ -36,6 +36,21 @@ export async function getGithubStats(username: string) {
     next: { revalidate: 3600 }
   });
   const repos = await reposRes.json() as GithubRepo[];
+
+  // Fetch contributions data
+  let totalContributions = 0;
+  try {
+    const contribRes = await fetch(`https://github-contributions-api.jogruber.de/v4/${username}`, {
+      next: { revalidate: 3600 }
+    });
+    if (contribRes.ok) {
+      const contribData = await contribRes.json();
+      // Sum up contributions from all years
+      totalContributions = Object.values(contribData.total || {}).reduce((acc: number, curr: any) => acc + (typeof curr === 'number' ? curr : 0), 0) as number;
+    }
+  } catch (e) {
+    console.error('Failed to fetch contributions:', e);
+  }
   
   if (!Array.isArray(repos)) {
     return {
@@ -43,6 +58,7 @@ export async function getGithubStats(username: string) {
       public_repos: user.public_repos,
       total_stars: 0,
       total_forks: 0,
+      total_contributions: totalContributions,
       username: user.login,
       profile_url: user.html_url
     };
@@ -56,6 +72,7 @@ export async function getGithubStats(username: string) {
     public_repos: user.public_repos,
     total_stars: totalStars,
     total_forks: totalForks,
+    total_contributions: totalContributions,
     username: user.login,
     profile_url: user.html_url
   };

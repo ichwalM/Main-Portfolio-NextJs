@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { fadeInDown, staggerContainer, staggerItem } from '@/lib/animations/variants';
 
@@ -18,6 +19,8 @@ const navItems = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -84,27 +87,31 @@ export default function Header() {
           variants={staggerContainer}
           className="hidden md:flex items-center gap-8"
         >
-          {navItems.map((item) => (
-            <motion.li key={item.name} variants={staggerItem}>
-              <Link
-                href={item.href}
-                className="text-foreground/80 hover:text-foreground transition-colors relative group font-medium"
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
-              </Link>
-            </motion.li>
-          ))}
+          {navItems.map((item) => {
+            const href = item.href.startsWith('#') && !isHome ? `/${item.href}` : item.href;
+            return (
+              <motion.li key={item.name} variants={staggerItem}>
+                <Link
+                  href={href}
+                  className="text-foreground/80 hover:text-foreground transition-colors relative group font-medium"
+                >
+                  {item.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
+                </Link>
+              </motion.li>
+            );
+          })}
         </motion.ul>
 
         <div className="hidden md:block">
-          <motion.a
-            variants={staggerItem}
-            href="#contact"
-            className="px-6 py-2 rounded-full bg-gradient-to-r from-primary to-accent text-white font-medium hover:shadow-lg hover:shadow-primary/50 transition-all duration-300"
-          >
-            Contact
-          </motion.a>
+          <motion.div variants={staggerItem}>
+            <Link
+              href={!isHome ? '/#contact' : '#contact'}
+              className="px-6 py-2 rounded-full bg-gradient-to-r from-primary to-accent text-white font-medium hover:shadow-lg hover:shadow-primary/50 transition-all duration-300"
+            >
+              Contact
+            </Link>
+          </motion.div>
         </div>
 
         {/* Mobile Menu Button */}
@@ -128,26 +135,29 @@ export default function Header() {
               style={{ padding: '2rem' }}
             >
               <ul className="flex flex-col items-center gap-6 text-center w-full">
-                {navItems.map((item) => (
-                  <motion.li key={item.name} variants={itemVariants} className="w-full">
-                    <Link
-                      href={item.href}
-                      className="block text-4xl font-black text-foreground hover:text-primary transition-colors py-2 tracking-tight"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  </motion.li>
-                ))}
+                {navItems.map((item) => {
+                  const href = item.href.startsWith('#') && !isHome ? `/${item.href}` : item.href;
+                  return (
+                    <motion.li key={item.name} variants={itemVariants} className="w-full">
+                      <Link
+                        href={href}
+                        className="block text-4xl font-black text-foreground hover:text-primary transition-colors py-2 tracking-tight"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    </motion.li>
+                  );
+                })}
                 
                 <motion.li variants={itemVariants} className="mt-8 w-full flex justify-center">
-                  <a
-                    href="#contact"
+                  <Link
+                    href={!isHome ? '/#contact' : '#contact'}
                     className="px-8 py-4 rounded-full bg-gradient-to-r from-primary to-accent text-white font-bold text-xl hover:shadow-lg hover:shadow-primary/50 transition-all duration-300 w-full max-w-xs text-center"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Contact Me
-                  </a>
+                  </Link>
                 </motion.li>
               </ul>
             </motion.div>
