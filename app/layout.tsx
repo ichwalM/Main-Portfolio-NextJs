@@ -55,7 +55,8 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: '/ichwal-icon.svg',
+    apple: '/ichwal-icon.svg',
   },
   themeColor: '#000000',
   viewport: {

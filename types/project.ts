@@ -7,6 +7,7 @@ export interface Project {
   tech_stack?: string | string[]; // Optional, can be string or array
   github_url?: string;
   demo_url?: string;
+  live_url?: string;
   featured?: boolean;
   created_at?: string;
 }
