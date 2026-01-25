@@ -12,20 +12,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Ichwal - Full Stack Developer Portfolio",
-  description: "Passionate Full Stack Developer specializing in modern web technologies. Explore my projects, skills, and blog posts.",
-  keywords: ["Full Stack Developer", "Web Development", "Next.js", "React", "TypeScript", "Portfolio"],
-  authors: [{ name: "Ichwal" }],
-  openGraph: {
-    title: "Ichwal - Full Stack Developer Portfolio",
-    description: "Passionate Full Stack Developer specializing in modern web technologies",
-    type: "website",
-    locale: "en_US",
+  title: {
+    default: "Ichwal - Portfolio",
+    template: "%s | Ichwal Portfolio"
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Ichwal - Full Stack Developer Portfolio",
-    description: "Passionate Full Stack Developer specializing in modern web technologies",
+  description: "Personal Portfolio Website",
+  icons: {
+    icon: '/favicon.ico',
   },
 };
 

@@ -4,22 +4,25 @@ export interface BlogPost {
   slug: string;
   excerpt: string;
   content: string;
-  image?: string;
+  thumbnail?: string;
+  additional_photos?: string[];
   published_at: string;
   reading_time?: number;
   tags?: string[];
 }
 
 export interface BlogPostsResponse {
+  current_page: number;
   data: BlogPost[];
-  meta?: {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  };
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number;
+  total: number;
 }
 
-export interface BlogPostDetailResponse {
-  data: BlogPost;
-}

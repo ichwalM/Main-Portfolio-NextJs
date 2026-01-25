@@ -18,7 +18,44 @@ import GithubStats from '@/components/sections/GithubStats';
 import { getAbout } from '@/lib/api/about';
 import AboutSection from '@/components/sections/About';
 
+import { Metadata } from 'next';
+
 export const revalidate = 10; // Revalidate every hour
+
+export async function generateMetadata(): Promise<Metadata> {
+  const [profile, about] = await Promise.all([
+    getProfile().catch(() => null),
+    getAbout().catch(() => null),
+  ]);
+
+  const title = profile?.name ? `${profile.name} - Full Stack Developer` : 'Ichwal - Full Stack Developer';
+  const description = about?.about_deskripsi || profile?.bio || 'Passionate Full Stack Developer specializing in modern web technologies.';
+  const image = profile?.hero_image || about?.about_photo || '/og-image.jpg';
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
 
 export default async function Home() {
   // Fetch all data in parallel with error handling

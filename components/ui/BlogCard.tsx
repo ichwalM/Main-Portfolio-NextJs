@@ -27,21 +27,21 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
       <Link href={`/blog/${post.slug}`}>
         <div className="glass rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-500 h-full">
           {/* Image */}
-          {post.image && (
-            <div className="relative h-48 overflow-hidden">
+          {post.thumbnail && (
+            <div className="relative h-64 overflow-hidden bg-surface/30">
               <motion.div
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.6 }}
                 className="w-full h-full"
               >
                 <Image
-                  src={post.image}
+                  src={post.thumbnail}
                   alt={post.title}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                 />
               </motion.div>
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-40" />
             </div>
           )}
 
