@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 10;
+export const revalidate = 360;
 
 export default async function BlogPage() {
   let blogRes: any = { data: [] };

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: 'Explore my portfolio of web development projects and applications',
 };
 
-export const revalidate = 10;
+export const revalidate = 360;
 
 export default async function ProjectsPage() {
   let projectsRes: any = { data: [] };

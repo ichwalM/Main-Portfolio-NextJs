@@ -21,7 +21,7 @@ import AboutSection from '@/components/sections/About';
 import { Metadata } from 'next';
 import PersonJsonLd from '@/components/seo/PersonJsonLd';
 
-export const revalidate = 10; // Revalidate every hour
+export const revalidate = 360; // Revalidate every hour
 
 export async function generateMetadata(): Promise<Metadata> {
   const [profile, about] = await Promise.all([
