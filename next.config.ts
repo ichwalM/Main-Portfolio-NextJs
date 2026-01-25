@@ -14,16 +14,12 @@ const nextConfig: NextConfig = {
       {
         protocol: 'http',
         hostname: 'localhost',
-        protocol: 'https',
-        hostname: 'cms.walldev.my.id',
-        port: '443',
-        pathname: '/storage/**',
       },
     ],
-    // Allow localhost images
     dangerouslyAllowSVG: true,
     unoptimized: process.env.NODE_ENV === 'development',
   },
 };
 
 export default nextConfig;
+
