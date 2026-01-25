@@ -7,6 +7,7 @@ import { formatDate, calculateReadingTime } from '@/lib/utils';
 import { notFound } from 'next/navigation';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import BlogPhotoGallery from '@/components/ui/BlogPhotoGallery';
+import BlogPostJsonLd from '@/components/seo/BlogPostJsonLd';
 
 export async function generateStaticParams() {
   // Return empty array to skip static generation for blog posts during build
@@ -71,8 +72,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const readingTime = post.reading_time || (post.content ? calculateReadingTime(post.content) : 5);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background to-surface/20">
-      <div className="pt-24 pb-20">
+    <>
+      <BlogPostJsonLd post={post} />
+      <div className="min-h-screen bg-gradient-to-b from-background via-background to-surface/20">
+        <div className="pt-24 pb-20">
         <div className="container mx-auto px-6">
           {/* Back Button */}
           <ScrollReveal>
@@ -171,5 +174,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </div>
       </div>
     </div>
+    </>
   );
 }

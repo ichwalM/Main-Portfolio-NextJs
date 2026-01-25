@@ -19,6 +19,7 @@ import { getAbout } from '@/lib/api/about';
 import AboutSection from '@/components/sections/About';
 
 import { Metadata } from 'next';
+import PersonJsonLd from '@/components/seo/PersonJsonLd';
 
 export const revalidate = 10; // Revalidate every hour
 
@@ -75,6 +76,7 @@ export default async function Home() {
 
   return (
     <>
+      <PersonJsonLd />
       {/* Hero Section */}
       <Hero profile={profile} />
 

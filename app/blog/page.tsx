@@ -5,7 +5,19 @@ import { getBlogPosts } from '@/lib/api/blog';
 
 export const metadata: Metadata = {
   title: 'Blog - Ichwal Portfolio',
-  description: 'Read my thoughts, tutorials, and insights on web development',
+  description: 'Read my thoughts, tutorials, and insights on web development, full stack development, React, Next.js, and modern JavaScript technologies.',
+  keywords: ['Blog', 'Web Development', 'Tutorials', 'Full Stack', 'React', 'Next.js', 'TypeScript', 'Programming'],
+  openGraph: {
+    title: 'Blog - Ichwal Portfolio',
+    description: 'Thoughts, tutorials, and insights on web development',
+    type: 'website',
+    url: 'https://walldev.my.id/blog',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog - Ichwal Portfolio',
+    description: 'Thoughts, tutorials, and insights on web development',
+  },
 };
 
 export const revalidate = 10;

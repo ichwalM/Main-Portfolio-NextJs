@@ -12,13 +12,59 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://walldev.my.id'),
   title: {
-    default: "Ichwal - Portfolio",
-    template: "%s | Ichwal Portfolio"
+    default: 'Ichwal - Full Stack Web Developer Portfolio and Network Administrator',
+    template: '%s | Ichwal Portfolio',
   },
-  description: "Personal Portfolio Website",
+  description: 'Full Stack Developer specializing in React, Next.js, and modern web technologies. Explore my projects, blog, and professional experience.',
+  keywords: ['Full Stack Developer', 'Web Developer', 'React', 'Next.js', 'TypeScript', 'Portfolio', 'Ichwal'],
+  authors: [{ name: 'Ichwal' }],
+  creator: 'Ichwal',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://walldev.my.id',
+    siteName: 'Ichwal Portfolio',
+    title: 'Ichwal - Full Stack Web Developer Portfolio and Network Administrator',
+    description: 'Full Stack Developer specializing in React, Next.js, and modern web technologies.',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Ichwal Portfolio',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ichwal - Full Stack Web Developer Portfolio and Network Administrator',
+    description: 'Full Stack Developer specializing in React, Next.js, and modern web technologies.',
+    images: ['/og-image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: '/favicon.ico',
+  },
+  themeColor: '#000000',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  alternates: {
+    canonical: 'https://walldev.my.id',
   },
 };
 
