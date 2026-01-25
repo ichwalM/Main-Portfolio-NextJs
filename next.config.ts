@@ -4,12 +4,16 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'localhost',
-        port: '443',
-        pathname: '/storage/**',
+        protocol: 'http',
+        hostname: 'cms.walldev.my.id',
       },
       {
+        protocol: 'https',
+        hostname: 'cms.walldev.my.id',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
         protocol: 'https',
         hostname: 'cms.walldev.my.id',
         port: '443',

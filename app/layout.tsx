@@ -58,12 +58,6 @@ export const metadata: Metadata = {
     icon: '/ichwal-icon.svg',
     apple: '/ichwal-icon.svg',
   },
-  themeColor: '#000000',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
   alternates: {
     canonical: 'https://walldev.my.id',
   },
