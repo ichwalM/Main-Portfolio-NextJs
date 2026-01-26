@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: 'https://walldev.my.id/sitemap.xml',
+    sitemap: 'https://app.walldev.my.id/sitemap.xml',
   };
 }
