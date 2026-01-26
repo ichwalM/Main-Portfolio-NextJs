@@ -82,7 +82,7 @@ export default function AboutSection({ about }: AboutSectionProps) {
                   transition={{ duration: 0.7 }}
                >
                   <h2 className="text-5xl md:text-7xl font-black mb-8 tracking-tighter leading-none">
-                    About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Me.</span>
+                    Tentang <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Saya.</span>
                   </h2>
 
                   <div className="relative pl-8 border-l-2 border-white/10">
