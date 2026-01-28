@@ -23,21 +23,22 @@ export default function ConnectedSkills({ skills }: ConnectedSkillsProps) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const mouseRef = useRef({ x: -1000, y: -1000 }); // Initialize off-screen
 
-  // Handle Resize
+  // Handle Resize with ResizeObserver
   useEffect(() => {
-    const handleResize = () => {
-      if (containerRef.current) {
+    if (!containerRef.current) return;
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
         setDimensions({
-          width: containerRef.current.offsetWidth,
-          height: containerRef.current.offsetHeight,
+          width: entry.contentRect.width,
+          height: entry.contentRect.height,
         });
       }
-    };
+    });
 
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Initial call
+    resizeObserver.observe(containerRef.current);
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => resizeObserver.disconnect();
   }, []);
 
   // Initialize nodes
@@ -45,15 +46,15 @@ export default function ConnectedSkills({ skills }: ConnectedSkillsProps) {
     if (dimensions.width === 0) return;
 
     setNodes(prevNodes => {
-      if (prevNodes.length > 0) return prevNodes; // Don't reset on small resizes if already exists
+      if (prevNodes.length > 0) return prevNodes;
       
       return skills.map((skill, index) => ({
         ...skill,
         id: index,
         x: Math.random() * dimensions.width * 0.8 + dimensions.width * 0.1,
         y: Math.random() * dimensions.height * 0.8 + dimensions.height * 0.1,
-        vx: (Math.random() - 0.5) * 2.5, // Increased velocity
-        vy: (Math.random() - 0.5) * 2.5,
+        vx: (Math.random() - 0.5) * 0.5, // Reduced velocity (was 2.5)
+        vy: (Math.random() - 0.5) * 0.5, // Reduced velocity (was 2.5)
       }));
     });
   }, [skills, dimensions.width, dimensions.height]);
@@ -73,26 +74,26 @@ export default function ConnectedSkills({ skills }: ConnectedSkillsProps) {
           const dx = x - mouseRef.current.x;
           const dy = y - mouseRef.current.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          const repulsionRadius = 300; // Large interaction radius
+          const repulsionRadius = 300; 
 
           if (distance < repulsionRadius) {
             const force = (repulsionRadius - distance) / repulsionRadius;
             const angle = Math.atan2(dy, dx);
-            const moveX = Math.cos(angle) * force * 1.5;
-            const moveY = Math.sin(angle) * force * 1.5;
+            const moveX = Math.cos(angle) * force * 0.5; // Reduced repulsion force
+            const moveY = Math.sin(angle) * force * 0.5;
             
             vx += moveX;
             vy += moveY;
           }
 
           // Constant Wander (Brownian motion)
-          vx += (Math.random() - 0.5) * 0.1;
-          vy += (Math.random() - 0.5) * 0.1;
+          vx += (Math.random() - 0.5) * 0.02; // Reduced wander (was 0.1)
+          vy += (Math.random() - 0.5) * 0.02;
 
           // Enforce Minimum and Maximum Speed
           const currentSpeed = Math.sqrt(vx * vx + vy * vy);
-          const minSpeed = 0.8; // Never stop moving
-          const maxSpeed = 3.0; // Don't get too crazy
+          const minSpeed = 0.2; // Reduced (was 0.8)
+          const maxSpeed = 1.0; // Reduced (was 3.0)
 
           if (currentSpeed < minSpeed && currentSpeed > 0) {
              vx = (vx / currentSpeed) * minSpeed;
@@ -102,7 +103,6 @@ export default function ConnectedSkills({ skills }: ConnectedSkillsProps) {
              vy = (vy / currentSpeed) * maxSpeed;
           }
           
-          // If completely stopped (rare), give random push
           if (currentSpeed === 0) {
              vx = (Math.random() - 0.5) * minSpeed;
              vy = (Math.random() - 0.5) * minSpeed;
@@ -127,7 +127,7 @@ export default function ConnectedSkills({ skills }: ConnectedSkillsProps) {
 
     animationFrameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [dimensions]);
+  }, [dimensions, nodes.length]); // Added nodes.length dependency just to be safe, though not strictly required if dimensions triggers re-run
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (containerRef.current) {
