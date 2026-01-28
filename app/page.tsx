@@ -148,7 +148,7 @@ export default async function Home() {
                 Have a project in mind? Let's discuss how we can collaborate to bring your ideas to life.
               </p>
               <a
-                href={`mailto:${profile?.social_links?.email || 'contact@example.com'}`}
+                href={`mailto:${profile?.email || 'contact@example.com'}`}
                 className="inline-block px-8 py-4 rounded-full bg-gradient-to-r from-primary to-accent text-white font-medium text-lg hover:shadow-lg hover:shadow-primary/50 transition-all duration-300"
               >
                 Get In Touch

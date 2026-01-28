@@ -123,7 +123,7 @@ export default function Hero({ profile }: HeroProps) {
             >
               <HoverBorderGradient
                 as="a"
-                href="#projects"
+                href="projects"
                 containerClassName="rounded-2xl"
                 className="px-6 py-3 sm:px-8 sm:py-4 text-white font-bold text-base sm:text-lg bg-surface"
               >
