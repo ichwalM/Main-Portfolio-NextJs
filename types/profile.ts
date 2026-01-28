@@ -8,8 +8,8 @@ export interface Profile {
     linkedin?: string;
     twitter?: string;
     instagram?: string;
-    email?: string;
   };
+    email?: string;
 }
 
 // API returns Profile directly, no wrapper
