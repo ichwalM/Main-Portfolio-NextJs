@@ -9,7 +9,8 @@ export interface Profile {
     twitter?: string;
     instagram?: string;
   };
-    email?: string;
+  email?: string;
+  open_work?: boolean;
 }
 
 // API returns Profile directly, no wrapper

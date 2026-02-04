@@ -43,7 +43,7 @@ export default function Hero({ profile }: HeroProps) {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="w-full lg:w-1/2 space-y-6 lg:space-y-8 lg:text-left text-center mt-8 lg:mt-0"
           >
-            {/* Greeting */}
+            {/* Greeting */}{profile?.open_work && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -55,6 +55,7 @@ export default function Hero({ profile }: HeroProps) {
                 Available for freelance
               </p>
             </motion.div>
+            )}
 
             {/* Name with gradient */}
             <motion.div
@@ -224,7 +225,7 @@ export default function Hero({ profile }: HeroProps) {
                   NET.SECURE
                </motion.div>
 
-               {/* Status Badge (Integrated) */}
+               {/* Status Badge (Integrated) */}{profile?.open_work && (
                <motion.div
                 className="absolute -bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full bg-[#0a0a0a] border border-primary/50 shadow-[0_0_20px_rgba(6,182,212,0.3)] z-30"
                 whileHover={{ scale: 1.05 }}
@@ -237,6 +238,7 @@ export default function Hero({ profile }: HeroProps) {
                   <span className="font-bold text-sm text-white tracking-wider uppercase">Available for work</span>
                 </div>
               </motion.div>
+               )}
             </div>
           </motion.div>
         </div>
