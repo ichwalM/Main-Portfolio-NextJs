@@ -25,6 +25,7 @@ export default function Footer() {
             <p className="text-muted-foreground text-sm leading-relaxed">
               Full Stack Developer passionate about creating performant and purposeful web experiences.
             </p>
+            
           </div>
 
           {/* Quick Links */}
