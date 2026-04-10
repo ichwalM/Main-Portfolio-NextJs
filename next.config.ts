@@ -19,6 +19,7 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     unoptimized: process.env.NODE_ENV === 'development',
   },
+  output: 'standalone', // <--- WAJIB ADA
 };
 
 export default nextConfig;
