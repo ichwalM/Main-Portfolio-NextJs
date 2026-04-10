@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -17,7 +17,8 @@ export default function ProjectCarousel({ projects }: ProjectCarouselProps) {
     return null;
   }
 
-  const displayProjects = projects.slice(0, 6);
+  // All projects shown inline — no limit
+  const displayProjects = projects;
 
   return (
     <div className="w-full py-16 relative">
@@ -156,17 +157,6 @@ export default function ProjectCarousel({ projects }: ProjectCarouselProps) {
             );
           })}
         </motion.div>
-
-        {/* CTA */}
-        <div className="mt-8">
-          <Link
-            href="/projects"
-            className="inline-flex items-center gap-2 px-6 py-3 border border-border text-sm font-bold hover:border-primary hover:text-primary transition-all duration-200"
-          >
-            View All Projects
-            <ArrowUpRight className="w-4 h-4" />
-          </Link>
-        </div>
       </div>
     </div>
   );
