@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -19,7 +19,7 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
+      viewport={{ once: false, margin: '-100px' }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="group"
     >
@@ -97,3 +97,4 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
     </motion.div>
   );
 }
+

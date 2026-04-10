@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -44,7 +44,7 @@ export default function AllSkillsGrid({ skills }: ConnectedSkillsProps) {
               className="absolute top-0 left-0 h-full bg-primary"
               initial={{ width: 0 }}
               whileInView={{ width: `${skill.proficiency}%` }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{ duration: 1, delay: index * 0.03, ease: [0.22, 1, 0.36, 1] }}
             />
           </div>
@@ -61,3 +61,4 @@ export default function AllSkillsGrid({ skills }: ConnectedSkillsProps) {
     </motion.div>
   );
 }
+

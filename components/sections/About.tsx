@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -49,7 +49,7 @@ export default function AboutSection({ about }: AboutSectionProps) {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false }}
                   transition={{ delay: 0.5, duration: 0.5 }}
                   className="absolute bottom-0 left-0 right-0 p-5 bg-background/95 border-t border-border flex justify-between items-center"
                 >
@@ -81,7 +81,7 @@ export default function AboutSection({ about }: AboutSectionProps) {
               <motion.div
                 initial={{ opacity: 0, x: 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ duration: 0.7 }}
               >
                 {/* Section label */}
@@ -103,7 +103,7 @@ export default function AboutSection({ about }: AboutSectionProps) {
                     {about.about_deskripsi}
                   </p>
 
-                  {/* Decorative dots — sharp squares */}
+                  {/* Decorative dots â€” sharp squares */}
                   <div className="flex gap-2">
                     <div className="w-2 h-2 bg-primary" />
                     <div className="w-2 h-2 bg-primary/50" />
@@ -118,3 +118,4 @@ export default function AboutSection({ about }: AboutSectionProps) {
     </section>
   );
 }
+

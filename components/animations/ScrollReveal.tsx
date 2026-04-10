@@ -1,7 +1,7 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef, ReactNode } from 'react';
+import { motion } from 'framer-motion';
+import { ReactNode } from 'react';
 import { fadeInUp, fadeInLeft, fadeInRight, scaleIn, blurIn } from '@/lib/animations/variants';
 
 interface ScrollRevealProps {
@@ -25,16 +25,13 @@ export default function ScrollReveal({
   delay = 0,
   className = '',
 }: ScrollRevealProps) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
   const selectedVariant = variantMap[variant];
 
   return (
     <motion.div
-      ref={ref}
       initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      whileInView="visible"
+      viewport={{ once: false, margin: '-60px' }}
       variants={selectedVariant}
       transition={{ delay }}
       className={className}
@@ -43,3 +40,4 @@ export default function ScrollReveal({
     </motion.div>
   );
 }
+

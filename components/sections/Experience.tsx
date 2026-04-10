@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { motion, useScroll, useTransform, useSpring, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { useRef } from 'react';
@@ -35,12 +35,12 @@ const ExperienceCard = ({ experience, index }: { experience: Experience; index: 
 
   return (
     <div className="relative pl-8 md:pl-0">
-      {/* Timeline Node — Square */}
+      {/* Timeline Node â€” Square */}
       <div className="absolute left-0 md:left-1/2 top-0 -translate-x-[5px] md:-translate-x-1/2 z-20 flex flex-col items-center">
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: false, margin: "-100px" }}
           transition={{ delay: index * 0.15, duration: 0.4, type: "spring" }}
           className={`w-3 h-3 border-2 ${
             isCurrent
@@ -60,7 +60,7 @@ const ExperienceCard = ({ experience, index }: { experience: Experience; index: 
           ref={ref}
           initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: false, margin: "-100px" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
@@ -104,7 +104,7 @@ const ExperienceCard = ({ experience, index }: { experience: Experience; index: 
               <div className="flex items-center gap-1.5">
                 <Calendar size={11} />
                 <span>
-                  {formatDate(experience.start_date)} — {experience.end_date ? formatDate(experience.end_date) : 'Now'}
+                  {formatDate(experience.start_date)} â€” {experience.end_date ? formatDate(experience.end_date) : 'Now'}
                 </span>
               </div>
               {experience.location && (
@@ -175,3 +175,4 @@ export default function ExperienceTimeline({ experiences }: ExperienceTimelinePr
     </section>
   );
 }
+

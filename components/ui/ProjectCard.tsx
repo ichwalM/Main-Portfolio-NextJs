@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import Image from 'next/image';
@@ -52,7 +52,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       ref={cardRef}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
+      viewport={{ once: false, margin: '-100px' }}
       transition={{ duration: 0.5, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
@@ -85,7 +85,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             {/* Blue overlay on hover */}
             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
 
-            {/* Featured badge — sharp */}
+            {/* Featured badge â€” sharp */}
             {project.featured && (
               <div className="absolute top-4 right-4 flex items-center gap-1.5 px-2.5 py-1 bg-primary text-white">
                 <div className="w-1.5 h-1.5 bg-white animate-pulse" />
@@ -125,7 +125,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             {description}
           </p>
 
-          {/* Tech Stack — sharp tags */}
+          {/* Tech Stack â€” sharp tags */}
           {techStack.length > 0 && (
             <div className="flex flex-wrap gap-1.5 pt-1">
               {techStack.slice(0, 4).map((tech: string, i: number) => (
@@ -187,9 +187,10 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           </div>
         </div>
 
-        {/* Bottom accent line — grows on hover */}
+        {/* Bottom accent line â€” grows on hover */}
         <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
       </div>
     </motion.div>
   );
 }
+

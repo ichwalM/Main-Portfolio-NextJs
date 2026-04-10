@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -40,7 +40,7 @@ export default function ProjectCarousel({ projects }: ProjectCarouselProps) {
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         >
           {displayProjects.map((project, idx) => {
@@ -171,3 +171,4 @@ export default function ProjectCarousel({ projects }: ProjectCarouselProps) {
     </div>
   );
 }
+

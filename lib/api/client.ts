@@ -31,6 +31,7 @@ export async function apiClient<T>(
         'Content-Type': 'application/json',
         ...options?.headers,
       },
+      next: { revalidate: 360 }, // ISR: revalidate every 6 minutes
       ...options,
     });
 

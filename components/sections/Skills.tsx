@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
@@ -40,7 +40,7 @@ export default function Skills({ skills }: SkillsProps) {
           </div>
         </ScrollReveal>
 
-        {/* Category Tabs — Sharp style */}
+        {/* Category Tabs â€” Sharp style */}
         <ScrollReveal>
           <div className="flex flex-wrap gap-2 mb-16 border-b border-border pb-4">
             {displayCategories.map((category, index) => (
@@ -117,20 +117,20 @@ export default function Skills({ skills }: SkillsProps) {
                         className="text-2xl font-black text-primary font-mono"
                         initial={{ opacity: 0, scale: 0 }}
                         whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: false }}
                         transition={{ delay: index * 0.1 + 0.2 }}
                       >
                         {skill.proficiency}%
                       </motion.span>
                     </div>
 
-                    {/* Progress bar — sharp */}
+                    {/* Progress bar â€” sharp */}
                     <div className="relative h-0.5 bg-border overflow-hidden">
                       <motion.div
                         className="absolute top-0 left-0 h-full bg-primary"
                         initial={{ width: 0 }}
                         whileInView={{ width: `${skill.proficiency}%` }}
-                        viewport={{ once: true }}
+                        viewport={{ once: false }}
                         transition={{
                           duration: 1.2,
                           delay: index * 0.08,
@@ -152,7 +152,7 @@ export default function Skills({ skills }: SkillsProps) {
                             }`}
                             initial={{ scale: 0 }}
                             whileInView={{ scale: 1 }}
-                            viewport={{ once: true }}
+                            viewport={{ once: false }}
                             transition={{ delay: index * 0.08 + i * 0.04 }}
                           />
                         ))}
@@ -180,3 +180,4 @@ export default function Skills({ skills }: SkillsProps) {
     </section>
   );
 }
+
