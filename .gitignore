@@ -16,6 +16,11 @@
 # next.js
 # /.next/
 /out/
+# Mengizinkan folder .next tapi abaikan cache-nya
+/.next/
+!/.next/standalone/
+!/.next/static/
+/.next/cache/
 
 # production
 /build
