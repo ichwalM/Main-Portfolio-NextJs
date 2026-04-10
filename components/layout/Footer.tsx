@@ -21,6 +21,7 @@ export default async function Footer() {
     <footer className="relative mt-24 border-t-2 border-primary">
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          
           {/* Brand */}
           <div>
             <h3 className="text-2xl font-black tracking-tighter mb-3">
