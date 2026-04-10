@@ -3,7 +3,7 @@
 import React from "react";
 import { GitHubCalendar } from "react-github-calendar";
 import { motion } from "framer-motion";
-import { Github, Star, GitFork, Users, BookMarked, GitCommitHorizontal } from "lucide-react";
+import { Github, Star, BookMarked, Users, GitCommitHorizontal } from "lucide-react";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
 interface GithubStatsProps {
@@ -26,57 +26,65 @@ export default function GithubStats({ stats }: GithubStatsProps) {
       label: "Stars Earned",
       value: stats.total_stars,
       icon: Star,
-      color: "text-yellow-400",
-      bg: "bg-yellow-400/10",
+      accent: "text-yellow-400",
     },
     {
       label: "Total Repos",
       value: stats.public_repos,
       icon: BookMarked,
-      color: "text-blue-400",
-      bg: "bg-blue-400/10",
+      accent: "text-primary",
     },
     {
       label: "Followers",
       value: stats.followers,
       icon: Users,
-      color: "text-green-400",
-      bg: "bg-green-400/10",
+      accent: "text-green-400",
     },
     {
       label: "Commits",
       value: stats.total_contributions,
       icon: GitCommitHorizontal,
-      color: "text-purple-400",
-      bg: "bg-purple-400/10",
+      accent: "text-primary",
     },
   ];
 
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden">
+      {/* Decorative large number */}
+      <div className="absolute top-8 left-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter">
+        05
+      </div>
+
       <div className="container mx-auto px-6">
         <ScrollReveal>
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold gradient-text mb-4">Coding Activity</h2>
-            <p className="text-foreground/60 text-lg max-w-2xl mx-auto">
-              My contributions and open source statistics on GitHub
+          <div className="mb-16">
+            <p className="section-label mb-6">Open Source</p>
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-none">
+              Coding<br />
+              <span className="text-primary">Activity.</span>
+            </h2>
+            <p className="text-muted-foreground text-base mt-4 max-w-xl">
+              My contributions and open source statistics on GitHub.
             </p>
           </div>
         </ScrollReveal>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+        {/* Stats Grid — Sharp cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border mb-16">
           {statItems.map((item, index) => (
             <ScrollReveal key={item.label}>
               <motion.div
-                whileHover={{ y: -5 }}
-                className="glass p-6 rounded-2xl border border-white/5 flex flex-col items-center justify-center gap-3 group"
+                whileHover={{ y: -2 }}
+                className="bg-card p-6 flex flex-col gap-4 group cursor-default transition-colors duration-200 hover:bg-surface"
               >
-                <div className={`p-3 rounded-full ${item.bg} mb-2 group-hover:scale-110 transition-transform`}>
-                  <item.icon className={`w-8 h-8 ${item.color}`} />
+                <div className="flex items-center justify-between">
+                  <item.icon className={`w-5 h-5 ${item.accent}`} />
+                  <div className="w-1.5 h-1.5 bg-border group-hover:bg-primary transition-colors" />
                 </div>
-                <h3 className="text-3xl font-black text-foreground">{item.value}</h3>
-                <p className="text-foreground/60 font-medium text-sm text-center">{item.label}</p>
+                <div>
+                  <h3 className="text-4xl font-black text-foreground font-mono">{item.value}</h3>
+                  <p className="text-muted-foreground text-xs font-mono uppercase tracking-wider mt-1">{item.label}</p>
+                </div>
               </motion.div>
             </ScrollReveal>
           ))}
@@ -84,31 +92,44 @@ export default function GithubStats({ stats }: GithubStatsProps) {
 
         {/* GitHub Calendar */}
         <ScrollReveal>
-          <div className="glass p-8 rounded-3xl border border-white/5 flex flex-col items-center">
-            <div className="w-full overflow-x-auto flex justify-center pb-4">
-              <div className="min-w-[800px] flex justify-center">
-                 <GitHubCalendar 
-                    username={stats.username}
-                    colorScheme="dark"
-                    fontSize={14}
-                    blockSize={14}
-                    blockMargin={4}
-                    theme={{
-                        dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
-                    }}
-                 />
+          <div className="border border-border bg-card p-6 md:p-8">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-border">
+              <div className="flex items-center gap-2">
+                <Github className="w-4 h-4 text-primary" />
+                <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                  @{stats.username}
+                </span>
+              </div>
+              <span className="text-xs font-mono text-muted-foreground/50">Contribution Graph</span>
+            </div>
+
+            <div className="w-full overflow-x-auto flex justify-center pb-2">
+              <div className="min-w-[700px] flex justify-center">
+                <GitHubCalendar
+                  username={stats.username}
+                  colorScheme="dark"
+                  fontSize={12}
+                  blockSize={12}
+                  blockMargin={3}
+                  theme={{
+                    dark: ['#1a1a1a', '#0c2d6b', '#1551c5', '#2563EB', '#4f8af8'],
+                  }}
+                />
               </div>
             </div>
-            <div className="mt-6 flex gap-4">
+
+            {/* CTA */}
+            <div className="mt-6 pt-4 border-t border-border flex justify-center">
               <motion.a
                 href={stats.profile_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#24292e] text-white font-medium hover:bg-[#2f363d] transition-colors"
+                whileHover={{ x: 4 }}
+                whileTap={{ scale: 0.97 }}
+                className="flex items-center gap-2 px-6 py-3 bg-[#24292e] text-white text-sm font-bold hover:bg-[#2f363d] transition-colors"
               >
-                <Github className="w-5 h-5" />
+                <Github className="w-4 h-4" />
                 Visit GitHub Profile
               </motion.a>
             </div>

@@ -74,48 +74,47 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <>
       <BlogPostJsonLd post={post} />
-      <div className="min-h-screen bg-gradient-to-b from-background via-background to-surface/20">
+      <div className="min-h-screen bg-background">
         <div className="pt-24 pb-20">
         <div className="container mx-auto px-6">
-          {/* Back Button */}
-          <ScrollReveal>
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 text-foreground/60 hover:text-primary transition-colors mb-8 group"
-            >
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              Back to Blog
-            </Link>
-          </ScrollReveal>
-
           <article className="max-w-4xl mx-auto">
-            {/* Header Section */}
             <ScrollReveal>
-              <div className="mb-12 text-center">
+              <div className="mb-12">
+                {/* Back link */}
+                <div className="mb-8">
+                  <Link
+                    href="/blog"
+                    className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group text-sm font-mono uppercase tracking-wider"
+                  >
+                    <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
+                    Back to Blog
+                  </Link>
+                </div>
+
                 {/* Title */}
-                <h1 className="text-4xl md:text-6xl font-black gradient-text mb-6 leading-tight">
+                <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-none mb-8">
                   {post.title}
                 </h1>
-                
-                {/* Meta Info */}
-                <div className="flex flex-wrap justify-center gap-6 text-foreground/60 mb-8">
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10">
-                    <Calendar className="w-4 h-4 text-primary" />
-                    <span className="font-medium">{formatDate(post.published_at)}</span>
+
+                {/* Meta Info — sharp tags */}
+                <div className="flex flex-wrap gap-3 mb-6">
+                  <div className="flex items-center gap-1.5 tag-outline">
+                    <Calendar className="w-3 h-3" />
+                    <span>{formatDate(post.published_at)}</span>
                   </div>
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10">
-                    <Clock className="w-4 h-4 text-accent" />
-                    <span className="font-medium">{readingTime} min read</span>
+                  <div className="flex items-center gap-1.5 tag-outline">
+                    <Clock className="w-3 h-3" />
+                    <span>{readingTime} min read</span>
                   </div>
                 </div>
 
                 {/* Tags */}
                 {post.tags && post.tags.length > 0 && (
-                  <div className="flex flex-wrap justify-center gap-2">
+                  <div className="flex flex-wrap gap-1.5">
                     {post.tags.map((tag: string) => (
                       <span
                         key={tag}
-                        className="px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm border border-primary/20 font-medium hover:bg-primary/20 transition-colors"
+                        className="tag-outline hover:border-primary hover:text-primary transition-colors cursor-default"
                       >
                         #{tag}
                       </span>
@@ -128,7 +127,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             {/* Featured Image */}
             {post.thumbnail && (
               <ScrollReveal variant="scaleIn">
-                <div className="relative w-full aspect-video rounded-3xl overflow-hidden mb-16 border border-white/10 bg-surface/30 shadow-2xl shadow-primary/5">
+                <div className="relative w-full aspect-video overflow-hidden mb-12 border border-border bg-surface">
                   <Image
                     src={post.thumbnail}
                     alt={post.title}
@@ -144,19 +143,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <ScrollReveal>
               <div className="mb-16">
                 <div className="relative">
-                  {/* Decorative gradient line */}
-                  <div className="absolute -left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-primary via-accent to-primary rounded-full" />
-                  
-                  <div className="glass rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl">
-                    <div 
+                  {/* Left accent line */}
+                  <div className="absolute -left-6 top-0 bottom-0 w-0.5 bg-primary" />
+
+                  <div className="border border-border bg-card p-8 md:p-12">
+                    <div
                       className="prose prose-invert prose-lg max-w-none
-                        prose-headings:gradient-text prose-headings:font-black
-                        prose-p:text-foreground/80 prose-p:leading-relaxed
+                        prose-headings:font-black prose-headings:tracking-tight
+                        prose-p:text-muted-foreground prose-p:leading-relaxed
                         prose-a:text-primary prose-a:no-underline prose-a:font-medium hover:prose-a:underline
-                        prose-strong:text-primary prose-strong:font-bold
-                        prose-code:text-accent prose-code:bg-surface prose-code:px-2 prose-code:py-1 prose-code:rounded
-                        prose-pre:bg-surface prose-pre:border prose-pre:border-white/10
-                        prose-img:rounded-xl prose-img:border prose-img:border-white/10"
+                        prose-strong:text-foreground prose-strong:font-bold
+                        prose-code:text-primary prose-code:bg-surface prose-code:px-2 prose-code:py-0.5
+                        prose-pre:bg-surface prose-pre:border prose-pre:border-border
+                        prose-img:border prose-img:border-border"
                       dangerouslySetInnerHTML={{ __html: post.content }}
                     />
                   </div>

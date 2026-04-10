@@ -32,26 +32,33 @@ export default async function BlogPage() {
   const posts = blogRes?.data || [];
 
   return (
-    <div className="pt-32 pb-20">
-      <div className="container mx-auto px-6">
+    <div className="pt-32 pb-20 overflow-hidden">
+      {/* Decorative watermark */}
+      <div className="absolute top-24 right-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter">
+        BLG
+      </div>
+      <div className="container mx-auto px-6 relative z-10">
         <ScrollReveal>
-          <div className="text-center mb-16">
-            <h1 className="text-6xl font-bold gradient-text mb-4">Blog</h1>
-            <p className="text-foreground/60 text-lg max-w-2xl mx-auto">
-              Thoughts, tutorials, and insights on web development and technology
+          <div className="mb-16">
+            <p className="section-label mb-6">Writing</p>
+            <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-none mb-4">
+              Blog<span className="text-primary">.</span>
+            </h1>
+            <p className="text-muted-foreground text-base mt-4 max-w-xl">
+              Thoughts, tutorials, and insights on web development and technology.
             </p>
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {posts.map((post: any, index: number) => (
             <BlogCard key={post.id} post={post} index={index} />
           ))}
         </div>
 
         {posts.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-foreground/60 text-lg">No blog posts found.</p>
+          <div className="py-20 border border-border flex items-center justify-center">
+            <p className="text-muted-foreground text-base font-mono">NO POSTS FOUND.</p>
           </div>
         )}
       </div>

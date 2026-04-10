@@ -56,42 +56,44 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   return (
     <div className="pt-32 pb-20">
       <div className="container mx-auto px-6">
-        <ScrollReveal>
-          <Link
-            href="/projects"
-            className="inline-flex items-center gap-2 text-foreground/60 hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Projects
-          </Link>
-        </ScrollReveal>
-
         <div className="max-w-5xl mx-auto">
           {/* Header */}
           <ScrollReveal>
             <div className="mb-12">
-              <h1 className="text-5xl md:text-6xl font-bold gradient-text mb-6">
+              {/* Back link */}
+              <div className="mb-6">
+                <Link
+                  href="/projects"
+                  className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group text-sm font-mono uppercase tracking-wider"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
+                  Back to Projects
+                </Link>
+              </div>
+
+              <p className="section-label mb-4">Project</p>
+              <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-6">
                 {project.title}
               </h1>
-              
+
               {project.created_at && (
-                <div className="flex flex-wrap gap-4 mb-6">
-                  <div className="flex items-center gap-2 text-foreground/60">
-                    <Calendar className="w-4 h-4" />
+                <div className="flex flex-wrap gap-3 mb-6">
+                  <div className="flex items-center gap-1.5 tag-outline">
+                    <Calendar className="w-3 h-3" />
                     <span>{formatDate(project.created_at)}</span>
                   </div>
                 </div>
               )}
 
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-3">
                 {project.github_url && (
                   <a
                     href={project.github_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass border border-white/20 hover:border-primary/50 transition-all duration-300"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 border border-border hover:border-primary text-sm font-bold transition-colors"
                   >
-                    <Github className="w-5 h-5" />
+                    <Github className="w-4 h-4" />
                     View Code
                   </a>
                 )}
@@ -100,9 +102,9 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                     href={project.live_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-white font-medium hover:shadow-lg hover:shadow-primary/50 transition-all duration-300"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors"
                   >
-                    <ExternalLink className="w-5 h-5" />
+                    <ExternalLink className="w-4 h-4" />
                     Live Demo
                   </a>
                 )}
@@ -112,8 +114,8 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
           {/* Image */}
           {thumbnail && (
-            <ScrollReveal variant="scaleIn">
-              <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-12 border border-white/10 bg-surface">
+            <ScrollReveal>
+              <div className="relative w-full aspect-video overflow-hidden mb-10 border border-border bg-surface">
                 <Image
                   src={thumbnail}
                   alt={project.title}
@@ -128,9 +130,10 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
           {/* Description */}
           <ScrollReveal>
-            <div className="glass rounded-2xl p-8 mb-12 border border-white/10">
-              <h2 className="text-2xl font-bold mb-4">About This Project</h2>
-              <p className="text-foreground/80 text-lg leading-relaxed">
+            <div className="border border-border bg-card p-8 mb-6">
+              <p className="section-label mb-4">About</p>
+              <h2 className="text-xl font-black mb-4 tracking-tight">About This Project</h2>
+              <p className="text-muted-foreground text-base leading-relaxed text-justify">
                 {description}
               </p>
             </div>
@@ -139,13 +142,13 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           {/* Tech Stack */}
           {techStack.length > 0 && (
             <ScrollReveal>
-              <div className="glass rounded-2xl p-8 border border-white/10">
-                <h2 className="text-2xl font-bold mb-6">Technologies Used</h2>
-                <div className="flex flex-wrap gap-3">
+              <div className="border border-border bg-card p-8">
+                <p className="section-label mb-5">Stack</p>
+                <div className="flex flex-wrap gap-2">
                   {techStack.map((tech: string, i: number) => (
                     <span
                       key={`tech-${i}`}
-                      className="px-4 py-2 rounded-full bg-surface border border-white/10 font-medium"
+                      className="tag-outline"
                     >
                       {tech}
                     </span>

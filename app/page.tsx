@@ -81,11 +81,11 @@ export default async function Home() {
       <Hero profile={profile} />
 
       {/* Marquee Separator */}
-      <section className="py-10 relative bg-surface/30 backdrop-blur-sm border-y border-white/5 overflow-hidden">
+      <section className="py-8 relative bg-surface border-y border-border overflow-hidden">
         <VelocityScroll
-          text={`Full Stack Web Developer - Network Administrator - Server Administrator`}
+          text={`Full Stack Web Developer — Network Administrator — Server Administrator`}
           default_velocity={7}
-          className="text-5xl md:text-6xl font-black text-foreground/30 uppercase tracking-tighter"
+          className="text-4xl md:text-5xl font-black text-foreground/20 uppercase tracking-tighter"
         />
       </section>
 
@@ -107,28 +107,36 @@ export default async function Home() {
       <ExperienceTimeline experiences={experiences} />
 
       {/* Blog Section */}
-      <section id="blog" className="py-32 relative">
+      <section id="blog" className="py-24 md:py-32 relative overflow-hidden">
+        {/* Decorative large number */}
+        <div className="absolute top-8 left-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter">
+          06
+        </div>
         <div className="container mx-auto px-6">
           <ScrollReveal>
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-bold gradient-text mb-4">Latest Blog Posts</h2>
-              <p className="text-foreground/60 text-lg max-w-2xl mx-auto">
-                Thoughts, tutorials, and insights on web development
+            <div className="mb-16">
+              <p className="section-label mb-6">Blog</p>
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-none">
+                Latest<br />
+                <span className="text-primary">Posts.</span>
+              </h2>
+              <p className="text-muted-foreground text-base mt-4 max-w-xl">
+                Thoughts, tutorials, and insights on web development.
               </p>
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
             {blogPosts.map((post, index) => (
               <BlogCard key={post.id} post={post} index={index} />
             ))}
           </div>
 
           <ScrollReveal>
-            <div className="text-center">
+            <div>
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 px-8 py-3 rounded-full glass border border-white/20 hover:border-primary/50 transition-all duration-300 group"
+                className="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors group"
               >
                 View All Posts
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -139,20 +147,33 @@ export default async function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-32 relative">
+      <section id="contact" className="py-24 md:py-32 relative border-t border-border">
         <div className="container mx-auto px-6">
           <ScrollReveal>
-            <div className="max-w-3xl mx-auto text-center glass rounded-3xl p-12 border border-white/10">
-              <h2 className="text-5xl font-bold gradient-text mb-6">Let's Work Together</h2>
-              <p className="text-foreground/70 text-lg mb-8">
+            <div className="max-w-4xl">
+              <p className="section-label mb-6">Contact</p>
+              <h2 className="text-5xl md:text-8xl font-black tracking-tighter leading-none mb-8">
+                Let's Work<br />
+                <span className="text-primary">Together.</span>
+              </h2>
+              <p className="text-muted-foreground text-lg mb-10 max-w-xl">
                 Have a project in mind? Let's discuss how we can collaborate to bring your ideas to life.
               </p>
-              <a
-                href={`mailto:${profile?.email || 'contact@example.com'}`}
-                className="inline-block px-8 py-4 rounded-full bg-gradient-to-r from-primary to-accent text-white font-medium text-lg hover:shadow-lg hover:shadow-primary/50 transition-all duration-300"
-              >
-                Get In Touch
-              </a>
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href={`mailto:${profile?.email || 'contact@example.com'}`}
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white font-bold text-base tracking-wide hover:bg-primary/90 transition-colors"
+                >
+                  Get In Touch
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+                <a
+                  href="/projects"
+                  className="inline-flex items-center gap-2 px-8 py-4 border border-border text-foreground font-bold text-base tracking-wide hover:border-foreground transition-colors"
+                >
+                  View My Work
+                </a>
+              </div>
             </div>
           </ScrollReveal>
         </div>

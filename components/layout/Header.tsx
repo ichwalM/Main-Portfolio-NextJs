@@ -44,9 +44,9 @@ export default function Header() {
       opacity: 0,
       x: "100%",
       transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 40,
+        type: "tween",
+        duration: 0.3,
+        ease: [0.22, 1, 0.36, 1],
         when: "afterChildren",
       },
     },
@@ -54,18 +54,18 @@ export default function Header() {
       opacity: 1,
       x: 0,
       transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 40,
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
+        type: "tween",
+        duration: 0.3,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.07,
+        delayChildren: 0.15,
       },
     },
   };
 
   const itemVariants = {
-    closed: { opacity: 0, x: 50 },
-    open: { opacity: 1, x: 0 },
+    closed: { opacity: 0, x: 30 },
+    open: { opacity: 1, x: 0, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } },
   };
 
   return (
@@ -74,12 +74,19 @@ export default function Header() {
       animate="visible"
       variants={fadeInDown}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || isMobileMenuOpen ? 'glass py-4' : 'py-6'
+        scrolled || isMobileMenuOpen
+          ? 'bg-background border-b border-border py-4'
+          : 'py-6'
       }`}
     >
       <nav className="container mx-auto px-6 flex items-center justify-between">
-        <Link href="/" className="text-2xl font-bold gradient-text z-50 relative" onClick={() => setIsMobileMenuOpen(false)}>
-          Ichwal
+        {/* Logo */}
+        <Link
+          href="/"
+          className="text-xl font-black tracking-tighter text-foreground z-50 relative hover:text-primary transition-colors duration-200"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          ICHWAL<span className="text-primary">.</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -93,21 +100,21 @@ export default function Header() {
               <motion.li key={item.name} variants={staggerItem}>
                 <Link
                   href={href}
-                  className="text-foreground/80 hover:text-foreground transition-colors relative group font-medium"
+                  className="text-xs font-semibold tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors duration-200 hover-underline"
                 >
                   {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
                 </Link>
               </motion.li>
             );
           })}
         </motion.ul>
 
+        {/* CTA Button — Sharp Rectangle */}
         <div className="hidden md:block">
           <motion.div variants={staggerItem}>
             <Link
               href={!isHome ? '/#contact' : '#contact'}
-              className="px-6 py-2 rounded-full bg-gradient-to-r from-primary to-accent text-white font-medium hover:shadow-lg hover:shadow-primary/50 transition-all duration-300"
+              className="px-5 py-2 bg-primary text-white text-xs font-bold tracking-[0.1em] uppercase hover:bg-primary/90 transition-colors duration-200"
             >
               Contact
             </Link>
@@ -120,7 +127,7 @@ export default function Header() {
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
         >
-          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          {isMobileMenuOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
         </button>
 
         {/* Mobile Menu Overlay */}
@@ -131,29 +138,35 @@ export default function Header() {
               animate="open"
               exit="closed"
               variants={menuVariants}
-              className="fixed inset-0 top-0 left-0 w-full h-dvh bg-background/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center space-y-8 md:hidden overflow-hidden"
-              style={{ padding: '2rem' }}
+              className="fixed inset-0 top-0 left-0 w-full h-dvh bg-background z-40 flex flex-col items-start justify-center md:hidden overflow-hidden border-l border-border"
+              style={{ padding: '3rem 2.5rem' }}
             >
-              <ul className="flex flex-col items-center gap-6 text-center w-full">
-                {navItems.map((item) => {
+              {/* Decorative number */}
+              <span className="absolute top-8 right-8 font-mono text-[80px] font-black text-border/30 leading-none select-none">
+                M
+              </span>
+
+              <ul className="flex flex-col gap-3 w-full">
+                {navItems.map((item, i) => {
                   const href = item.href.startsWith('#') && !isHome ? `/${item.href}` : item.href;
                   return (
-                    <motion.li key={item.name} variants={itemVariants} className="w-full">
+                    <motion.li key={item.name} variants={itemVariants} className="w-full border-b border-border/40 pb-3">
                       <Link
                         href={href}
-                        className="block text-4xl font-black text-foreground hover:text-primary transition-colors py-2 tracking-tight"
+                        className="flex items-baseline gap-4 text-4xl font-black tracking-tighter text-foreground hover:text-primary transition-colors"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
+                        <span className="text-xs font-mono text-primary/60">0{i + 1}</span>
                         {item.name}
                       </Link>
                     </motion.li>
                   );
                 })}
-                
-                <motion.li variants={itemVariants} className="mt-8 w-full flex justify-center">
+
+                <motion.li variants={itemVariants} className="mt-8 w-full">
                   <Link
                     href={!isHome ? '/#contact' : '#contact'}
-                    className="px-8 py-4 rounded-full bg-gradient-to-r from-primary to-accent text-white font-bold text-xl hover:shadow-lg hover:shadow-primary/50 transition-all duration-300 w-full max-w-xs text-center"
+                    className="inline-block px-8 py-4 bg-primary text-white font-bold text-lg tracking-wide hover:bg-primary/90 transition-colors w-full text-center"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Contact Me

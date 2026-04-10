@@ -1,13 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Space_Grotesk, DM_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageTransition from "@/components/layout/PageTransition";
 
-const inter = Inter({ 
+const spaceGrotesk = Space_Grotesk({ 
   subsets: ["latin"],
   variable: '--font-sans',
+  weight: ['300', '400', '500', '600', '700'],
+});
+
+const dmMono = DM_Mono({
+  subsets: ["latin"],
+  variable: '--font-mono',
+  weight: ['300', '400', '500'],
+  style: ['normal', 'italic'],
 });
 
 export const metadata: Metadata = {
@@ -68,7 +76,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
       <body className="antialiased">
         <Header />
         <PageTransition>

@@ -20,26 +20,35 @@ export default async function ProjectsPage() {
   const projects = projectsRes?.data || [];
 
   return (
-    <div className="pt-32 pb-20">
-      <div className="container mx-auto px-6">
+    <div className="pt-32 pb-20 overflow-hidden">
+      {/* Decorative number */}
+      <div className="absolute top-24 right-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter">
+        PRJ
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
         <ScrollReveal>
-          <div className="text-center mb-16">
-            <h1 className="text-6xl font-bold gradient-text mb-4">My Projects</h1>
-            <p className="text-foreground/60 text-lg max-w-2xl mx-auto">
-              A collection of my work showcasing various technologies and creative solutions
+          <div className="mb-16">
+            <p className="section-label mb-6">Portfolio</p>
+            <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-none mb-4">
+              My<br />
+              <span className="text-primary">Projects.</span>
+            </h1>
+            <p className="text-muted-foreground text-base mt-4 max-w-xl">
+              A collection of my work showcasing various technologies and creative solutions.
             </p>
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {projects.map((project: any, index: number) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
 
         {projects.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-foreground/60 text-lg">No projects found.</p>
+          <div className="py-20 border border-border flex items-center justify-center">
+            <p className="text-muted-foreground text-base font-mono">NO PROJECTS FOUND.</p>
           </div>
         )}
       </div>

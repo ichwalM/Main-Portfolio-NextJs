@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform, useSpring, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { useRef } from 'react';
-import { Calendar, MapPin, Briefcase, Award } from 'lucide-react';
+import { Calendar, MapPin, Briefcase } from 'lucide-react';
 import type { Experience } from '@/types/experience';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import { formatDate } from '@/lib/utils';
@@ -15,9 +15,8 @@ const ExperienceCard = ({ experience, index }: { experience: Experience; index: 
   const ref = useRef<HTMLDivElement>(null);
   const isCurrent = !experience.end_date;
 
-  // 3D Tilt Effect
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
 
   const handleMouseMove = ({ clientX, clientY, currentTarget }: React.MouseEvent) => {
     const { left, top, width, height } = currentTarget.getBoundingClientRect();
@@ -30,97 +29,98 @@ const ExperienceCard = ({ experience, index }: { experience: Experience; index: 
     mouseY.set(0.5);
   };
 
-  const rotateX = useSpring(useTransform(mouseY, [0, 1], [7, -7]), { stiffness: 150, damping: 20 });
-  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-7, 7]), { stiffness: 150, damping: 20 });
-  
-  // Dynamic spotlight effect
   const spotX = useTransform(mouseX, [0, 1], ['0%', '100%']);
   const spotY = useTransform(mouseY, [0, 1], ['0%', '100%']);
-  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${spotX} ${spotY}, rgba(6, 182, 212, 0.15), transparent 80%)`;
+  const spotlight = useMotionTemplate`radial-gradient(400px circle at ${spotX} ${spotY}, rgba(37, 99, 235, 0.08), transparent 80%)`;
 
   return (
     <div className="relative pl-8 md:pl-0">
-      {/* Timeline Node - Desktop Center / Mobile Left */}
+      {/* Timeline Node — Square */}
       <div className="absolute left-0 md:left-1/2 top-0 -translate-x-[5px] md:-translate-x-1/2 z-20 flex flex-col items-center">
         <motion.div
-           initial={{ scale: 0, opacity: 0 }}
-           whileInView={{ scale: 1, opacity: 1 }}
-           viewport={{ once: true, margin: "-100px" }}
-           transition={{ delay: index * 0.2, duration: 0.5, type: "spring" }}
-           className={`w-4 h-4 rounded-full border-2 ${
-             isCurrent 
-               ? 'bg-primary border-primary shadow-[0_0_20px_rgba(6,182,212,0.6)] animate-pulse' 
-               : 'bg-black border-white/30 group-hover:border-primary/50'
-           }`}
+          initial={{ scale: 0, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ delay: index * 0.15, duration: 0.4, type: "spring" }}
+          className={`w-3 h-3 border-2 ${
+            isCurrent
+              ? 'bg-primary border-primary'
+              : 'bg-background border-border'
+          }`}
         >
-            {isCurrent && <div className="absolute inset-0 bg-primary rounded-full animate-ping opacity-30" />}
+          {isCurrent && (
+            <div className="absolute inset-0 bg-primary animate-ping opacity-30" />
+          )}
         </motion.div>
       </div>
 
-      {/* Card Content - Staggered layout */}
-      <div className={`md:w-1/2 relative pb-16 ${index % 2 === 0 ? 'md:pr-12 md:mr-auto' : 'md:pl-12 md:ml-auto'}`}>
-         <motion.div
-            ref={ref}
-            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            style={{ 
-              transformStyle: 'preserve-3d',
-              rotateX,
-              rotateY
-            }}
-            className="group relative"
-         >
-            {/* Glow / Border Gradient */}
-            <div className={`absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${isCurrent ? 'via-primary/30 opacity-50' : ''}`} />
-            
-            <div className="relative rounded-2xl bg-[#0a0a0a]/90 border border-white/5 p-6 backdrop-blur-xl overflow-hidden group-hover:border-white/10 transition-colors duration-300">
-               {/* Spotlight */}
-               <motion.div 
-                 className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                 style={{ background: spotlight }}
-               />
+      {/* Card */}
+      <div className={`md:w-1/2 relative pb-12 ${index % 2 === 0 ? 'md:pr-12 md:mr-auto' : 'md:pl-12 md:ml-auto'}`}>
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          className="group relative"
+        >
+          {/* Left accent border (primary for current, subtle for past) */}
+          <div className={`absolute left-0 top-0 bottom-0 w-0.5 transition-colors duration-300 ${
+            isCurrent ? 'bg-primary' : 'bg-border group-hover:bg-primary/50'
+          }`} />
 
-               {/* Current Badge */}
-               {isCurrent && (
-                 <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
-                   <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                   <span className="text-[10px] font-bold text-primary uppercase tracking-wider">Present</span>
-                 </div>
-               )}
+          <div className="relative bg-card border border-border group-hover:border-border/80 transition-colors duration-300 overflow-hidden pl-6 pr-6 py-6">
+            {/* Spotlight effect */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              style={{ background: spotlight }}
+            />
 
-               <div style={{ transform: "translateZ(20px)" }}>
-                 <div className="flex items-center gap-3 mb-2 text-primary">
-                    <Briefcase size={18} />
-                    <span className="font-bold tracking-wide text-sm opacity-80">{experience.company}</span>
-                 </div>
-                 
-                 <h3 className="text-2xl font-black text-white mb-4 group-hover:text-primary transition-colors duration-300">
-                   {experience.role}
-                 </h3>
+            {/* Present Badge */}
+            {isCurrent && (
+              <div className="absolute top-5 right-5 flex items-center gap-1.5 px-2.5 py-1 bg-primary/10 border border-primary/30">
+                <div className="w-1.5 h-1.5 bg-primary animate-pulse" />
+                <span className="text-[9px] font-bold text-primary uppercase tracking-wider font-mono">Present</span>
+              </div>
+            )}
 
-                 <div className="flex flex-wrap gap-4 text-xs font-medium text-white/50 mb-6 uppercase tracking-wider">
-                    <div className="flex items-center gap-1.5">
-                       <Calendar size={14} />
-                       <span>{formatDate(experience.start_date)} — {experience.end_date ? formatDate(experience.end_date) : 'Now'}</span>
-                    </div>
-                    {experience.location && (
-                       <div className="flex items-center gap-1.5">
-                          <MapPin size={14} />
-                          <span>{experience.location}</span>
-                       </div>
-                    )}
-                 </div>
-
-                 <p className="text-base text-gray-400 leading-relaxed font-light border-t border-white/5 pt-4">
-                    {experience.description}
-                 </p>
-               </div>
+            {/* Company */}
+            <div className="flex items-center gap-2 mb-2 text-primary">
+              <Briefcase size={14} />
+              <span className="font-mono text-xs tracking-wider uppercase font-medium opacity-80">
+                {experience.company}
+              </span>
             </div>
-         </motion.div>
+
+            {/* Role */}
+            <h3 className="text-xl font-black text-foreground mb-4 group-hover:text-primary transition-colors duration-200 tracking-tight">
+              {experience.role}
+            </h3>
+
+            {/* Meta */}
+            <div className="flex flex-wrap gap-4 text-[10px] font-mono text-muted-foreground mb-5 uppercase tracking-wider">
+              <div className="flex items-center gap-1.5">
+                <Calendar size={11} />
+                <span>
+                  {formatDate(experience.start_date)} — {experience.end_date ? formatDate(experience.end_date) : 'Now'}
+                </span>
+              </div>
+              {experience.location && (
+                <div className="flex items-center gap-1.5">
+                  <MapPin size={11} />
+                  <span>{experience.location}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Description */}
+            <p className="text-sm text-muted-foreground leading-relaxed border-t border-border pt-4">
+              {experience.description}
+            </p>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -137,34 +137,35 @@ export default function ExperienceTimeline({ experiences }: ExperienceTimelinePr
   const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
 
   return (
-    <section id="experience" className="py-32 relative overflow-hidden">
-      {/* Background Ambience */}
-      <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
+    <section id="experience" className="py-24 md:py-32 relative overflow-hidden">
+      {/* Decorative large number */}
+      <div className="absolute top-8 right-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter">
+        04
+      </div>
 
       <div className="container mx-auto px-6" ref={containerRef}>
         <ScrollReveal>
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/50">
-                Career Journey
-              </span>
+          <div className="mb-20">
+            <p className="section-label mb-6">Experience</p>
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-none">
+              Career<br />
+              <span className="text-primary">Journey.</span>
             </h2>
-            <p className="text-xl text-white/50 max-w-2xl mx-auto font-light">
+            <p className="text-muted-foreground text-base mt-4 max-w-xl">
               My professional milestones and industry experience.
             </p>
           </div>
         </ScrollReveal>
 
         <div className="relative max-w-5xl mx-auto">
-          {/* Animated Central Line */}
-          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-white/5 z-0" />
-          <motion.div 
+          {/* Timeline line */}
+          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-border z-0" />
+          <motion.div
             style={{ height, opacity }}
-            className="absolute left-0 md:left-1/2 top-0 w-px bg-gradient-to-b from-primary via-accent to-transparent z-10 shadow-[0_0_15px_rgba(6,182,212,0.5)]" 
+            className="absolute left-0 md:left-1/2 top-0 w-px bg-primary z-10"
           />
 
-          <div className="space-y-12">
+          <div className="space-y-8">
             {experiences.map((exp, index) => (
               <ExperienceCard key={index} experience={exp} index={index} />
             ))}
