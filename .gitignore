@@ -10,22 +10,12 @@
 !.yarn/releases
 !.yarn/versions
 
-
 # testing
 /coverage
 
 # next.js
+/.next/
 /out/
-
-# Jangan abaikan folder induk .next, tapi abaikan isinya dulu
-/.next/*
-
-# KECUALI folder hasil build produksi (ini yang wajib masuk ke server)
-!/.next/standalone/
-!/.next/static/
-
-# TETAP abaikan cache (ini yang bikin berat dan gak perlu di server)
-/.next/cache/
 
 # production
 /build
