@@ -63,9 +63,9 @@ export default function Header() {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     closed: { opacity: 0, x: 30 },
-    open: { opacity: 1, x: 0, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } },
+    open: { opacity: 1, x: 0, transition: { duration: 0.3, ease: 'easeOut' } },
   };
 
   return (
