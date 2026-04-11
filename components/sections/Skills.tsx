@@ -72,7 +72,7 @@ export default function Skills({ skills }: SkillsProps) {
         </ScrollReveal>
 
         {/* Dynamic Content */}
-        <div className="min-h-[500px]">
+        <div className="min-h-[500px] w-full">
           {activeCategory === 'All Skills' ? (
             <motion.div
               key="graph"
@@ -89,7 +89,7 @@ export default function Skills({ skills }: SkillsProps) {
               variants={staggerContainer}
               initial="hidden"
               animate="visible"
-              className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full"
             >
               {activeSkills.map((skill, index) => (
                 <motion.div
