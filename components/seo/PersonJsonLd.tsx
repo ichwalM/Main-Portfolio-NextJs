@@ -1,25 +1,43 @@
-export default function PersonJsonLd() {
+import type { Profile } from '@/types/profile';
+import type { About } from '@/types/about';
+
+interface PersonJsonLdProps {
+  profile: Profile | null;
+  about: About | null;
+}
+
+export default function PersonJsonLd({ profile, about }: PersonJsonLdProps) {
+  const name = profile?.name || 'Ichwal';
+  const description = about?.about_deskripsi || 'Full Stack Developer & Network Administrator dari Makassar, Indonesia.';
+  
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: 'Ichwal',
+    name: name,
     alternateName: ['IchwalM', 'Ichwal Developer', 'Ichwal Full Stack'],
-    description: 'Ichwal adalah Full Stack Developer dan Network Administrator dari Makassar, Indonesia. Spesialis Laravel, React, Next.js, dan infrastruktur jaringan.',
+    description: description.slice(0, 160),
     jobTitle: 'Full Stack Developer & Network Administrator',
     url: 'https://walldev.my.id',
-    image: 'https://walldev.my.id/og-image.jpg',
-    email: 'contact@walldev.my.id',
+    image: profile?.hero_image || 'https://walldev.my.id/og-image.jpg',
+    email: profile?.email || 'contact@walldev.my.id',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Makassar',
       addressRegion: 'Sulawesi Selatan',
       addressCountry: 'ID',
     },
+    ...(about?.about_univ && {
+      alumniOf: {
+        '@type': 'EducationalOrganization',
+        name: about.about_univ,
+      }
+    }),
     sameAs: [
       'https://walldev.my.id',
-      'https://github.com/IchwalM',
-      'https://linkedin.com/in/ichwal',
-    ],
+      profile?.social_links?.github || 'https://github.com/IchwalM',
+      profile?.social_links?.linkedin || 'https://linkedin.com/in/ichwal',
+      profile?.social_links?.instagram || '',
+    ].filter(Boolean),
     knowsAbout: [
       'Web Development',
       'Full Stack Development',
@@ -29,24 +47,11 @@ export default function PersonJsonLd() {
       'Node.js',
       'Laravel',
       'PHP',
-      'MySQL',
-      'PostgreSQL',
       'Network Administration',
       'Server Administration',
       'Linux',
-      'REST API',
-      'Docker',
-      'Tailwind CSS',
+      'Cyber Security',
     ],
-    hasOccupation: {
-      '@type': 'Occupation',
-      name: 'Full Stack Developer',
-      occupationLocation: {
-        '@type': 'Country',
-        name: 'Indonesia',
-      },
-      skills: 'Laravel, React, Next.js, TypeScript, Network Administration',
-    },
     worksFor: {
       '@type': 'Organization',
       name: 'Walldev',

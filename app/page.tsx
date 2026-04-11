@@ -77,7 +77,7 @@ export default async function Home() {
 
   return (
     <main>
-      <PersonJsonLd />
+      <PersonJsonLd profile={profile} about={about} />
       {/* Hero Section */}
       <Hero profile={profile} />
 
