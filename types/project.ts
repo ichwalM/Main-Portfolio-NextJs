@@ -2,14 +2,15 @@ export interface Project {
   id: number;
   title: string;
   slug: string;
-  description?: string; // Optional
-  thumbnail?: string; // Optional
-  tech_stack?: string | string[]; // Optional, can be string or array
+  description?: string;
+  thumbnail?: string;
+  tech_stack?: string | string[];
   github_url?: string;
   demo_url?: string;
-  live_url?: string;
   featured?: boolean;
+  published_at?: string;
   created_at?: string;
+  updated_at?: string;
 }
 
 export interface ProjectsResponse {
@@ -17,6 +18,5 @@ export interface ProjectsResponse {
   links?: any;
 }
 
-export interface ProjectDetailResponse {
-  data: Project;
-}
+// API returns Project directly (no data wrapper)
+export type ProjectDetailResponse = Project;

@@ -16,8 +16,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   try {
-    const projectRes = await getProjectBySlug(slug);
-    const project = projectRes.data;
+    const project = await getProjectBySlug(slug);
     
     return {
       title: `${project.title} - Ichwal Portfolio`,
@@ -35,8 +34,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   
   let project;
   try {
-    const projectRes = await getProjectBySlug(slug);
-    project = projectRes.data;
+    project = await getProjectBySlug(slug);
   } catch {
     notFound();
   }
@@ -76,11 +74,12 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 {project.title}
               </h1>
 
-              {project.created_at && (
+              {/* Tanggal publish */}
+              {(project.published_at || project.created_at) && (
                 <div className="flex flex-wrap gap-3 mb-6">
                   <div className="flex items-center gap-1.5 tag-outline">
                     <Calendar className="w-3 h-3" />
-                    <span>{formatDate(project.created_at)}</span>
+                    <span>{formatDate(project.published_at || project.created_at!)}</span>
                   </div>
                 </div>
               )}
@@ -97,9 +96,9 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                     View Code
                   </a>
                 )}
-                {project.live_url && (
+                {project.demo_url && (
                   <a
-                    href={project.live_url}
+                    href={project.demo_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors"
