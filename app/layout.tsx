@@ -28,6 +28,7 @@ export const metadata: Metadata = {
   keywords: [
     // Nama / Branding
     'Ichwal',
+    'Ichwal Mr',
     'IchwalM',
     'Ichwal Developer',
     'Ichwal Portfolio',
@@ -52,6 +53,11 @@ export const metadata: Metadata = {
     'Developer Makassar',
     'Web Developer Indonesia',
     'Freelance Developer Indonesia',
+    'Tailwind CSS', 'Inertia.js', 'REST API Specialist', 'Git/GitHub',
+    'MikroTik Configuration', 'Cisco Certified Specialist', 'Linux Administrator', 'Docker Container', 'Cloudflare Specialist',
+    'IoT Engineer', 'Embedded Systems Developer', 'Computer Vision Project', 'ESP32 Developer',
+    
+    'Jasa Website Makassar', 'IT Consultant Makassar', 'Software Engineer Makassar', 'Freelance Web Developer'
   ],
   authors: [{ name: 'Ichwal', url: 'https://walldev.my.id' }],
   creator: 'Ichwal',
