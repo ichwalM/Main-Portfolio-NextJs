@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { fadeInDown, staggerContainer, staggerItem } from '@/lib/animations/variants';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 
 const navItems = [
   { name: 'Home', href: '/' },
@@ -110,8 +111,11 @@ export default function Header() {
           })}
         </motion.ul>
 
-        {/* CTA Button — Sharp Rectangle */}
-        <div className="hidden md:block">
+        {/* CTA Button & Theme Toggle — Sharp Rectangle */}
+        <div className="hidden md:flex items-center gap-3">
+          <motion.div variants={staggerItem}>
+            <ThemeToggle />
+          </motion.div>
           <motion.div variants={staggerItem}>
             <Link
               href={!isHome ? '/#contact' : '#contact'}
@@ -164,10 +168,11 @@ export default function Header() {
                   );
                 })}
 
-                <motion.li variants={itemVariants} className="mt-8 w-full">
+                <motion.li variants={itemVariants} className="mt-8 w-full flex items-center gap-3">
+                  <ThemeToggle />
                   <Link
                     href={!isHome ? '/#contact' : '#contact'}
-                    className="inline-block px-8 py-4 bg-primary text-white font-bold text-lg tracking-wide hover:bg-primary/90 transition-colors w-full text-center"
+                    className="flex-1 inline-block px-8 py-4 bg-primary text-white font-bold text-lg tracking-wide hover:bg-primary/90 transition-colors text-center"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Contact Me

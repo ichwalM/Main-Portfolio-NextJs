@@ -90,27 +90,52 @@
 }
 
 :root {
-  /* Sharp Editorial Palette — 2 colors: near-black + strong blue */
+  /* Dark Mode — Sharp Dark Editorial Palette */
   --background: 0 0% 3.9%;        /* #0a0a0a near-black */
   --foreground: 0 0% 96%;          /* #f5f5f5 */
   --card: 0 0% 6%;
   --card-foreground: 0 0% 96%;
   --popover: 0 0% 6%;
   --popover-foreground: 0 0% 96%;
-  --primary: 221 83% 53%;          /* #2563EB strong blue */
+  --primary: 220 100% 32%;         /* #0043CC dark sharp blue */
   --primary-foreground: 0 0% 100%;
   --secondary: 0 0% 9%;
   --secondary-foreground: 0 0% 96%;
   --muted: 0 0% 9%;
   --muted-foreground: 0 0% 55%;
-  --accent: 221 83% 53%;           /* Same as primary — 2 color palette */
+  --accent: 220 100% 32%;          /* Same as primary — dark sharp blue */
   --accent-foreground: 0 0% 100%;
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 98%;
   --border: 0 0% 14%;              /* #242424 */
   --input: 0 0% 14%;
-  --ring: 221 83% 53%;
+  --ring: 220 100% 32%;
   --surface: 0 0% 8%;              /* #141414 */
+  --radius: 0rem;                   /* SHARP — no border radius */
+}
+
+:root[data-theme="light"] {
+  /* Light Mode — Minimalist Dark Sharp Blue & White */
+  --background: 0 0% 100%;         /* #ffffff pure white SOLID */
+  --foreground: 220 40% 18%;       /* #0d2454 very dark blue for text */
+  --card: 0 0% 100%;               /* #ffffff pure white SOLID */
+  --card-foreground: 220 40% 18%;  /* #0d2454 very dark blue */
+  --popover: 0 0% 100%;            /* #ffffff pure white SOLID */
+  --popover-foreground: 220 40% 18%; /* #0d2454 very dark blue */
+  --primary: 220 100% 32%;         /* #0043CC dark sharp blue */
+  --primary-foreground: 0 0% 100%; /* white */
+  --secondary: 220 30% 75%;        /* #7b92c7 muted blue */
+  --secondary-foreground: 220 40% 18%; /* #0d2454 dark blue */
+  --muted: 220 30% 75%;            /* #7b92c7 muted blue */
+  --muted-foreground: 220 30% 50%; /* #3d5a9e dark medium blue */
+  --accent: 220 100% 32%;          /* #0043CC dark sharp blue */
+  --accent-foreground: 0 0% 100%;  /* white */
+  --destructive: 0 72% 51%;        /* red stays same */
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 30% 85%;           /* #c7d2e8 light blue border */
+  --input: 220 30% 92%;            /* #e8ecf6 very light blue */
+  --ring: 220 100% 32%;            /* #0043CC dark sharp blue */
+  --surface: 0 0% 100%;            /* #ffffff pure white SOLID */
   --radius: 0rem;                   /* SHARP — no border radius */
 }
 
@@ -138,10 +163,14 @@
 }
 
 @layer utilities {
-  /* Editorial gradient text — white to blue */
+  /* Editorial gradient text — dark mode: white to dark blue, light mode: dark blue gradient */
   .gradient-text {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, #f5f5f5 40%, #2563EB 100%);
+    background-image: linear-gradient(135deg, #f5f5f5 40%, #0043CC 100%);
+  }
+
+  :root[data-theme="light"] .gradient-text {
+    background-image: linear-gradient(135deg, #0d2454 40%, #0043CC 100%);
   }
 
   /* Sharp card style — replaces glass */
