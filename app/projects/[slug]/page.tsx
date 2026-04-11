@@ -6,6 +6,7 @@ import { getProjectBySlug, getAllProjectSlugs } from '@/lib/api/projects';
 import { formatDate } from '@/lib/utils';
 import { notFound } from 'next/navigation';
 import ScrollReveal from '@/components/animations/ScrollReveal';
+import ProjectJsonLd from '@/components/seo/ProjectJsonLd';
 
 export async function generateStaticParams() {
   // Return empty array to skip static generation for projects during build
@@ -17,14 +18,68 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   try {
     const project = await getProjectBySlug(slug);
-    
+
+    const techStack: string[] = project.tech_stack
+      ? Array.isArray(project.tech_stack)
+        ? project.tech_stack
+        : typeof project.tech_stack === 'string'
+        ? project.tech_stack.split(',').map((t) => t.trim()).filter(Boolean)
+        : []
+      : [];
+
+    const title = `${project.title} — Ichwal Portfolio`;
+    const description = project.description
+      ? `${project.description.slice(0, 155)}...`
+      : `${project.title} adalah project oleh Ichwal, Full Stack Developer dari Makassar, Indonesia. Dibangun dengan ${techStack.join(', ')}.`;
+    const image = project.thumbnail || 'https://walldev.my.id/og-image.jpg';
+    const url = `https://walldev.my.id/projects/${slug}`;
+
     return {
-      title: `${project.title} - Ichwal Portfolio`,
-      description: project.description || 'Project details',
+      title,
+      description,
+      keywords: [
+        'Ichwal',
+        'Ichwal Portfolio',
+        'walldev',
+        project.title,
+        ...techStack,
+        'Full Stack Developer',
+        'Web Developer Indonesia',
+        'Laravel Developer',
+        'React Developer',
+        'Makassar Developer',
+      ],
+      authors: [{ name: 'Ichwal', url: 'https://walldev.my.id' }],
+      alternates: {
+        canonical: url,
+      },
+      openGraph: {
+        title,
+        description,
+        url,
+        siteName: 'Ichwal Portfolio',
+        type: 'article',
+        publishedTime: project.published_at || project.created_at,
+        authors: ['Ichwal'],
+        images: [
+          {
+            url: image,
+            width: 1200,
+            height: 630,
+            alt: `${project.title} — Ichwal Portfolio`,
+          },
+        ],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: [image],
+      },
     };
   } catch {
     return {
-      title: 'Project Not Found',
+      title: 'Project Not Found | Ichwal Portfolio',
     };
   }
 }
@@ -53,6 +108,11 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="pt-32 pb-20">
+      {/* JSON-LD Structured Data untuk SEO */}
+      <ProjectJsonLd
+        project={project}
+        url={`https://walldev.my.id/projects/${project.slug}`}
+      />
       <div className="container mx-auto px-6">
         <div className="max-w-5xl mx-auto">
           {/* Header */}

@@ -6,8 +6,14 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
+        disallow: ['/api/', '/_next/'],
+      },
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
       },
     ],
-    sitemap: 'https://app.walldev.my.id/sitemap.xml',
+    sitemap: 'https://walldev.my.id/sitemap.xml',
+    host: 'https://walldev.my.id',
   };
 }

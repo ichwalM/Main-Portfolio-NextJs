@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getBlogPosts } from '@/lib/api/blog';
+import { getProjects } from '@/lib/api/projects';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://walldev.my.id';
@@ -13,12 +14,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
+      url: `${baseUrl}/projects`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/blog`,
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.8,
     },
   ];
+
+  // Dynamic project pages
+  let projectPages: MetadataRoute.Sitemap = [];
+  try {
+    const projectsRes = await getProjects();
+    projectPages = projectsRes.data.map((project) => ({
+      url: `${baseUrl}/projects/${project.slug}`,
+      lastModified: project.updated_at ? new Date(project.updated_at) : new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    }));
+  } catch (error) {
+    console.error('Failed to fetch projects for sitemap:', error);
+  }
 
   // Dynamic blog posts
   let blogPages: MetadataRoute.Sitemap = [];
@@ -34,5 +55,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Failed to fetch blog posts for sitemap:', error);
   }
 
-  return [...staticPages, ...blogPages];
+  return [...staticPages, ...projectPages, ...blogPages];
 }
+
