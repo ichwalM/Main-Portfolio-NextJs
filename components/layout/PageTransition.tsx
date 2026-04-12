@@ -13,13 +13,14 @@ export default function PageTransition({ children }: PageTransitionProps) {
   const pathname = usePathname();
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="popLayout">
       <motion.div
         key={pathname}
         variants={pageTransition}
         initial="initial"
         animate="animate"
         exit="exit"
+        className="w-full"
       >
         {children}
       </motion.div>

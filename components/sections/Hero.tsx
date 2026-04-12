@@ -26,7 +26,7 @@ export default function Hero({ profile }: HeroProps) {
   const socialLinks = profile?.social_links || {};
 
   return (
-    <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden w-full py-20 lg:py-0">
+    <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden w-full py-20 lg:py-0">
       {/* Background */}
       <div className="absolute inset-0 z-0 bg-background">
         <Threads amplitude={1} distance={0} enableMouseInteraction={true} />

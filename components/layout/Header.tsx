@@ -9,7 +9,7 @@ import { fadeInDown, staggerContainer, staggerItem } from '@/lib/animations/vari
 import ThemeToggle from '@/components/ui/ThemeToggle';
 
 const navItems = [
-  { name: 'Home', href: '/' },
+  { name: 'Home', href: '#home' },
   { name: 'About', href: '#about' },
   { name: 'Projects', href: '#projects' },
   { name: 'Skills', href: '#skills' },
@@ -23,6 +23,25 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === '/';
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    // If not on home page and it's a hash link, let Next.js handle the cross-page route
+    if (!isHome && href.startsWith('#')) return;
+
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const targetId = href.replace('#', '');
+      if (targetId === 'home') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const elem = document.getElementById(targetId);
+        if (elem) {
+          elem.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+      setIsMobileMenuOpen(false);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -102,6 +121,7 @@ export default function Header() {
               <motion.li key={item.name} variants={staggerItem}>
                 <Link
                   href={href}
+                  onClick={(e) => handleNavClick(e, item.href)}
                   className="text-xs font-semibold tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors duration-200 hover-underline"
                 >
                   {item.name}
@@ -159,7 +179,7 @@ export default function Header() {
                       <Link
                         href={href}
                         className="flex items-baseline gap-4 text-4xl font-black tracking-tighter text-foreground hover:text-primary transition-colors"
-                        onClick={() => setIsMobileMenuOpen(false)}
+                        onClick={(e) => handleNavClick(e, item.href)}
                       >
                         <span className="text-xs font-mono text-primary/60">0{i + 1}</span>
                         {item.name}

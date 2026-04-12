@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageTransition from "@/components/layout/PageTransition";
+import InitialLoader from "@/components/animations/InitialLoader";
 import { ThemeProvider } from "@/lib/context/ThemeContext";
 
 const spaceGrotesk = Space_Grotesk({ 
@@ -114,6 +115,7 @@ export default function RootLayout({
     <html lang="en" className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
       <body className="antialiased">
         <ThemeProvider>
+          <InitialLoader />
           <Header />
           <PageTransition>
             <main className="min-h-screen">
