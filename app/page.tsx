@@ -9,6 +9,7 @@ import { getProjects } from '@/lib/api/projects';
 import { getSkills } from '@/lib/api/skills';
 import { getExperiences } from '@/lib/api/experience';
 import { getBlogPosts } from '@/lib/api/blog';
+import { getCertificates } from '@/lib/api/certificates';
 import Link from 'next/link';
 import { ArrowRight, Mail, MapPin, Clock } from 'lucide-react';
 import { VelocityScroll } from '@/components/ui/scroll-based-velocity';
@@ -16,6 +17,7 @@ import { getGithubStats } from '@/lib/api/github';
 import GithubStats from '@/components/sections/GithubStats';
 import { getAbout } from '@/lib/api/about';
 import AboutSection from '@/components/sections/About';
+import Certificates from '@/components/sections/Certificates';
 import ContactForm from '@/components/sections/ContactForm';
 import FooterSocialLinks from '@/components/layout/FooterSocialLinks';
 
@@ -61,7 +63,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Home() {
   // Fetch all data in parallel with error handling
-  const [profile, projectsRes, skills, experiences, blogRes, githubStats, about] = await Promise.all([
+  const [profile, projectsRes, skills, experiences, blogRes, githubStats, about, certificates] = await Promise.all([
     getProfile().catch(() => null),
     getProjects().catch(() => ({ data: [] })),
     getSkills().catch(() => ({})),
@@ -69,6 +71,7 @@ export default async function Home() {
     getBlogPosts().catch(() => ({ data: [] })),
     getGithubStats('IchwalM').catch(() => null),
     getAbout().catch(() => null),
+    getCertificates().catch(() => []),
   ]);
 
   const projects = projectsRes?.data || [];  // Show all projects
@@ -106,6 +109,9 @@ export default async function Home() {
 
       {/* Experience Section */}
       <ExperienceTimeline experiences={experiences} />
+
+      {/* Certificates Section */}
+      <Certificates certificates={certificates} />
 
       {/* Blog Section */}
       <section id="blog" className="py-24 md:py-32 relative overflow-hidden">
