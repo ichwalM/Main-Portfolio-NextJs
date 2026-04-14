@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { motion, useScroll, useTransform, useSpring, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { useRef } from 'react';
@@ -115,10 +115,26 @@ const ExperienceCard = ({ experience, index }: { experience: Experience; index: 
               )}
             </div>
 
-            {/* Description */}
-            <p className="text-sm text-muted-foreground leading-relaxed border-t border-border pt-4">
-              {experience.description}
-            </p>
+            {/* Description mapped with lists */}
+            <div className="text-sm text-muted-foreground leading-relaxed border-t border-border pt-4 flex flex-col gap-2.5">
+              {experience.description.split('\n').map((line, i) => {
+                const trimmedLine = line.trim();
+                if (!trimmedLine) return null;
+                
+                // Cek apakah baris ini adalah list item / bullet point
+                if (trimmedLine.match(/^[•\-*]\s*/)) {
+                  return (
+                    <div key={i} className="flex gap-2 items-start pl-1 opacity-90 hover:opacity-100 transition-opacity">
+                      <span className="text-primary text-[8px] mt-[6px]">■</span>
+                      <span>{trimmedLine.replace(/^[•\-*]\s*/, '')}</span>
+                    </div>
+                  );
+                }
+                
+                // Paragraph biasa
+                return <p key={i} className="mb-1">{trimmedLine}</p>;
+              })}
+            </div>
           </div>
         </motion.div>
       </div>
