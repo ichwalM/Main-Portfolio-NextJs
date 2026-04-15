@@ -39,7 +39,6 @@ export default function AboutSection({ about }: AboutSectionProps) {
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                   priority
-                  unoptimized
                 />
 
                 {/* Gradient overlay */}

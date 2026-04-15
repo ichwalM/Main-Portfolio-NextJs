@@ -181,7 +181,6 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                   fill
                   className="object-cover"
                   priority
-                  unoptimized
                 />
               </div>
             </ScrollReveal>

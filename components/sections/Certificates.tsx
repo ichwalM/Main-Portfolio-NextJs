@@ -180,7 +180,6 @@ export default function Certificates({ certificates }: CertificatesProps) {
                      alt={selectedCert.title}
                      fill
                      className="object-contain p-4 md:p-8"
-                     unoptimized
                    />
                  ) : (
                    <div className="absolute inset-0 flex items-center justify-center opacity-20">

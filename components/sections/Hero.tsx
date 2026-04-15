@@ -188,7 +188,6 @@ export default function Hero({ profile }: HeroProps) {
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                     priority
-                    unoptimized
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">

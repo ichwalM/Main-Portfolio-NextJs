@@ -9,7 +9,6 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'localhost' },
     ],
     dangerouslyAllowSVG: true,
-    unoptimized: process.env.NODE_ENV === 'development',
   },
   output: 'standalone',
 
@@ -18,6 +17,16 @@ const nextConfig: NextConfig = {
   // means the browser re-validates (gets 304 if unchanged, or fresh chunk if new build).
   async headers() {
     return [
+      {
+        // Agresif Cache untuk hasil render Next.js Image Optimization
+        source: '/_next/image(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
       {
         source: '/_next/static/chunks/:path*',
         headers: [
