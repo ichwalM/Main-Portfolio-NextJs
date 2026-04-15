@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -88,8 +88,8 @@ export default function AboutSection({ about }: AboutSectionProps) {
                 <p className="section-label mb-6">About Me</p>
 
                 <h2 className="text-5xl md:text-7xl font-black mb-10 tracking-tighter leading-none">
-                  Tentang<br />
-                  <span className="text-primary">Saya.</span>
+                  About<br />
+                  <span className="text-primary">Me.</span>
                 </h2>
 
                 {/* Quote content */}
