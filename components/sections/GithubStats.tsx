@@ -18,6 +18,16 @@ interface GithubStatsProps {
   } | null;
 }
 
+const getPast12Months = () => {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const currentMonth = new Date().getMonth();
+  const past12 = [];
+  for (let i = 11; i >= 0; i--) {
+    past12.push(months[(currentMonth - i + 12) % 12]);
+  }
+  return past12;
+};
+
 export default function GithubStats({ stats }: GithubStatsProps) {
   if (!stats) return null;
 
@@ -104,23 +114,50 @@ export default function GithubStats({ stats }: GithubStatsProps) {
               <span className="text-xs font-mono text-muted-foreground/50">Contribution Graph</span>
             </div>
 
-            <div className="w-full overflow-x-auto flex justify-center pb-2">
-              <div className="min-w-[700px] flex justify-center">
-                <GitHubCalendar
-                  username={stats.username}
-                  colorScheme="dark"
-                  fontSize={12}
-                  blockSize={12}
-                  blockMargin={3}
-                  theme={{
-                    dark: ['#1a1a1a', '#0c2d6b', '#1551c5', '#2563EB', '#4f8af8'],
-                  }}
-                />
+            {/* GitHub Calendar & Snake Section */}
+            {/* Snake Calendar Dashboard */}
+            <div className="w-full flex justify-center pb-8 pt-4">
+              <div className="w-full max-w-[900px] flex flex-col">
+                {/* Custom Month Labels */}
+                <div className="flex w-full justify-between text-muted-foreground text-[10px] md:text-xs font-mono px-4 md:px-6 mb-2 opacity-80">
+                  {getPast12Months().map((m, i) => (
+                    <span key={i} className="flex-1 text-center">{m}</span>
+                  ))}
+                </div>
+
+                {/* Snake Grid Animation */}
+                <div className="relative w-full opacity-90 hover:opacity-100 transition-opacity duration-500 hover:scale-[1.01] transform-gpu">
+                  <picture className="w-full flex justify-center">
+                    <source media="(prefers-color-scheme: dark)" srcSet="https://raw.githubusercontent.com/ichwalM/ichwalM/output/snake.svg?color_snake=#ffffff&color_dots=#1a1a1a,#0c2d6b,#1551c5,#2563EB,#4f8af8" />
+                    <source media="(prefers-color-scheme: light)" srcSet="https://raw.githubusercontent.com/ichwalM/ichwalM/output/snake.svg?color_snake=#ffffff&color_dots=#1a1a1a,#0c2d6b,#1551c5,#2563EB,#4f8af8" />
+                    <img
+                      alt="github contribution grid snake animation"
+                      src="https://raw.githubusercontent.com/ichwalM/ichwalM/output/snake.svg"
+                      className="w-full max-w-full drop-shadow-[0_0_15px_rgba(37,99,235,0.08)]"
+                    />
+                  </picture>
+                </div>
+
+                {/* Footer Labels */}
+                <div className="flex flex-col md:flex-row w-full justify-between items-center md:items-start border-t border-border mt-4 pt-3 text-muted-foreground text-[10px] md:text-xs font-mono px-2 opacity-80 gap-3">
+                  <span>{stats.total_contributions} contributions in the last year</span>
+                  <div className="flex items-center gap-2">
+                    <span>Less</span>
+                    <div className="flex gap-1 md:gap-1.5">
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#1a1a1a] rounded-[1px] md:rounded-sm" />
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#0c2d6b] rounded-[1px] md:rounded-sm" />
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#1551c5] rounded-[1px] md:rounded-sm" />
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#2563EB] rounded-[1px] md:rounded-sm" />
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#4f8af8] rounded-[1px] md:rounded-sm" />
+                    </div>
+                    <span>More</span>
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* CTA */}
-            <div className="mt-6 pt-4 border-t border-border flex justify-center">
+            <div className="mt-8 pt-4 border-t w-full border-border flex justify-center">
               <motion.a
                 href={stats.profile_url}
                 target="_blank"
