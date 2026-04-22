@@ -5,7 +5,7 @@ import { Terminal, ArrowRight } from 'lucide-react';
 
 export default function MaintenancePage() {
   return (
-    <div className="mt-12 min-h-screen flex items-center justify-center px-6 bg-black text-white relative overflow-hidden font-sans">
+    <div className="min-h-screen flex items-center justify-center px-6 bg-black text-white relative overflow-hidden font-sans">
       {/* Brutalist Grid Background */}
       <div className="absolute inset-0 z-0 opacity-20" 
            style={{ backgroundImage: 'linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
