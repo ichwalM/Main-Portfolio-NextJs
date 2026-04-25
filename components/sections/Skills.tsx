@@ -1,7 +1,7 @@
-﻿'use client';
+'use client';
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import Image from 'next/image';
 import type { SkillsByCategory } from '@/types/skill';
 import { staggerContainer, staggerItem } from '@/lib/animations/variants';
@@ -12,7 +12,89 @@ interface SkillsProps {
   skills: SkillsByCategory;
 }
 
-export default function Skills({ skills }: SkillsProps) {
+// Memoized skill card to prevent re-renders during tab switch
+const SkillCard = memo(function SkillCard({ skill, index }: { skill: any; index: number }) {
+  return (
+    <motion.div
+      variants={staggerItem}
+      className="group relative border border-border hover:border-primary/40 transition-all duration-300 bg-card"
+    >
+      <div className="p-6">
+        {/* Skill name and icon */}
+        <div className="flex justify-between items-center mb-5">
+          <div className="flex items-center gap-3">
+            <div className="relative w-9 h-9 overflow-hidden bg-surface border border-border flex items-center justify-center">
+              <Image
+                src={skill.icon}
+                alt={skill.name}
+                fill
+                loading="lazy"
+                sizes="36px"
+                className="object-contain p-1.5"
+              />
+            </div>
+            <h3 className="text-base font-bold group-hover:text-primary transition-colors duration-200">
+              {skill.name}
+            </h3>
+          </div>
+          <motion.span
+            className="text-2xl font-black text-primary font-mono"
+            initial={{ opacity: 0, scale: 0 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.05 + 0.1 }}
+          >
+            {skill.proficiency}%
+          </motion.span>
+        </div>
+
+        {/* Progress bar */}
+        <div className="relative h-0.5 bg-border overflow-hidden">
+          <motion.div
+            className="absolute top-0 left-0 h-full bg-primary"
+            initial={{ width: 0 }}
+            whileInView={{ width: `${skill.proficiency}%` }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 1.0,
+              delay: index * 0.05,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          />
+        </div>
+
+        {/* Skill level */}
+        <div className="mt-3 flex items-center justify-between">
+          {/* CSS-based dots instead of per-dot whileInView animations */}
+          <div className="flex gap-1" aria-hidden="true">
+            {[...Array(5)].map((_, i) => (
+              <div
+                key={i}
+                className={`w-1.5 h-1.5 transition-colors duration-200 ${
+                  i < Math.ceil(skill.proficiency / 20) ? 'bg-primary' : 'bg-border'
+                }`}
+              />
+            ))}
+          </div>
+          <span className="text-[10px] text-muted-foreground font-mono uppercase tracking-wider">
+            {skill.proficiency >= 90
+              ? 'Expert'
+              : skill.proficiency >= 70
+              ? 'Advanced'
+              : skill.proficiency >= 50
+              ? 'Intermediate'
+              : 'Beginner'}
+          </span>
+        </div>
+      </div>
+
+      {/* Left accent border on hover */}
+      <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    </motion.div>
+  );
+});
+
+const Skills = memo(function Skills({ skills }: SkillsProps) {
   const categories = Object.keys(skills);
   const displayCategories = ['All Skills', ...categories];
   const [activeCategory, setActiveCategory] = useState(displayCategories[0]);
@@ -23,7 +105,7 @@ export default function Skills({ skills }: SkillsProps) {
   return (
     <section id="skills" className="py-24 md:py-32 relative overflow-hidden">
       {/* Decorative large number */}
-      <div className="absolute top-8 left-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter">
+      <div className="absolute top-8 left-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter" aria-hidden="true">
         03
       </div>
 
@@ -40,7 +122,7 @@ export default function Skills({ skills }: SkillsProps) {
           </div>
         </ScrollReveal>
 
-        {/* Category Tabs â€” Sharp style */}
+        {/* Category Tabs */}
         <ScrollReveal>
           <div className="flex flex-wrap gap-2 mb-16 border-b border-border pb-4">
             {displayCategories.map((category, index) => (
@@ -49,7 +131,7 @@ export default function Skills({ skills }: SkillsProps) {
                 onClick={() => setActiveCategory(category)}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.07 }}
+                transition={{ delay: index * 0.05 }}
                 whileTap={{ scale: 0.97 }}
                 className={`relative px-5 py-2.5 font-bold text-xs tracking-[0.1em] uppercase transition-all duration-200 ${
                   activeCategory === category
@@ -58,7 +140,6 @@ export default function Skills({ skills }: SkillsProps) {
                 }`}
               >
                 {category}
-                {/* Active indicator underline */}
                 {activeCategory === category && (
                   <motion.div
                     layoutId="activeTab"
@@ -78,8 +159,7 @@ export default function Skills({ skills }: SkillsProps) {
               key="graph"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.3 }}
             >
               <ConnectedSkills skills={allSkills} />
             </motion.div>
@@ -92,86 +172,7 @@ export default function Skills({ skills }: SkillsProps) {
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full"
             >
               {activeSkills.map((skill, index) => (
-                <motion.div
-                  key={skill.name}
-                  variants={staggerItem}
-                  className="group relative border border-border hover:border-primary/40 transition-all duration-300 bg-card"
-                >
-                  <div className="p-6">
-                    {/* Skill name and icon */}
-                    <div className="flex justify-between items-center mb-5">
-                      <div className="flex items-center gap-3">
-                        <div className="relative w-9 h-9 overflow-hidden bg-surface border border-border flex items-center justify-center">
-                          <Image
-                            src={skill.icon}
-                            alt={skill.name}
-                            fill
-                            className="object-contain p-1.5"
-                          />
-                        </div>
-                        <h3 className="text-base font-bold group-hover:text-primary transition-colors duration-200">
-                          {skill.name}
-                        </h3>
-                      </div>
-                      <motion.span
-                        className="text-2xl font-black text-primary font-mono"
-                        initial={{ opacity: 0, scale: 0 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: false }}
-                        transition={{ delay: index * 0.1 + 0.2 }}
-                      >
-                        {skill.proficiency}%
-                      </motion.span>
-                    </div>
-
-                    {/* Progress bar â€” sharp */}
-                    <div className="relative h-0.5 bg-border overflow-hidden">
-                      <motion.div
-                        className="absolute top-0 left-0 h-full bg-primary"
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.proficiency}%` }}
-                        viewport={{ once: false }}
-                        transition={{
-                          duration: 1.2,
-                          delay: index * 0.08,
-                          ease: [0.22, 1, 0.36, 1],
-                        }}
-                      />
-                    </div>
-
-                    {/* Skill level */}
-                    <div className="mt-3 flex items-center justify-between">
-                      <div className="flex gap-1">
-                        {[...Array(5)].map((_, i) => (
-                          <motion.div
-                            key={i}
-                            className={`w-1.5 h-1.5 ${
-                              i < Math.ceil(skill.proficiency / 20)
-                                ? 'bg-primary'
-                                : 'bg-border'
-                            }`}
-                            initial={{ scale: 0 }}
-                            whileInView={{ scale: 1 }}
-                            viewport={{ once: false }}
-                            transition={{ delay: index * 0.08 + i * 0.04 }}
-                          />
-                        ))}
-                      </div>
-                      <span className="text-[10px] text-muted-foreground font-mono uppercase tracking-wider">
-                        {skill.proficiency >= 90
-                          ? 'Expert'
-                          : skill.proficiency >= 70
-                          ? 'Advanced'
-                          : skill.proficiency >= 50
-                          ? 'Intermediate'
-                          : 'Beginner'}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  {/* Left accent border on hover */}
-                  <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </motion.div>
+                <SkillCard key={skill.name} skill={skill} index={index} />
               ))}
             </motion.div>
           )}
@@ -179,5 +180,6 @@ export default function Skills({ skills }: SkillsProps) {
       </div>
     </section>
   );
-}
+});
 
+export default Skills;

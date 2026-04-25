@@ -6,11 +6,13 @@ import Footer from "@/components/layout/Footer";
 import PageTransition from "@/components/layout/PageTransition";
 import InitialLoader from "@/components/animations/InitialLoader";
 import { ThemeProvider } from "@/lib/context/ThemeContext";
+import { WebVitalsReporter } from "@/app/web-vitals";
 
-const spaceGrotesk = Space_Grotesk({ 
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: '--font-sans',
   weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',  // Prevents invisible text during font load (FOIT)
 });
 
 const dmMono = DM_Mono({
@@ -18,6 +20,7 @@ const dmMono = DM_Mono({
   variable: '--font-mono',
   weight: ['300', '400', '500'],
   style: ['normal', 'italic'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -115,6 +118,7 @@ export default function RootLayout({
     <html lang="en" className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
       <body className="antialiased">
         <ThemeProvider>
+          <WebVitalsReporter />
           <InitialLoader />
           <Header />
           <PageTransition>

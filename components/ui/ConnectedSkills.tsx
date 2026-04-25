@@ -1,15 +1,16 @@
-﻿'use client';
+'use client';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import type { Skill } from '@/types/skill';
 import { staggerContainer, staggerItem } from '@/lib/animations/variants';
+import { memo } from 'react';
 
 interface ConnectedSkillsProps {
   skills: Skill[];
 }
 
-export default function AllSkillsGrid({ skills }: ConnectedSkillsProps) {
+const ConnectedSkills = memo(function AllSkillsGrid({ skills }: ConnectedSkillsProps) {
   return (
     <motion.div
       variants={staggerContainer}
@@ -29,6 +30,8 @@ export default function AllSkillsGrid({ skills }: ConnectedSkillsProps) {
               src={skill.icon}
               alt={skill.name}
               fill
+              loading="lazy"
+              sizes="40px"
               className="object-contain"
             />
           </div>
@@ -38,14 +41,14 @@ export default function AllSkillsGrid({ skills }: ConnectedSkillsProps) {
             {skill.name}
           </span>
 
-          {/* Proficiency thin bar */}
+          {/* Proficiency thin bar — CSS animation instead of whileInView */}
           <div className="w-full h-px bg-border relative overflow-hidden">
             <motion.div
               className="absolute top-0 left-0 h-full bg-primary"
               initial={{ width: 0 }}
               whileInView={{ width: `${skill.proficiency}%` }}
-              viewport={{ once: false }}
-              transition={{ duration: 1, delay: index * 0.03, ease: [0.22, 1, 0.36, 1] }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: index * 0.02, ease: [0.22, 1, 0.36, 1] }}
             />
           </div>
 
@@ -60,5 +63,6 @@ export default function AllSkillsGrid({ skills }: ConnectedSkillsProps) {
       ))}
     </motion.div>
   );
-}
+});
 
+export default ConnectedSkills;

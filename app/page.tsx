@@ -1,8 +1,4 @@
 import Hero from '@/components/sections/Hero';
-import Skills from '@/components/sections/Skills';
-import ExperienceTimeline from '@/components/sections/Experience';
-import ProjectCarousel from '@/components/ui/ProjectCarousel';
-import BlogCard from '@/components/ui/BlogCard';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import { getProfile } from '@/lib/api/profile';
 import { getProjects } from '@/lib/api/projects';
@@ -14,17 +10,28 @@ import Link from 'next/link';
 import { ArrowRight, Mail, MapPin, Clock } from 'lucide-react';
 import { VelocityScroll } from '@/components/ui/scroll-based-velocity';
 import { getGithubStats } from '@/lib/api/github';
-import GithubStats from '@/components/sections/GithubStats';
 import { getAbout } from '@/lib/api/about';
-import AboutSection from '@/components/sections/About';
-import Certificates from '@/components/sections/Certificates';
-import ContactForm from '@/components/sections/ContactForm';
 import FooterSocialLinks from '@/components/layout/FooterSocialLinks';
+
+// Server Component dynamic imports (ssr: true)
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+
+const Skills = dynamic(() => import('@/components/sections/Skills'), { ssr: true });
+const ExperienceTimeline = dynamic(() => import('@/components/sections/Experience'), { ssr: true });
+const ProjectCarousel = dynamic(() => import('@/components/ui/ProjectCarousel'), { ssr: true });
+const BlogCard = dynamic(() => import('@/components/ui/BlogCard'), { ssr: true });
+const AboutSection = dynamic(() => import('@/components/sections/About'), { ssr: true });
+const Certificates = dynamic(() => import('@/components/sections/Certificates'), { ssr: true });
+
+// Client-only components (wrapped in 'use client' boundary)
+import { GithubStatsClient, ContactFormClient } from '@/components/dynamic-client';
 
 import { Metadata } from 'next';
 import PersonJsonLd from '@/components/seo/PersonJsonLd';
 
-export const revalidate = 360; // Revalidate every hour
+// Match API client revalidate (1 hour) — avoid TTFB spikes from too-frequent revalidation
+export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   const [profile, about] = await Promise.all([
@@ -42,14 +49,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      images: [
-        {
-          url: image,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
+      images: [{ url: image, width: 1200, height: 630, alt: title }],
       type: 'website',
     },
     twitter: {
@@ -61,8 +61,21 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+// Section skeleton for Suspense fallback
+function SectionSkeleton() {
+  return (
+    <div className="py-24 animate-pulse">
+      <div className="container mx-auto px-6">
+        <div className="h-4 w-24 bg-border rounded mb-6" />
+        <div className="h-12 w-64 bg-border rounded mb-4" />
+        <div className="h-4 w-48 bg-border rounded" />
+      </div>
+    </div>
+  );
+}
+
 export default async function Home() {
-  // Fetch all data in parallel with error handling
+  // Fetch all data in parallel — server-side, cached by Next.js ISR
   const [profile, projectsRes, skills, experiences, blogRes, githubStats, about, certificates] = await Promise.all([
     getProfile().catch(() => null),
     getProjects().catch(() => ({ data: [] })),
@@ -74,14 +87,15 @@ export default async function Home() {
     getCertificates().catch(() => []),
   ]);
 
-  const projects = projectsRes?.data || [];  // Show all projects
+  const projects = projectsRes?.data || [];
   const blogPosts = (blogRes?.data || []).slice(0, 3);
   const name = profile?.name || 'IchwalM';
 
   return (
     <main>
       <PersonJsonLd profile={profile} about={about} />
-      {/* Hero Section */}
+
+      {/* Hero Section — static import, above fold, critical */}
       <Hero profile={profile} />
 
       {/* Marquee Separator */}
@@ -94,29 +108,39 @@ export default async function Home() {
       </section>
 
       {/* About Section */}
-      <AboutSection about={about} />
+      <Suspense fallback={<SectionSkeleton />}>
+        <AboutSection about={about} />
+      </Suspense>
 
-      {/* GitHub Stats Section */}
-      <GithubStats stats={githubStats} />
+      {/* GitHub Stats Section — client-only (no SSR needed, below fold) */}
+      <GithubStatsClient stats={githubStats} />
 
       {/* Featured Projects Carousel Section */}
       <section id="projects" className="py-20 bg-background">
-        <ProjectCarousel projects={projects} />
+        <Suspense fallback={<SectionSkeleton />}>
+          <ProjectCarousel projects={projects} />
+        </Suspense>
       </section>
 
       {/* Skills Section */}
-      <Skills skills={skills} />
+      <Suspense fallback={<SectionSkeleton />}>
+        <Skills skills={skills} />
+      </Suspense>
 
       {/* Experience Section */}
-      <ExperienceTimeline experiences={experiences} />
+      <Suspense fallback={<SectionSkeleton />}>
+        <ExperienceTimeline experiences={experiences} />
+      </Suspense>
 
       {/* Certificates Section */}
-      <Certificates certificates={certificates} />
+      <Suspense fallback={<SectionSkeleton />}>
+        <Certificates certificates={certificates} />
+      </Suspense>
 
       {/* Blog Section */}
       <section id="blog" className="py-24 md:py-32 relative overflow-hidden">
         {/* Decorative large number */}
-        <div className="absolute top-8 left-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter">
+        <div className="absolute top-8 left-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter" aria-hidden="true">
           06
         </div>
         <div className="container mx-auto px-6">
@@ -135,7 +159,9 @@ export default async function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
             {blogPosts.map((post, index) => (
-              <BlogCard key={post.id} post={post} index={index} />
+              <Suspense key={post.id} fallback={<div className="h-64 bg-border animate-pulse" />}>
+                <BlogCard post={post} index={index} />
+              </Suspense>
             ))}
           </div>
 
@@ -156,7 +182,7 @@ export default async function Home() {
       {/* Contact Section */}
       <section id="contact" className="py-24 md:py-32 relative border-t border-border overflow-hidden">
         {/* Decorative watermark */}
-        <div className="absolute top-8 right-2 text-[12vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter">
+        <div className="absolute top-8 right-2 text-[12vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter" aria-hidden="true">
           MSG
         </div>
 
@@ -250,7 +276,7 @@ export default async function Home() {
                   <h3 className="text-2xl font-black tracking-tight">Drop me a line.</h3>
                 </div>
 
-                <ContactForm />
+                <ContactFormClient />
               </div>
             </ScrollReveal>
           </div>

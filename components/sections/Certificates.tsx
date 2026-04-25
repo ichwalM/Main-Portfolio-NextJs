@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { motion, AnimatePresence, useMotionTemplate, useMotionValue, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { Award, ExternalLink, Calendar, ShieldCheck, X } from 'lucide-react';
@@ -13,7 +13,7 @@ interface CertificatesProps {
   certificates: Certificate[];
 }
 
-const CertificateCard = ({ cert, onClick }: { cert: Certificate; onClick: () => void }) => {
+const CertificateCard = memo(function CertificateCard({ cert, onClick }: { cert: Certificate; onClick: () => void }) {
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
 
@@ -58,6 +58,8 @@ const CertificateCard = ({ cert, onClick }: { cert: Certificate; onClick: () => 
               src={cert.image}
               alt={cert.title}
               fill
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
               className="object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
             />
           ) : (
@@ -65,10 +67,10 @@ const CertificateCard = ({ cert, onClick }: { cert: Certificate; onClick: () => 
               <Award size={64} className="text-muted-foreground" />
             </div>
           )}
-          
+
           {/* Overlay gradient */}
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-          
+
           {/* Issuer Badge */}
           <div className="absolute top-4 left-4 z-20">
             <div className="tag-solid bg-background/80 backdrop-blur-sm border border-border flex items-center gap-2">
@@ -85,15 +87,15 @@ const CertificateCard = ({ cert, onClick }: { cert: Certificate; onClick: () => 
           </h3>
 
           <div className="flex flex-col gap-2 mt-auto text-muted-foreground/60 group-hover:text-muted-foreground transition-colors">
-             <span className="text-xs uppercase tracking-widest font-mono">View Details &rarr;</span>
+            <span className="text-xs uppercase tracking-widest font-mono">View Details &rarr;</span>
           </div>
         </div>
       </div>
     </motion.div>
   );
-};
+});
 
-export default function Certificates({ certificates }: CertificatesProps) {
+const Certificates = memo(function Certificates({ certificates }: CertificatesProps) {
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
 
   useEffect(() => {
@@ -112,7 +114,7 @@ export default function Certificates({ certificates }: CertificatesProps) {
   return (
     <section id="certificates" className="py-24 md:py-32 relative overflow-hidden bg-background border-t border-border">
       {/* Decorative Prefix Text */}
-      <div className="absolute top-8 left-4 text-[12vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter">
+      <div className="absolute top-8 left-4 text-[12vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter" aria-hidden="true">
         ACHV
       </div>
 
@@ -136,7 +138,7 @@ export default function Certificates({ certificates }: CertificatesProps) {
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: "-100px" }}
+          viewport={{ once: true, margin: "-80px" }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
         >
           {certificates.map((cert) => (
@@ -155,9 +157,9 @@ export default function Certificates({ certificates }: CertificatesProps) {
             className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
           >
             {/* Backdrop */}
-            <div 
-              className="absolute inset-0 bg-background/90 backdrop-blur-md" 
-              onClick={() => setSelectedCert(null)} 
+            <div
+              className="absolute inset-0 bg-background/90 backdrop-blur-md"
+              onClick={() => setSelectedCert(null)}
             />
 
             {/* Modal Content */}
@@ -169,83 +171,85 @@ export default function Certificates({ certificates }: CertificatesProps) {
               className="relative w-full max-w-3xl bg-surface border border-border shadow-2xl flex flex-col md:flex-row overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-               {/* Decorative corner */}
-               <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary z-20 m-2" />
+              <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary z-20 m-2" />
 
-               {/* Image Section */}
-               <div className="w-full md:w-1/2 relative bg-background border-b md:border-b-0 md:border-r border-border min-h-[250px] md:min-h-[400px]">
-                 {selectedCert.image ? (
-                   <Image
-                     src={selectedCert.image}
-                     alt={selectedCert.title}
-                     fill
-                     className="object-contain p-4 md:p-8"
-                   />
-                 ) : (
-                   <div className="absolute inset-0 flex items-center justify-center opacity-20">
-                     <Award size={80} className="text-muted-foreground" />
-                   </div>
-                 )}
-                 <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-80" />
-               </div>
+              {/* Image Section */}
+              <div className="w-full md:w-1/2 relative bg-background border-b md:border-b-0 md:border-r border-border min-h-[250px] md:min-h-[400px]">
+                {selectedCert.image ? (
+                  <Image
+                    src={selectedCert.image}
+                    alt={selectedCert.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-contain p-4 md:p-8"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center opacity-20">
+                    <Award size={80} className="text-muted-foreground" />
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-80" />
+              </div>
 
-               {/* Detail Section */}
-               <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col">
-                 <button 
-                   onClick={() => setSelectedCert(null)}
-                   className="absolute top-4 right-4 z-30 p-2 bg-background border border-border text-foreground hover:text-primary transition-colors hover:border-primary/50"
-                 >
-                   <X size={16} />
-                 </button>
+              {/* Detail Section */}
+              <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col">
+                <button
+                  onClick={() => setSelectedCert(null)}
+                  className="absolute top-4 right-4 z-30 p-2 bg-background border border-border text-foreground hover:text-primary transition-colors hover:border-primary/50"
+                  aria-label="Close certificate detail"
+                >
+                  <X size={16} />
+                </button>
 
-                 <div className="mb-2">
-                   <span className="text-[10px] font-mono tracking-widest text-primary uppercase">
-                     Certificate Detail
-                   </span>
-                 </div>
-                 
-                 <h3 className="text-2xl md:text-3xl font-black text-foreground mb-6 tracking-tight leading-tight">
-                   {selectedCert.title}
-                 </h3>
+                <div className="mb-2">
+                  <span className="text-[10px] font-mono tracking-widest text-primary uppercase">
+                    Certificate Detail
+                  </span>
+                </div>
 
-                 <div className="space-y-4 mb-8 flex-1">
-                   <div>
-                     <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Issuer</p>
-                     <p className="font-semibold">{selectedCert.issuer}</p>
-                   </div>
+                <h3 className="text-2xl md:text-3xl font-black text-foreground mb-6 tracking-tight leading-tight">
+                  {selectedCert.title}
+                </h3>
 
-                   {selectedCert.issue_date && (
-                     <div>
-                       <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Issue Date</p>
-                       <p className="font-semibold">{formatDate(selectedCert.issue_date)}</p>
-                     </div>
-                   )}
-                   
-                   {selectedCert.credential_id && (
-                     <div>
-                       <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Credential ID</p>
-                       <p className="font-mono text-sm">{selectedCert.credential_id}</p>
-                     </div>
-                   )}
-                 </div>
+                <div className="space-y-4 mb-8 flex-1">
+                  <div>
+                    <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Issuer</p>
+                    <p className="font-semibold">{selectedCert.issuer}</p>
+                  </div>
 
-                 {/* Action */}
-                 {selectedCert.credential_url && (
-                   <a
-                     href={selectedCert.credential_url}
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     className="mt-autoflex w-full inline-flex items-center justify-center gap-2 p-4 bg-primary text-white hover:bg-primary/90 transition-colors font-bold tracking-widest uppercase font-mono text-xs"
-                   >
-                     Verify Credential
-                     <ExternalLink size={14} />
-                   </a>
-                 )}
-               </div>
+                  {selectedCert.issue_date && (
+                    <div>
+                      <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Issue Date</p>
+                      <p className="font-semibold">{formatDate(selectedCert.issue_date)}</p>
+                    </div>
+                  )}
+
+                  {selectedCert.credential_id && (
+                    <div>
+                      <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Credential ID</p>
+                      <p className="font-mono text-sm">{selectedCert.credential_id}</p>
+                    </div>
+                  )}
+                </div>
+
+                {selectedCert.credential_url && (
+                  <a
+                    href={selectedCert.credential_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-auto flex w-full inline-flex items-center justify-center gap-2 p-4 bg-primary text-white hover:bg-primary/90 transition-colors font-bold tracking-widest uppercase font-mono text-xs"
+                  >
+                    Verify Credential
+                    <ExternalLink size={14} />
+                  </a>
+                )}
+              </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
     </section>
   );
-}
+});
+
+export default Certificates;
