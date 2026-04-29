@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LayoutGrid } from 'lucide-react';
 import { fadeInDown, staggerContainer, staggerItem } from '@/lib/animations/variants';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 
@@ -139,10 +139,13 @@ export default function Header() {
           </motion.div>
           <motion.div variants={staggerItem}>
             <Link
-              href={!isHome ? '/#contact' : '#contact'}
-              className="px-5 py-2 bg-primary text-white text-xs font-bold tracking-[0.1em] uppercase hover:bg-primary/90 transition-colors duration-200"
+              href="/wall-app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2 bg-primary text-primary-foreground text-xs font-bold tracking-[0.1em] uppercase hover:bg-primary/90 transition-colors duration-200 flex items-center gap-2"
             >
-              Contact
+              <LayoutGrid size={14} strokeWidth={2.5} />
+              Wall App
             </Link>
           </motion.div>
         </div>
@@ -189,14 +192,19 @@ export default function Header() {
                   );
                 })}
 
-                <motion.li variants={itemVariants} className="mt-8 w-full flex items-center gap-3">
-                  <ThemeToggle />
+                <motion.li variants={itemVariants} className="mt-8 w-full flex flex-col gap-3">
+                  <div className="flex items-center gap-3 w-full justify-center">
+                    <ThemeToggle />
+                  </div>
                   <Link
-                    href={!isHome ? '/#contact' : '#contact'}
-                    className="flex-1 inline-block px-8 py-4 bg-primary text-white font-bold text-lg tracking-wide hover:bg-primary/90 transition-colors text-center"
+                    href="/wall-app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex justify-center items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-bold text-lg tracking-wide hover:bg-primary/90 transition-colors text-center"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Contact Me
+                    <LayoutGrid size={20} strokeWidth={2.5} />
+                    Wall App
                   </Link>
                 </motion.li>
               </ul>
