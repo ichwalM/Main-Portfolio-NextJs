@@ -5,18 +5,19 @@ import Image from 'next/image';
 import { GraduationCap, Award, Quote } from 'lucide-react';
 import type { About } from '@/types/about';
 import ScrollReveal from '@/components/animations/ScrollReveal';
+import { memo } from 'react';
 
 interface AboutSectionProps {
   about: About | null;
 }
 
-export default function AboutSection({ about }: AboutSectionProps) {
+const AboutSection = memo(function AboutSection({ about }: AboutSectionProps) {
   if (!about) return null;
 
   return (
     <section id="about" className="py-24 md:py-32 relative overflow-hidden">
       {/* Decorative large number */}
-      <div className="absolute top-8 right-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter">
+      <div className="absolute top-8 right-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter" aria-hidden="true">
         02
       </div>
 
@@ -32,13 +33,14 @@ export default function AboutSection({ about }: AboutSectionProps) {
               <div className="absolute -bottom-3 -right-3 w-8 h-8 border-b-2 border-r-2 border-primary z-20" />
 
               <div className="relative aspect-[4/5] overflow-hidden border border-border group">
-                {/* Image */}
+                {/* Image — NOT priority (below fold on most viewports) */}
                 <Image
                   src={about.about_photo || '/placeholder-about.jpg'}
                   alt="About Profile"
                   fill
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 42vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  priority
                 />
 
                 {/* Gradient overlay */}
@@ -48,8 +50,8 @@ export default function AboutSection({ about }: AboutSectionProps) {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false }}
-                  transition={{ delay: 0.5, duration: 0.5 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4, duration: 0.5 }}
                   className="absolute bottom-0 left-0 right-0 p-5 bg-background/95 border-t border-border flex justify-between items-center"
                 >
                   <div className="flex items-center gap-3">
@@ -80,8 +82,8 @@ export default function AboutSection({ about }: AboutSectionProps) {
               <motion.div
                 initial={{ opacity: 0, x: 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.7 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
               >
                 {/* Section label */}
                 <p className="section-label mb-6">About Me</p>
@@ -94,16 +96,16 @@ export default function AboutSection({ about }: AboutSectionProps) {
                 {/* Quote content */}
                 <div className="relative pl-6 border-l-2 border-primary">
                   {/* Quotation mark */}
-                  <div className="absolute -top-4 -left-4 text-5xl font-black text-primary leading-none font-mono select-none">
-                    "
+                  <div className="absolute -top-4 -left-4 text-5xl font-black text-primary leading-none font-mono select-none" aria-hidden="true">
+                    &ldquo;
                   </div>
 
                   <p className="text-base md:text-lg text-muted-foreground leading-relaxed font-normal mb-8 pt-2 text-justify">
                     {about.about_deskripsi}
                   </p>
 
-                  {/* Decorative dots â€” sharp squares */}
-                  <div className="flex gap-2">
+                  {/* Decorative dots */}
+                  <div className="flex gap-2" aria-hidden="true">
                     <div className="w-2 h-2 bg-primary" />
                     <div className="w-2 h-2 bg-primary/50" />
                     <div className="w-2 h-2 bg-primary/20" />
@@ -116,5 +118,6 @@ export default function AboutSection({ about }: AboutSectionProps) {
       </div>
     </section>
   );
-}
+});
 
+export default AboutSection;

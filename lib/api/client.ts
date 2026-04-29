@@ -11,28 +11,32 @@ export class APIError extends Error {
   }
 }
 
+interface ApiClientOptions extends RequestInit {
+  revalidate?: number | false;
+}
+
 export async function apiClient<T>(
   endpoint: string,
-  options?: RequestInit
+  options?: ApiClientOptions
 ): Promise<T> {
-  /* 
-   * Handle API Key Injection
-   * Appends ?api_key=KEY or &api_key=KEY to the endpoint
-   */
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
   const separator = endpoint.includes('?') ? '&' : '?';
   const endpointWithKey = apiKey ? `${endpoint}${separator}api_key=${apiKey}` : endpoint;
 
   const url = `${API_BASE_URL}${endpointWithKey}`;
 
+  // Extract revalidate from options before passing to fetch
+  const { revalidate = 86400, ...fetchOptions } = options || {};
+
   try {
     const response = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
-        ...options?.headers,
+        ...fetchOptions?.headers,
       },
-      next: { revalidate: 3600 }, // ISR: revalidate every 1 jam (3600 detik) untuk load instan
-      ...options,
+      // ISR cache: default 24h for static portfolio data
+      next: { revalidate },
+      ...fetchOptions,
     });
 
     if (!response.ok) {

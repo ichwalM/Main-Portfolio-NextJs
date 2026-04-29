@@ -7,19 +7,20 @@ import type { Profile } from '@/types/profile';
 import MagneticButton from '@/components/animations/MagneticButton';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import Threads from '@/components/ui/Threads';
+import { memo } from 'react';
 
 interface HeroProps {
   profile: Profile | null;
 }
 
-export default function Hero({ profile }: HeroProps) {
-  const socialIcons: Record<string, any> = {
-    github: Github,
-    linkedin: Linkedin,
-    email: Mail,
-    instagram: Instagram,
-  };
+const socialIcons: Record<string, any> = {
+  github: Github,
+  linkedin: Linkedin,
+  email: Mail,
+  instagram: Instagram,
+};
 
+const Hero = memo(function Hero({ profile }: HeroProps) {
   const name = profile?.name || 'Ichwal';
   const bio = profile?.bio || 'Passionate Full Stack Developer with 5+ years of experience in building scalable web applications. I specialize in Laravel, React, and Modern Cloud Architecture.';
   const heroImage = profile?.hero_image;
@@ -34,7 +35,7 @@ export default function Hero({ profile }: HeroProps) {
       </div>
 
       {/* Large decorative text */}
-      <div className="absolute bottom-0 right-0 text-[20vw] font-black text-border/10 leading-none select-none pointer-events-none z-0 tracking-tighter">
+      <div className="absolute bottom-0 right-0 text-[20vw] font-black text-border/10 leading-none select-none pointer-events-none z-0 tracking-tighter" aria-hidden="true">
         DEV
       </div>
 
@@ -43,12 +44,12 @@ export default function Hero({ profile }: HeroProps) {
 
           {/* Text Content */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="w-full lg:w-1/2 space-y-6 lg:space-y-8 lg:text-left text-center mt-8 lg:mt-0"
           >
-            {/* Section label */}
+            {/* Open to work badge */}
             {profile?.open_work && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -63,11 +64,11 @@ export default function Hero({ profile }: HeroProps) {
               </motion.div>
             )}
 
-            {/* Name */}
+            {/* Name — h1 for SEO, priority */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
+              transition={{ delay: 0.25 }}
             >
               <h1 className="text-6xl sm:text-7xl lg:text-9xl font-black tracking-tighter leading-none">
                 {name}
@@ -79,7 +80,7 @@ export default function Hero({ profile }: HeroProps) {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.35 }}
               className="flex items-center gap-3 justify-center lg:justify-start"
             >
               <div className="h-px w-10 bg-primary" />
@@ -92,13 +93,13 @@ export default function Hero({ profile }: HeroProps) {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.45 }}
               className="max-w-xl mx-auto lg:mx-0"
             >
               <TextGenerateEffect
                 words={bio}
                 className="text-sm sm:text-base text-muted-foreground leading-relaxed font-normal"
-                duration={1.5}
+                duration={1.2}
               />
             </motion.div>
 
@@ -106,7 +107,7 @@ export default function Hero({ profile }: HeroProps) {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
+              transition={{ delay: 0.6 }}
               className="flex gap-3 pt-2 justify-center lg:justify-start"
             >
               {Object.entries(socialLinks).map(([key, url]) => {
@@ -122,7 +123,7 @@ export default function Hero({ profile }: HeroProps) {
                       whileHover={{ y: -3 }}
                       whileTap={{ scale: 0.95 }}
                       className="w-10 h-10 border border-border flex items-center justify-center group hover:border-primary hover:text-primary transition-all duration-200"
-                      aria-label={key}
+                      aria-label={`${key} profile`}
                     >
                       <Icon className="w-4 h-4" />
                     </motion.a>
@@ -135,7 +136,7 @@ export default function Hero({ profile }: HeroProps) {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
+              transition={{ delay: 0.75 }}
               className="flex flex-wrap gap-4 pt-2 justify-center lg:justify-start"
             >
               <motion.a
@@ -145,7 +146,7 @@ export default function Hero({ profile }: HeroProps) {
                 className="px-7 py-3 bg-primary text-white font-bold text-sm tracking-wide flex items-center gap-2 hover:bg-primary/90 transition-colors"
               >
                 View Projects
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </motion.a>
@@ -161,11 +162,11 @@ export default function Hero({ profile }: HeroProps) {
             </motion.div>
           </motion.div>
 
-          {/* Profile Frame — Sharp Square with Corner Brackets */}
+          {/* Profile Frame */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
             className="w-full lg:w-1/2 flex justify-center lg:justify-end relative mb-12 lg:mb-0"
           >
             <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[400px] md:h-[400px]">
@@ -176,7 +177,7 @@ export default function Hero({ profile }: HeroProps) {
               <div className="absolute -bottom-3 -left-3 w-10 h-10 border-b-2 border-l-2 border-primary z-20" />
               <div className="absolute -bottom-3 -right-3 w-10 h-10 border-b-2 border-r-2 border-primary z-20" />
 
-              {/* Main image frame — sharp square */}
+              {/* Main image frame */}
               <div className="absolute inset-0 overflow-hidden border border-border bg-surface z-10 group">
                 {/* Hover overlay */}
                 <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors duration-500 z-10" />
@@ -184,14 +185,15 @@ export default function Hero({ profile }: HeroProps) {
                 {heroImage ? (
                   <Image
                     src={heroImage}
-                    alt={name}
+                    alt={`${name} — Full Stack Developer`}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                     priority
+                    sizes="(max-width: 640px) 288px, (max-width: 768px) 320px, 400px"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <span className="text-9xl font-black text-foreground/10">{name[0]}</span>
+                    <span className="text-9xl font-black text-foreground/10" aria-hidden="true">{name[0]}</span>
                   </div>
                 )}
 
@@ -242,13 +244,14 @@ export default function Hero({ profile }: HeroProps) {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
+        transition={{ delay: 1.2 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20 pointer-events-none hidden sm:flex"
+        aria-hidden="true"
       >
         <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-mono">Scroll</span>
         <div className="w-px h-12 bg-gradient-to-b from-border to-transparent relative overflow-hidden">
           <motion.div
-            className="absolute top-0 left-0 w-full h-4 bg-primary"
+            className="absolute top-0 left-0 w-full h-4 bg-primary will-change-transform"
             animate={{ y: ["-100%", "400%"] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
           />
@@ -256,4 +259,6 @@ export default function Hero({ profile }: HeroProps) {
       </motion.div>
     </section>
   );
-}
+});
+
+export default Hero;

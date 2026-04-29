@@ -1,7 +1,7 @@
 'use client';
 
-import { motion, useScroll, useTransform, useSpring, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useScroll, useTransform, useMotionTemplate, useMotionValue } from 'framer-motion';
+import { useRef, memo } from 'react';
 import { Calendar, MapPin, Briefcase } from 'lucide-react';
 import type { Experience } from '@/types/experience';
 import ScrollReveal from '@/components/animations/ScrollReveal';
@@ -11,8 +11,7 @@ interface ExperienceTimelineProps {
   experiences: Experience[];
 }
 
-const ExperienceCard = ({ experience, index }: { experience: Experience; index: number }) => {
-  const ref = useRef<HTMLDivElement>(null);
+const ExperienceCard = memo(function ExperienceCard({ experience, index }: { experience: Experience; index: number }) {
   const isCurrent = !experience.end_date;
 
   const mouseX = useMotionValue(0.5);
@@ -35,13 +34,13 @@ const ExperienceCard = ({ experience, index }: { experience: Experience; index: 
 
   return (
     <div className="relative pl-8 md:pl-0">
-      {/* Timeline Node â€” Square */}
+      {/* Timeline Node */}
       <div className="absolute left-0 md:left-1/2 top-0 -translate-x-[5px] md:-translate-x-1/2 z-20 flex flex-col items-center">
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: false, margin: "-100px" }}
-          transition={{ delay: index * 0.15, duration: 0.4, type: "spring" }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ delay: index * 0.1, duration: 0.4, type: "spring" }}
           className={`w-3 h-3 border-2 ${
             isCurrent
               ? 'bg-primary border-primary'
@@ -57,16 +56,15 @@ const ExperienceCard = ({ experience, index }: { experience: Experience; index: 
       {/* Card */}
       <div className={`md:w-1/2 relative pb-12 ${index % 2 === 0 ? 'md:pr-12 md:mr-auto' : 'md:pl-12 md:ml-auto'}`}>
         <motion.div
-          ref={ref}
-          initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+          initial={{ opacity: 0, x: index % 2 === 0 ? -25 : 25 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: false, margin: "-100px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           className="group relative"
         >
-          {/* Left accent border (primary for current, subtle for past) */}
+          {/* Left accent border */}
           <div className={`absolute left-0 top-0 bottom-0 w-0.5 transition-colors duration-300 ${
             isCurrent ? 'bg-primary' : 'bg-border group-hover:bg-primary/50'
           }`} />
@@ -104,7 +102,7 @@ const ExperienceCard = ({ experience, index }: { experience: Experience; index: 
               <div className="flex items-center gap-1.5">
                 <Calendar size={11} />
                 <span>
-                  {formatDate(experience.start_date)} â€” {experience.end_date ? formatDate(experience.end_date) : 'Now'}
+                  {formatDate(experience.start_date)} — {experience.end_date ? formatDate(experience.end_date) : 'Now'}
                 </span>
               </div>
               {experience.location && (
@@ -115,13 +113,12 @@ const ExperienceCard = ({ experience, index }: { experience: Experience; index: 
               )}
             </div>
 
-            {/* Description mapped with lists */}
+            {/* Description */}
             <div className="text-sm text-muted-foreground leading-relaxed border-t border-border pt-4 flex flex-col gap-2.5">
               {experience.description.split('\n').map((line, i) => {
                 const trimmedLine = line.trim();
                 if (!trimmedLine) return null;
-                
-                // Cek apakah baris ini adalah list item / bullet point
+
                 if (trimmedLine.match(/^[•\-*]\s*/)) {
                   return (
                     <div key={i} className="flex gap-2 items-start pl-1 opacity-90 hover:opacity-100 transition-opacity">
@@ -130,8 +127,7 @@ const ExperienceCard = ({ experience, index }: { experience: Experience; index: 
                     </div>
                   );
                 }
-                
-                // Paragraph biasa
+
                 return <p key={i} className="mb-1">{trimmedLine}</p>;
               })}
             </div>
@@ -140,9 +136,9 @@ const ExperienceCard = ({ experience, index }: { experience: Experience; index: 
       </div>
     </div>
   );
-};
+});
 
-export default function ExperienceTimeline({ experiences }: ExperienceTimelineProps) {
+const ExperienceTimeline = memo(function ExperienceTimeline({ experiences }: ExperienceTimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -155,7 +151,7 @@ export default function ExperienceTimeline({ experiences }: ExperienceTimelinePr
   return (
     <section id="experience" className="py-24 md:py-32 relative overflow-hidden">
       {/* Decorative large number */}
-      <div className="absolute top-8 right-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter">
+      <div className="absolute top-8 right-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter" aria-hidden="true">
         04
       </div>
 
@@ -178,7 +174,7 @@ export default function ExperienceTimeline({ experiences }: ExperienceTimelinePr
           <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-border z-0" />
           <motion.div
             style={{ height, opacity }}
-            className="absolute left-0 md:left-1/2 top-0 w-px bg-primary z-10"
+            className="absolute left-0 md:left-1/2 top-0 w-px bg-primary z-10 will-change-transform"
           />
 
           <div className="space-y-8">
@@ -190,5 +186,6 @@ export default function ExperienceTimeline({ experiences }: ExperienceTimelinePr
       </div>
     </section>
   );
-}
+});
 
+export default ExperienceTimeline;

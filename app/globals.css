@@ -153,12 +153,26 @@
     @apply bg-background text-foreground;
     font-family: var(--font-sans), 'Space Grotesk', system-ui, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
+    /* Prevent subpixel rendering issues */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-sans), 'Space Grotesk', system-ui, sans-serif;
     font-weight: 700;
     letter-spacing: -0.02em;
+  }
+
+  /* Respect user's motion preference — critical for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -336,5 +350,24 @@
     top: calc(50% - var(--size, 80%) / 2);
     left: calc(50% - var(--size, 80%) / 2);
     opacity: 0.7;
+  }
+
+  /* Content visibility optimization for below-fold sections.
+   * Browsers skip rendering of off-screen content, reducing initial paint time.
+   * contain-intrinsic-size prevents layout shift when sections come into view.
+   */
+  section:not(#home) {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 600px;
+  }
+
+  /* GPU compositing hints for animated elements */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  /* Performance: isolate stacking contexts for sections with animations */
+  #about, #skills, #experience, #certificates, #projects, #blog, #contact {
+    isolation: isolate;
   }
 }

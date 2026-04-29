@@ -4,51 +4,67 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Loader2, Check } from 'lucide-react';
 
+const LOADER_SESSION_KEY = 'portfolio_loader_shown';
+
 export default function InitialLoader() {
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // Skip loader on repeat visits within the same session
+    if (typeof sessionStorage !== 'undefined') {
+      const alreadyShown = sessionStorage.getItem(LOADER_SESSION_KEY);
+      if (alreadyShown) {
+        setIsLoading(false);
+        return;
+      }
+    }
+
     setMounted(true);
 
-    const duration = 2000; // 2 seconds loading
-    const intervalTime = 30; 
+    // Reduced: 1200ms duration + 400ms hold = 1600ms total (was 2800ms)
+    const duration = 1200;
+    const intervalTime = 20;
     const steps = duration / intervalTime;
     let currentStep = 0;
 
-    // Custom ease-out function
-    const easeOutStr = (t: number) => {
-      return 1 - Math.pow(1 - t, 3);
-    };
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
     const interval = setInterval(() => {
       currentStep++;
       const timeFraction = Math.min(currentStep / steps, 1);
-      const currentProgress = Math.floor(easeOutStr(timeFraction) * 100);
-      
+      const currentProgress = Math.floor(easeOutCubic(timeFraction) * 100);
+
       setProgress(currentProgress);
 
       if (currentStep >= steps) {
         clearInterval(interval);
         setTimeout(() => {
           setIsLoading(false);
-        }, 800); // Tahan sebentar di 100% supaya user baca
+          // Mark as shown for this session
+          try {
+            sessionStorage.setItem(LOADER_SESSION_KEY, '1');
+          } catch (_) {
+            // sessionStorage may be unavailable in some contexts
+          }
+        }, 400); // Was 800ms — tighter hold
       }
     }, intervalTime);
 
-    document.body.style.overflow = 'hidden';
-    
+    // Use overflow:clip instead of hidden — doesn't affect scroll position measurement
+    document.body.style.overflow = 'clip';
+
     return () => {
       clearInterval(interval);
     };
   }, []);
 
   useEffect(() => {
-    if (!isLoading && mounted) {
+    if (!isLoading) {
       document.body.style.overflow = '';
     }
-  }, [isLoading, mounted]);
+  }, [isLoading]);
 
   if (!mounted || !isLoading) return null;
 
@@ -60,24 +76,23 @@ export default function InitialLoader() {
         <motion.div
           key="loader"
           initial={{ opacity: 1 }}
-          exit={{ y: "-100%", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }}
+          exit={{ y: "-100%", transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] } }}
           className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center transform-gpu overflow-hidden"
         >
-          {/* Main Container mirroring the image */}
           <div className="relative border border-border/20 p-12 md:p-24 flex flex-col items-center justify-center min-w-[300px] md:min-w-[600px]">
-            
+
             {/* Top Left Status Badge */}
             <div className="absolute -top-3 left-4 px-2 py-0.5 bg-primary text-primary-foreground text-[10px] font-bold tracking-wider uppercase font-mono">
               {isComplete ? 'RENDER COMPLETE' : 'RENDERING...'}
             </div>
 
-            {/* Small Circle Indicator (Top Center) */}
+            {/* Small Circle Indicator */}
             <div className="absolute top-4 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full border-[1.5px] border-foreground/50 flex items-center justify-center">
               {!isComplete && (
-                <motion.div 
+                <motion.div
                   className="w-1.5 h-1.5 bg-primary rounded-full"
                   animate={{ opacity: [0, 1, 0] }}
-                  transition={{ duration: 1, repeat: Infinity }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
                 />
               )}
             </div>
