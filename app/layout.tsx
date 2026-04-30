@@ -7,6 +7,7 @@ import PageTransition from "@/components/layout/PageTransition";
 import InitialLoader from "@/components/animations/InitialLoader";
 import { ThemeProvider } from "@/lib/context/ThemeContext";
 import { WebVitalsReporter } from "@/app/web-vitals";
+import { Analytics } from "@vercel/analytics/next";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -130,6 +131,7 @@ export default function RootLayout({
             </main>
           </PageTransition>
           <Footer />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
