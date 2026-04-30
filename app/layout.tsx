@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://walldev.my.id'),
   title: {
     default: 'Ichwal — Full Stack Developer & Network Administrator | Portfolio',
-    template: '%s | Ichwal Portfolio',
+    template: 'Ichwal | %s',
   },
   description: 'Portfolio resmi Ichwal — Full Stack Developer dan Network Administrator dari Makassar, Indonesia. Spesialis Laravel, React, Next.js, dan administrasi jaringan.',
   keywords: [
