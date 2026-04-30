@@ -107,6 +107,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://walldev.my.id',
   },
+  verification: {
+    google: 'CHFWmZ9vyCp7HG0tkU376u2jk5hHZWCA1iQ7NRZGGtI',
+  },
 };
 
 export default function RootLayout({
