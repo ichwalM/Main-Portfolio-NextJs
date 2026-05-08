@@ -1,12 +1,11 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import Image from 'next/image';
 import { Github, Linkedin, Mail, Instagram } from 'lucide-react';
 import type { Profile } from '@/types/profile';
 import MagneticButton from '@/components/animations/MagneticButton';
-import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
-import Threads from '@/components/ui/Threads';
+import Link from 'next/link';
 import { memo } from 'react';
 
 interface HeroProps {
@@ -20,243 +19,218 @@ const socialIcons: Record<string, any> = {
   instagram: Instagram,
 };
 
+const staggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 } as any,
+  },
+};
+const staggerItem: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'linear' as const } },
+};
+
 const Hero = memo(function Hero({ profile }: HeroProps) {
   const name = profile?.name || 'Ichwal';
-  const bio = profile?.bio || 'Passionate Full Stack Developer with 5+ years of experience in building scalable web applications. I specialize in Laravel, React, and Modern Cloud Architecture.';
+  const bio = profile?.bio || 'Full Stack Developer & Network Administrator — Building scalable web apps and managing modern network infrastructure.';
   const heroImage = profile?.hero_image;
   const socialLinks = profile?.social_links || {};
 
   return (
-    <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden w-full py-20 lg:py-0">
-      {/* Background */}
-      <div className="absolute inset-0 z-0 bg-background">
-        <Threads amplitude={1} distance={0} enableMouseInteraction={true} />
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background/80 to-background/60 pointer-events-none" />
-      </div>
+    <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden w-full bg-background">
 
-      {/* Large decorative text */}
-      <div className="absolute bottom-0 right-0 text-[20vw] font-black text-border/10 leading-none select-none pointer-events-none z-0 tracking-tighter" aria-hidden="true">
+      {/* Brutalist grid background */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none opacity-[0.04]"
+        aria-hidden="true"
+        style={{
+          backgroundImage: `
+            linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px',
+        }}
+      />
+
+      {/* Large decorative text — brutalist watermark */}
+      <div
+        className="absolute bottom-0 right-0 font-black leading-none select-none pointer-events-none z-0 tracking-tighter text-[22vw] text-foreground/[0.04]"
+        aria-hidden="true"
+      >
         DEV
       </div>
 
-      <div className="container mx-auto px-6 relative z-10 w-full max-w-7xl h-full flex flex-col justify-center">
-        <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-8 lg:gap-20">
+      {/* Top border bar */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-primary z-20" />
 
-          {/* Text Content */}
+      <div className="container mx-auto px-6 relative z-10 w-full max-w-7xl pt-28 pb-16">
+        <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-20">
+
+          {/* ── TEXT CONTENT ── */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full lg:w-1/2 space-y-6 lg:space-y-8 lg:text-left text-center mt-8 lg:mt-0"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="w-full lg:w-1/2 space-y-8"
           >
-            {/* Open to work badge */}
-            {profile?.open_work && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="flex items-center gap-3 justify-center lg:justify-start"
-              >
-                <span className="tag-solid flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-green-400 animate-pulse inline-block" />
-                  Available for freelance
-                </span>
-              </motion.div>
-            )}
+            {/* Number tag */}
+            <motion.div variants={staggerItem} className="flex items-center gap-3">
+              <span className="font-mono text-[10px] font-black text-primary tracking-[0.3em] border border-primary px-2 py-0.5">
+                01
+              </span>
+              <div className="h-px w-10 bg-primary" />
+              <span className="font-mono text-[10px] text-primary tracking-[0.25em] uppercase">
+                Portfolio
+              </span>
+            </motion.div>
 
-            {/* Name — h1 for SEO, priority */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 }}
-            >
-              <h1 className="text-6xl sm:text-7xl lg:text-9xl font-black tracking-tighter leading-none">
+            {/* Name — h1 */}
+            <motion.div variants={staggerItem}>
+              <h1 className="text-[14vw] sm:text-[12vw] lg:text-[9vw] font-black tracking-tighter leading-none uppercase">
                 {name}
                 <span className="text-primary">.</span>
               </h1>
             </motion.div>
 
-            {/* Role label */}
+            {/* Role strip */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.35 }}
-              className="flex items-center gap-3 justify-center lg:justify-start"
+              variants={staggerItem}
+              className="flex items-center gap-0 overflow-hidden border border-border"
             >
-              <div className="h-px w-10 bg-primary" />
-              <span className="font-mono text-xs tracking-[0.15em] uppercase text-primary">
-                Full Stack Developer
+              <span className="bg-primary text-primary-foreground font-mono text-[10px] font-black tracking-[0.15em] uppercase px-4 py-2 whitespace-nowrap">
+                Full Stack Dev
+              </span>
+              <span className="text-muted-foreground font-mono text-[10px] px-4 py-2 border-l border-border whitespace-nowrap">
+                &amp;
+              </span>
+              <span className="bg-foreground text-background font-mono text-[10px] font-black tracking-[0.15em] uppercase px-4 py-2 border-l border-border whitespace-nowrap">
+                Network Admin
               </span>
             </motion.div>
 
             {/* Bio */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.45 }}
-              className="max-w-xl mx-auto lg:mx-0"
-            >
-              <TextGenerateEffect
-                words={bio}
-                className="text-sm sm:text-base text-muted-foreground leading-relaxed font-normal"
-                duration={1.2}
-              />
+            <motion.div variants={staggerItem} className="border-l-4 border-primary pl-5">
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {bio}
+              </p>
             </motion.div>
 
             {/* Social Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="flex gap-3 pt-2 justify-center lg:justify-start"
-            >
-              {Object.entries(socialLinks).map(([key, url]) => {
+            <motion.div variants={staggerItem} className="flex gap-0 border border-border w-fit">
+              {Object.entries(socialLinks).map(([key, url], i) => {
                 const Icon = socialIcons[key];
                 if (!Icon || !url) return null;
-
                 return (
                   <MagneticButton key={key}>
-                    <motion.a
+                    <a
                       href={url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      whileHover={{ y: -3 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-10 h-10 border border-border flex items-center justify-center group hover:border-primary hover:text-primary transition-all duration-200"
+                      className={`w-11 h-11 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-none ${i > 0 ? 'border-l border-border' : ''}`}
                       aria-label={`${key} profile`}
                     >
                       <Icon className="w-4 h-4" />
-                    </motion.a>
+                    </a>
                   </MagneticButton>
                 );
               })}
             </motion.div>
 
             {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.75 }}
-              className="flex flex-wrap gap-4 pt-2 justify-center lg:justify-start"
-            >
-              <motion.a
-                href="projects"
-                whileHover={{ x: 4 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-7 py-3 bg-primary text-white font-bold text-sm tracking-wide flex items-center gap-2 hover:bg-primary/90 transition-colors"
+            <motion.div variants={staggerItem} className="flex flex-wrap gap-3">
+              <Link
+                href="/projects"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-black text-xs tracking-[0.15em] uppercase border-4 border-primary hover:bg-transparent hover:text-primary transition-none"
               >
                 View Projects
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </motion.a>
-
-              <motion.a
+                <span className="text-base leading-none">→</span>
+              </Link>
+              <Link
                 href="#contact"
-                whileHover={{ x: 4 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-7 py-3 border border-border text-foreground font-bold text-sm tracking-wide hover:border-foreground transition-colors"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-transparent text-foreground font-black text-xs tracking-[0.15em] uppercase border-4 border-foreground hover:bg-foreground hover:text-background transition-none"
               >
-                Contact Me
-              </motion.a>
+                Hire Me
+              </Link>
             </motion.div>
           </motion.div>
 
-          {/* Profile Frame */}
+          {/* ── PROFILE FRAME ── */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
-            className="w-full lg:w-1/2 flex justify-center lg:justify-end relative mb-12 lg:mb-0"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, ease: 'linear', delay: 0.2 }}
+            className="w-full lg:w-5/12 flex justify-center lg:justify-end"
           >
-            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[400px] md:h-[400px]">
-
-              {/* Corner bracket decorations */}
-              <div className="absolute -top-3 -left-3 w-10 h-10 border-t-2 border-l-2 border-primary z-20" />
-              <div className="absolute -top-3 -right-3 w-10 h-10 border-t-2 border-r-2 border-primary z-20" />
-              <div className="absolute -bottom-3 -left-3 w-10 h-10 border-b-2 border-l-2 border-primary z-20" />
-              <div className="absolute -bottom-3 -right-3 w-10 h-10 border-b-2 border-r-2 border-primary z-20" />
+            <div className="relative">
+              {/* Offset shadow — brutalist style */}
+              <div className="absolute top-4 left-4 w-full h-full border-4 border-primary z-0" />
 
               {/* Main image frame */}
-              <div className="absolute inset-0 overflow-hidden border border-border bg-surface z-10 group">
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors duration-500 z-10" />
-
+              <div className="relative w-72 sm:w-80 md:w-96 aspect-[3/4] border-4 border-foreground bg-surface overflow-hidden z-10">
                 {heroImage ? (
                   <Image
                     src={heroImage}
                     alt={`${name} — Full Stack Developer`}
                     fill
                     priority
-                    sizes="(max-width: 640px) 288px, (max-width: 768px) 320px, 400px"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 640px) 288px, (max-width: 768px) 320px, 384px"
+                    className="object-cover"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <span className="text-9xl font-black text-foreground/10" aria-hidden="true">{name[0]}</span>
+                    <span className="text-9xl font-black text-foreground/10">{name[0]}</span>
                   </div>
                 )}
 
-                {/* Bottom gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-70" />
-              </div>
-
-              {/* Floating mono labels */}
-              <motion.div
-                className="absolute -right-2 top-8 px-3 py-1.5 bg-background border border-border text-xs text-primary font-mono z-20"
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              >
-                SYS.ONLINE
-              </motion.div>
-
-              <motion.div
-                className="absolute -left-2 bottom-12 px-3 py-1.5 bg-background border border-border text-xs text-muted-foreground font-mono z-20"
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              >
-                NET.SECURE
-              </motion.div>
-
-              {/* Available badge */}
-              {profile?.open_work && (
-                <motion.div
-                  className="absolute -bottom-5 left-1/2 -translate-x-1/2 px-5 py-2.5 bg-background border border-primary z-30"
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full bg-green-400 opacity-75" />
-                      <span className="relative inline-flex h-2 w-2 bg-green-500" />
-                    </span>
-                    <span className="font-bold text-xs text-white tracking-[0.12em] uppercase font-mono">
-                      Available for work
-                    </span>
+                {/* Bottom info strip */}
+                <div className="absolute bottom-0 left-0 right-0 bg-primary p-4 flex items-center justify-between">
+                  <div>
+                    <p className="font-black text-primary-foreground text-sm uppercase tracking-wider">{name}</p>
+                    <p className="font-mono text-primary-foreground/70 text-[10px] uppercase tracking-[0.2em]">Full Stack Dev</p>
                   </div>
-                </motion.div>
-              )}
+                  {profile?.open_work && (
+                    <div className="flex items-center gap-1.5 border border-primary-foreground/30 px-2 py-1">
+                      <span className="w-1.5 h-1.5 bg-green-400 animate-pulse" />
+                      <span className="text-[9px] font-black text-primary-foreground uppercase tracking-wider font-mono">Available</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Corner labels */}
+                <div className="absolute top-3 right-3 bg-background border border-border px-2 py-1 font-mono text-[9px] font-black uppercase tracking-wider text-primary">
+                  SYS.ONLINE
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
-      </div>
 
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20 pointer-events-none hidden sm:flex"
-        aria-hidden="true"
-      >
-        <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-mono">Scroll</span>
-        <div className="w-px h-12 bg-gradient-to-b from-border to-transparent relative overflow-hidden">
-          <motion.div
-            className="absolute top-0 left-0 w-full h-4 bg-primary will-change-transform"
-            animate={{ y: ["-100%", "400%"] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-          />
-        </div>
-      </motion.div>
+        {/* Bottom strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.3, ease: 'linear' }}
+          className="mt-20 border-t-4 border-border pt-6 flex items-center justify-between flex-wrap gap-4"
+        >
+          <div className="flex items-center gap-8">
+            {[
+              { label: 'Projects', value: '20+' },
+              { label: 'Experience', value: '3 yrs' },
+              { label: 'Certs', value: '10+' },
+            ].map((stat) => (
+              <div key={stat.label} className="flex flex-col">
+                <span className="font-black text-2xl leading-none">{stat.value}</span>
+                <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground mt-1">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <span className="font-mono text-[9px] uppercase tracking-[0.2em]">Scroll to explore</span>
+            <span className="text-primary animate-bounce">↓</span>
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 });

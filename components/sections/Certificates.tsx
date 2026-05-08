@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect, memo } from 'react';
-import { motion, AnimatePresence, useMotionTemplate, useMotionValue, useTransform } from 'framer-motion';
+import { createPortal } from 'react-dom';
+import { motion, AnimatePresence, type Variants, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
-import { Award, ExternalLink, Calendar, ShieldCheck, X } from 'lucide-react';
+import { Award, ExternalLink, ShieldCheck, X } from 'lucide-react';
 import type { Certificate } from '@/types/certificate';
-import ScrollReveal from '@/components/animations/ScrollReveal';
+import BrutalistSectionHeader from '@/components/brutalist/BrutalistSectionHeader';
 import { staggerContainer, staggerItem } from '@/lib/animations/variants';
 import { formatDate } from '@/lib/utils';
 
@@ -13,241 +14,274 @@ interface CertificatesProps {
   certificates: Certificate[];
 }
 
-const CertificateCard = memo(function CertificateCard({ cert, onClick }: { cert: Certificate; onClick: () => void }) {
-  const mouseX = useMotionValue(0.5);
-  const mouseY = useMotionValue(0.5);
+const rotatedBorderVariants: Variants = {
+  rest: { opacity: 0, rotate: 0, x: 0, y: 0 },
+  hover: {
+    opacity: 1,
+    rotate: -3,
+    x: 10,
+    y: -8,
+    transition: { duration: 0 },
+  },
+};
 
-  const handleMouseMove = ({ clientX, clientY, currentTarget }: React.MouseEvent) => {
-    const { left, top, width, height } = currentTarget.getBoundingClientRect();
-    mouseX.set((clientX - left) / width);
-    mouseY.set((clientY - top) / height);
-  };
+const rotatedBorderSecondaryVariants: Variants = {
+  rest: { opacity: 0, rotate: 0, x: 0, y: 0 },
+  hover: {
+    opacity: 1,
+    rotate: 2,
+    x: -8,
+    y: 10,
+    transition: { duration: 0 },
+  },
+};
 
-  const handleMouseLeave = () => {
-    mouseX.set(0.5);
-    mouseY.set(0.5);
-  };
-
-  const spotX = useTransform(mouseX, [0, 1], ['0%', '100%']);
-  const spotY = useTransform(mouseY, [0, 1], ['0%', '100%']);
-  const spotlight = useMotionTemplate`radial-gradient(500px circle at ${spotX} ${spotY}, rgba(37, 99, 235, 0.1), transparent 80%)`;
+const CertificateCard = memo(function CertificateCard({
+  cert,
+  onClick,
+}: {
+  cert: Certificate;
+  onClick: () => void;
+}) {
+  const reduceMotion = useReducedMotion();
 
   return (
-    <motion.div
+    <motion.button
       variants={staggerItem}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       onClick={onClick}
-      className="group relative h-full flex flex-col cursor-pointer"
+      type="button"
+      initial="rest"
+      whileHover={reduceMotion ? undefined : 'hover'}
+      animate="rest"
+      className="group relative cursor-pointer border-2 border-border hover:border-foreground transition-none bg-card h-full flex flex-col text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+      aria-label={`Open certificate details: ${cert.title}`}
     >
-      {/* Decorative Corners */}
-      <div className="absolute -top-1 -left-1 w-3 h-3 border-t border-l border-primary/50 z-20" />
-      <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b border-r border-primary/50 z-20" />
+      <motion.div
+        aria-hidden="true"
+        variants={rotatedBorderVariants}
+        className="pointer-events-none absolute -inset-1 border-4 border-primary opacity-0"
+        style={{ transformOrigin: 'top left' }}
+      />
+      <motion.div
+        aria-hidden="true"
+        variants={rotatedBorderSecondaryVariants}
+        className="pointer-events-none absolute -inset-1 border-2 border-foreground opacity-0"
+        style={{ transformOrigin: 'bottom right' }}
+      />
 
-      <div className="relative bg-surface border border-border group-hover:border-primary/40 transition-colors duration-500 overflow-hidden flex flex-col h-full flex-1">
-        {/* Spotlight Effect */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"
-          style={{ background: spotlight }}
-        />
+      {/* Top accent bar */}
+      <div className="h-1 bg-border group-hover:bg-primary transition-none" />
 
-        {/* Image/Thumbnail Area */}
-        <div className="relative w-full h-48 bg-background border-b border-border overflow-hidden">
-          {cert.image ? (
-            <Image
-              src={cert.image}
-              alt={cert.title}
-              fill
-              loading="lazy"
-              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              className="object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
-            />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center opacity-20">
-              <Award size={64} className="text-muted-foreground" />
-            </div>
-          )}
-
-          {/* Overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-
-          {/* Issuer Badge */}
-          <div className="absolute top-4 left-4 z-20">
-            <div className="tag-solid bg-background/80 backdrop-blur-sm border border-border flex items-center gap-2">
-              <ShieldCheck size={12} className="text-primary" />
-              <span className="text-[10px] uppercase font-mono tracking-wider">{cert.issuer}</span>
-            </div>
+      {/* Image area */}
+      <div className="relative w-full h-44 bg-surface border-b-2 border-border overflow-hidden">
+        {cert.image ? (
+          <Image
+            src={cert.image}
+            alt={cert.title}
+            fill
+            loading="lazy"
+            sizes="(max-width: 768px) 100vw, 25vw"
+            className="object-cover"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Award size={48} className="text-border" />
           </div>
+        )}
+
+        {/* Issuer tag */}
+        <div className="absolute top-3 left-3 z-20 bg-background border-2 border-border flex items-center gap-1.5 px-2 py-1">
+          <ShieldCheck size={10} className="text-primary" />
+          <span className="font-mono text-[9px] font-black uppercase tracking-wider">{cert.issuer}</span>
         </div>
 
-        {/* Content Area */}
-        <div className="p-6 md:p-8 flex flex-col flex-1 relative z-20">
-          <h3 className="text-xl md:text-2xl font-black text-foreground mb-4 tracking-tight group-hover:text-primary transition-colors duration-300 line-clamp-2">
-            {cert.title}
-          </h3>
+        {/* Overlay on hover */}
+        <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-none pointer-events-none" />
+      </div>
 
-          <div className="flex flex-col gap-2 mt-auto text-muted-foreground/60 group-hover:text-muted-foreground transition-colors">
-            <span className="text-xs uppercase tracking-widest font-mono">View Details &rarr;</span>
-          </div>
+      {/* Content */}
+      <div className="p-5 flex flex-col flex-1">
+        <h3 className="text-base font-black text-foreground group-hover:text-primary transition-none leading-tight tracking-tight line-clamp-2 mb-auto">
+          {cert.title}
+        </h3>
+        <div className="mt-4 flex items-center justify-between border-t-2 border-border pt-3">
+          <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+            View Details
+          </span>
+          <span className="font-black text-primary">→</span>
         </div>
       </div>
-    </motion.div>
+    </motion.button>
   );
 });
 
+function CertificateModal({
+  cert,
+  onClose,
+}: {
+  cert: Certificate;
+  onClose: () => void;
+}) {
+  const reduceMotion = useReducedMotion();
+  const overlayTransition = reduceMotion ? { duration: 0 } : { duration: 0, ease: 'linear' as const };
+
+  return createPortal(
+    <AnimatePresence>
+      <motion.div
+        initial={reduceMotion ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={overlayTransition}
+        className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      >
+        <div className="absolute inset-0 bg-background/95" onClick={onClose} />
+
+        <motion.div
+          initial={reduceMotion ? false : { x: 16, y: 16, opacity: 0 }}
+          animate={{ x: 0, y: 0, opacity: 1 }}
+          exit={{ x: 16, y: 16, opacity: 0 }}
+          transition={overlayTransition}
+          className="relative w-full max-w-3xl bg-background border-4 border-foreground flex flex-col md:flex-row overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Certificate details: ${cert.title}`}
+        >
+          <button
+            onClick={onClose}
+            className="absolute top-0 right-0 z-30 w-12 h-12 bg-foreground text-background flex items-center justify-center hover:bg-primary transition-none"
+            aria-label="Close"
+            type="button"
+          >
+            <X size={18} />
+          </button>
+
+          <div className="w-full md:w-1/2 relative bg-surface border-b-4 md:border-b-0 md:border-r-4 border-foreground min-h-[240px] md:min-h-[400px]">
+            {cert.image ? (
+              <Image
+                src={cert.image}
+                alt={cert.title}
+                fill
+                sizes="50vw"
+                className="object-contain p-8"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Award size={80} className="text-border" />
+              </div>
+            )}
+          </div>
+
+          <div className="w-full md:w-1/2 p-8 flex flex-col">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="h-1 w-8 bg-primary" />
+              <span className="font-mono text-[10px] font-black uppercase tracking-[0.25em] text-primary">
+                Certificate
+              </span>
+            </div>
+
+            <h3 className="text-2xl font-black text-foreground mb-6 tracking-tight leading-tight">
+              {cert.title}
+            </h3>
+
+            <div className="space-y-0 mb-8 flex-1 border-2 border-border">
+              {[
+                { label: 'Issuer', value: cert.issuer },
+                ...(cert.issue_date ? [{ label: 'Issued', value: formatDate(cert.issue_date) }] : []),
+                ...(cert.credential_id ? [{ label: 'Credential ID', value: cert.credential_id }] : []),
+              ].map((row, i) => (
+                <div key={row.label} className={`flex items-start p-4 ${i > 0 ? 'border-t-2 border-border' : ''}`}>
+                  <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground w-28 flex-shrink-0 pt-0.5">
+                    {row.label}
+                  </span>
+                  <span className="font-bold text-sm break-all">{row.value}</span>
+                </div>
+              ))}
+            </div>
+
+            {cert.credential_url && (
+              <a
+                href={cert.credential_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 p-4 bg-primary text-primary-foreground font-black tracking-[0.15em] uppercase font-mono text-xs hover:bg-foreground hover:text-background transition-none border-4 border-primary"
+              >
+                Verify Credential
+                <ExternalLink size={14} />
+              </a>
+            )}
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>,
+    document.body
+  );
+}
+
 const Certificates = memo(function Certificates({ certificates }: CertificatesProps) {
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (selectedCert) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
+    document.body.style.overflow = selectedCert ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [selectedCert]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!selectedCert) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedCert(null);
     };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
   }, [selectedCert]);
 
   if (!certificates || certificates.length === 0) return null;
 
   return (
-    <section id="certificates" className="py-24 md:py-32 relative overflow-hidden bg-background border-t border-border">
-      {/* Decorative Prefix Text */}
-      <div className="absolute top-8 left-4 text-[12vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter" aria-hidden="true">
+    <section id="certificates" className="py-24 md:py-32 relative overflow-hidden border-t-4 border-border">
+      {/* Watermark */}
+      <div className="absolute top-0 left-0 text-[12vw] font-black text-foreground/[0.03] leading-none select-none pointer-events-none tracking-tighter" aria-hidden="true">
         ACHV
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
-        <ScrollReveal>
-          <div className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <div className="max-w-2xl">
-              <p className="section-label mb-6">Achievements</p>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-4">
-                Licenses &<br />
-                <span className="text-primary">Certifications.</span>
-              </h2>
-            </div>
-            <p className="text-muted-foreground text-sm max-w-xs font-mono uppercase tracking-widest leading-relaxed border-l border-primary pl-4">
-              Validated expertise and continuous learning milestones.
-            </p>
-          </div>
-        </ScrollReveal>
+        <BrutalistSectionHeader
+          number="05"
+          label="Achievements"
+          title="Licenses &"
+          accentTitle="Certifications."
+          subtitle="Validated expertise and continuous learning milestones."
+        />
 
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
+          viewport={{ once: true, margin: '-60px' }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-0 border-2 border-border"
         >
-          {certificates.map((cert) => (
-            <CertificateCard key={cert.id} cert={cert} onClick={() => setSelectedCert(cert)} />
+          {certificates.map((cert, i) => (
+            <div
+              key={cert.id}
+              className={[
+                i % 4 !== 3 ? 'border-r-2 border-border' : '',
+                i < certificates.length - (certificates.length % 4 || 4) ? 'border-b-2 border-border' : '',
+              ].join(' ')}
+            >
+              <CertificateCard cert={cert} onClick={() => setSelectedCert(cert)} />
+            </div>
           ))}
         </motion.div>
       </div>
 
-      {/* Modal */}
-      <AnimatePresence>
-        {selectedCert && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
-          >
-            {/* Backdrop */}
-            <div
-              className="absolute inset-0 bg-background/90 backdrop-blur-md"
-              onClick={() => setSelectedCert(null)}
-            />
-
-            {/* Modal Content */}
-            <motion.div
-              initial={{ scale: 0.95, y: 20, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.95, y: 20, opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-3xl bg-surface border border-border shadow-2xl flex flex-col md:flex-row overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary z-20 m-2" />
-
-              {/* Image Section */}
-              <div className="w-full md:w-1/2 relative bg-background border-b md:border-b-0 md:border-r border-border min-h-[250px] md:min-h-[400px]">
-                {selectedCert.image ? (
-                  <Image
-                    src={selectedCert.image}
-                    alt={selectedCert.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-contain p-4 md:p-8"
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center opacity-20">
-                    <Award size={80} className="text-muted-foreground" />
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-80" />
-              </div>
-
-              {/* Detail Section */}
-              <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col">
-                <button
-                  onClick={() => setSelectedCert(null)}
-                  className="absolute top-4 right-4 z-30 p-2 bg-background border border-border text-foreground hover:text-primary transition-colors hover:border-primary/50"
-                  aria-label="Close certificate detail"
-                >
-                  <X size={16} />
-                </button>
-
-                <div className="mb-2">
-                  <span className="text-[10px] font-mono tracking-widest text-primary uppercase">
-                    Certificate Detail
-                  </span>
-                </div>
-
-                <h3 className="text-2xl md:text-3xl font-black text-foreground mb-6 tracking-tight leading-tight">
-                  {selectedCert.title}
-                </h3>
-
-                <div className="space-y-4 mb-8 flex-1">
-                  <div>
-                    <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Issuer</p>
-                    <p className="font-semibold">{selectedCert.issuer}</p>
-                  </div>
-
-                  {selectedCert.issue_date && (
-                    <div>
-                      <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Issue Date</p>
-                      <p className="font-semibold">{formatDate(selectedCert.issue_date)}</p>
-                    </div>
-                  )}
-
-                  {selectedCert.credential_id && (
-                    <div>
-                      <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Credential ID</p>
-                      <p className="font-mono text-sm">{selectedCert.credential_id}</p>
-                    </div>
-                  )}
-                </div>
-
-                {selectedCert.credential_url && (
-                  <a
-                    href={selectedCert.credential_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-auto flex w-full inline-flex items-center justify-center gap-2 p-4 bg-primary text-white hover:bg-primary/90 transition-colors font-bold tracking-widest uppercase font-mono text-xs"
-                  >
-                    Verify Credential
-                    <ExternalLink size={14} />
-                  </a>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {mounted && selectedCert ? (
+        <CertificateModal cert={selectedCert} onClose={() => setSelectedCert(null)} />
+      ) : null}
     </section>
   );
 });

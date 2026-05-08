@@ -87,6 +87,70 @@
     from { transform: translateX(0) }
     to { transform: translateX(-50%) }
   }
+
+  /* ============ BRUTALIST ANIMATIONS ============ */
+  @keyframes brutalist-border-pulse {
+    0%, 100% { 
+      border-color: hsl(var(--brutalist-dark-border-primary));
+    }
+    50% { 
+      border-color: hsl(var(--brutalist-dark-accent-yellow));
+    }
+  }
+
+  @keyframes brutalist-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes brutalist-shift-in {
+    0% {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes brutalist-scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes brutalist-reveal-up {
+    from {
+      opacity: 0;
+      height: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    to {
+      opacity: 1;
+      height: auto;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+  }
+
+  --animate-brutalist-pulse: brutalist-border-pulse 2s linear infinite;
+  --animate-brutalist-slide: brutalist-slide-in 0.3s linear;
+  --animate-brutalist-shift: brutalist-shift-in 0.3s linear;
+  --animate-brutalist-scale: brutalist-scale-in 0.3s linear;
+  --animate-brutalist-reveal: brutalist-reveal-up 0.4s linear;
 }
 
 :root {
@@ -112,6 +176,46 @@
   --ring: 220 100% 32%;
   --surface: 0 0% 8%;              /* #141414 */
   --radius: 0rem;                   /* SHARP — no border radius */
+
+  /* ============ BRUTALIST DARK MODE ============ */
+  /* Surfaces */
+  --brutalist-dark-bg: 0 0% 3.9%;         /* #0a0a0a */
+  --brutalist-dark-surface-1: 0 0% 6%;    /* #0f0f0f */
+  --brutalist-dark-surface-2: 0 0% 8%;    /* #141414 */
+  --brutalist-dark-surface-accent: 0 0% 12%; /* #1f1f1f */
+  
+  /* Text */
+  --brutalist-dark-text-primary: 0 0% 96%;   /* #f5f5f5 */
+  --brutalist-dark-text-secondary: 0 0% 75%; /* #bfbfbf */
+  --brutalist-dark-text-muted: 0 0% 55%;     /* #8c8c8c */
+  
+  /* Borders Primary (White) */
+  --brutalist-dark-border-primary: 0 0% 100%;   /* #ffffff */
+  --brutalist-dark-border-primary-hover: 0 0% 95%; /* #f2f2f2 */
+  
+  /* Borders Secondary (Gray) */
+  --brutalist-dark-border-secondary: 0 0% 30%;    /* #4d4d4d */
+  --brutalist-dark-border-secondary-hover: 0 0% 40%; /* #666666 */
+  
+  /* Accent Colors */
+  --brutalist-dark-accent-primary: 220 100% 32%;  /* #0043CC */
+  --brutalist-dark-accent-yellow: 60 100% 50%;    /* #ffff00 */
+  --brutalist-dark-accent-cyan: 180 100% 50%;     /* #00ffff */
+  
+  /* Status */
+  --brutalist-dark-status-error: 0 100% 50%;      /* #ff0000 */
+  --brutalist-dark-status-success: 120 100% 40%;  /* #00cc00 */
+  --brutalist-dark-status-warning: 45 100% 50%;   /* #ffcc00 */
+  
+  /* Animation & Sizing */
+  --brutalist-border-1: 1px;
+  --brutalist-border-2: 2px;
+  --brutalist-border-3: 3px;
+  --brutalist-border-4: 4px;
+  --brutalist-duration-fast: 150ms;
+  --brutalist-duration-normal: 300ms;
+  --brutalist-duration-slow: 500ms;
+  --brutalist-stagger: 60ms;
 }
 
 :root[data-theme="light"] {
@@ -137,6 +241,46 @@
   --ring: 220 100% 32%;            /* #0043CC dark sharp blue */
   --surface: 0 0% 100%;            /* #ffffff pure white SOLID */
   --radius: 0rem;                   /* SHARP — no border radius */
+
+  /* ============ BRUTALIST LIGHT MODE ============ */
+  /* Surfaces */
+  --brutalist-dark-bg: 0 0% 100%;         /* #ffffff */
+  --brutalist-dark-surface-1: 0 0% 98%;   /* #fafafa */
+  --brutalist-dark-surface-2: 0 0% 96%;   /* #f5f5f5 */
+  --brutalist-dark-surface-accent: 0 0% 92%; /* #ebebeb */
+  
+  /* Text */
+  --brutalist-dark-text-primary: 220 40% 18%;   /* #0d2454 */
+  --brutalist-dark-text-secondary: 220 20% 40%; /* #4d6080 */
+  --brutalist-dark-text-muted: 220 10% 60%;     /* #99a6b3 */
+  
+  /* Borders Primary (Black) */
+  --brutalist-dark-border-primary: 0 0% 0%;      /* #000000 */
+  --brutalist-dark-border-primary-hover: 0 0% 10%; /* #1a1a1a */
+  
+  /* Borders Secondary (Gray) */
+  --brutalist-dark-border-secondary: 220 30% 75%;     /* #b8cde3 */
+  --brutalist-dark-border-secondary-hover: 220 30% 65%; /* #9ab3cc */
+  
+  /* Accent Colors */
+  --brutalist-dark-accent-primary: 220 100% 32%;  /* #0043CC */
+  --brutalist-dark-accent-yellow: 0 100% 50%;     /* #ff0000 */
+  --brutalist-dark-accent-cyan: 320 100% 50%;     /* #ff0066 */
+  
+  /* Status */
+  --brutalist-dark-status-error: 0 100% 40%;      /* #cc0000 */
+  --brutalist-dark-status-success: 120 70% 35%;   /* #008f00 */
+  --brutalist-dark-status-warning: 35 100% 40%;   /* #cc5500 */
+  
+  /* Animation & Sizing (same as dark mode) */
+  --brutalist-border-1: 1px;
+  --brutalist-border-2: 2px;
+  --brutalist-border-3: 3px;
+  --brutalist-border-4: 4px;
+  --brutalist-duration-fast: 150ms;
+  --brutalist-duration-normal: 300ms;
+  --brutalist-duration-slow: 500ms;
+  --brutalist-stagger: 60ms;
 }
 
 @layer base {
