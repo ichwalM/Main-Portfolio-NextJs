@@ -5,7 +5,6 @@ import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { Menu, X, LayoutGrid } from 'lucide-react';
-import { fadeInDown, staggerContainer, staggerItem } from '@/lib/animations/variants';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 
 const navItems = [
@@ -22,6 +21,7 @@ const navItems = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
   const pathname = usePathname();
   const isHome = pathname === '/';
 
@@ -47,10 +47,45 @@ export default function Header() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+
+      if (!isHome) return;
+
+      // Scrollspy logic
+      const sections = navItems.map(item => item.href.replace('#', ''));
+      let current = '';
+      
+      // If at top of page, set home
+      if (window.scrollY < 100) {
+        setActiveSection('home');
+        return;
+      }
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          // Adjust offset to detect section when it's near the middle of the viewport
+          if (rect.top <= 250 && rect.bottom >= 250) {
+            current = section;
+          }
+        }
+      }
+
+      // If reached the bottom of the page, set the last section
+      if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight - 50) {
+         current = sections[sections.length - 1];
+      }
+
+      if (current) {
+        setActiveSection(current);
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Initial call
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHome]);
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -65,23 +100,12 @@ export default function Header() {
     closed: {
       opacity: 0,
       x: "100%",
-      transition: {
-        type: "tween",
-        duration: 0.3,
-        ease: [0.22, 1, 0.36, 1],
-        when: "afterChildren",
-      },
+      transition: { type: "tween", duration: 0.3, ease: [0.22, 1, 0.36, 1], when: "afterChildren" },
     },
     open: {
       opacity: 1,
       x: 0,
-      transition: {
-        type: "tween",
-        duration: 0.3,
-        ease: [0.22, 1, 0.36, 1],
-        staggerChildren: 0.07,
-        delayChildren: 0.15,
-      },
+      transition: { type: "tween", duration: 0.3, ease: [0.22, 1, 0.36, 1], staggerChildren: 0.07, delayChildren: 0.15 },
     },
   };
 
@@ -91,14 +115,11 @@ export default function Header() {
   };
 
   return (
-    <motion.header
-      initial="hidden"
-      animate="visible"
-      variants={fadeInDown}
+    <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled || isMobileMenuOpen
-          ? 'bg-background border-b border-border py-4'
-          : 'py-6'
+          ? 'bg-background/95 backdrop-blur-md border-b border-border py-4 shadow-sm'
+          : 'bg-transparent py-6'
       }`}
     >
       <nav className="container mx-auto px-6 flex items-center justify-between">
@@ -112,51 +133,51 @@ export default function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <motion.ul
-          variants={staggerContainer}
-          className="hidden md:flex items-center gap-8"
-        >
+        <ul className="hidden xl:flex items-center gap-3">
           {navItems.map((item) => {
             const href = item.href.startsWith('#') && !isHome ? `/${item.href}` : item.href;
+            const targetId = item.href.replace('#', '');
+            const isActive = isHome && activeSection === targetId;
+
             return (
-              <motion.li key={item.name} variants={staggerItem}>
+              <li key={item.name}>
                 <Link
                   href={href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className="text-xs font-semibold tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors duration-200 hover-underline"
+                  className={`flex items-center justify-center px-4 py-2 text-[10px] font-black tracking-[0.12em] uppercase border transition-all duration-300 ${
+                    isActive 
+                      ? 'bg-foreground text-background border-foreground' 
+                      : 'border-border text-muted-foreground hover:bg-foreground hover:text-background'
+                  }`}
                 >
                   {item.name}
                 </Link>
-              </motion.li>
+              </li>
             );
           })}
-        </motion.ul>
+        </ul>
 
-        {/* CTA Button & Theme Toggle — Sharp Rectangle */}
+        {/* CTA Button & Theme Toggle */}
         <div className="hidden md:flex items-center gap-3">
-          <motion.div variants={staggerItem}>
-            <ThemeToggle />
-          </motion.div>
-          <motion.div variants={staggerItem}>
-            <Link
-              href="/wall-app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2 bg-primary text-primary-foreground text-xs font-bold tracking-[0.1em] uppercase hover:bg-primary/90 transition-colors duration-200 flex items-center gap-2"
-            >
-              <LayoutGrid size={14} strokeWidth={2.5} />
-              Wall App
-            </Link>
-          </motion.div>
+          <ThemeToggle />
+          <Link
+            href="/wall-app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground text-[10px] font-black tracking-[0.1em] uppercase hover:bg-primary/90 transition-all duration-300 border border-primary h-10"
+          >
+            <LayoutGrid size={14} strokeWidth={2.5} />
+            Wall App
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden z-50 relative text-foreground p-2"
+          className="xl:hidden z-50 relative text-foreground p-2 border border-border hover:bg-foreground hover:text-background transition-colors h-10 w-10 flex items-center justify-center"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
         >
-          {isMobileMenuOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
+          {isMobileMenuOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
         </button>
 
         {/* Mobile Menu Overlay */}
@@ -167,7 +188,7 @@ export default function Header() {
               animate="open"
               exit="closed"
               variants={menuVariants}
-              className="fixed inset-0 top-0 left-0 w-full h-dvh bg-background z-40 flex flex-col items-start justify-center md:hidden overflow-hidden border-l border-border"
+              className="fixed inset-0 top-0 left-0 w-full h-dvh bg-background z-40 flex flex-col items-start justify-center xl:hidden overflow-hidden border-l border-border"
               style={{ padding: '3rem 2.5rem' }}
             >
               {/* Decorative number */}
@@ -178,14 +199,21 @@ export default function Header() {
               <ul className="flex flex-col gap-3 w-full">
                 {navItems.map((item, i) => {
                   const href = item.href.startsWith('#') && !isHome ? `/${item.href}` : item.href;
+                  const targetId = item.href.replace('#', '');
+                  const isActive = isHome && activeSection === targetId;
+
                   return (
-                    <motion.li key={item.name} variants={itemVariants} className="w-full border-b border-border/40 pb-3">
+                    <motion.li key={item.name} variants={itemVariants} className="w-full pb-2">
                       <Link
                         href={href}
-                        className="flex items-baseline gap-4 text-4xl font-black tracking-tighter text-foreground hover:text-primary transition-colors"
+                        className={`flex items-center gap-4 text-3xl font-black tracking-tighter uppercase transition-colors px-4 py-3 border ${
+                          isActive
+                            ? 'bg-foreground text-background border-foreground'
+                            : 'border-border text-foreground hover:bg-foreground hover:text-background'
+                        }`}
                         onClick={(e) => handleNavClick(e, item.href)}
                       >
-                        <span className="text-xs font-mono text-primary/60">0{i + 1}</span>
+                        <span className={`text-xs font-mono ${isActive ? 'text-background/60' : 'text-primary/60'}`}>0{i + 1}</span>
                         {item.name}
                       </Link>
                     </motion.li>
@@ -200,7 +228,7 @@ export default function Header() {
                     href="/wall-app"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full inline-flex justify-center items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-bold text-lg tracking-wide hover:bg-primary/90 transition-colors text-center"
+                    className="w-full inline-flex justify-center items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-bold text-lg tracking-wide hover:bg-primary/90 transition-colors text-center border border-primary"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <LayoutGrid size={20} strokeWidth={2.5} />
@@ -212,6 +240,6 @@ export default function Header() {
           )}
         </AnimatePresence>
       </nav>
-    </motion.header>
+    </header>
   );
 }

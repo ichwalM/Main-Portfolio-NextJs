@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, memo } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, useMotionTemplate, useMotionValue, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { Award, ExternalLink, Calendar, ShieldCheck, X } from 'lucide-react';
@@ -97,6 +98,11 @@ const CertificateCard = memo(function CertificateCard({ cert, onClick }: { cert:
 
 const Certificates = memo(function Certificates({ certificates }: CertificatesProps) {
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (selectedCert) {
@@ -148,106 +154,109 @@ const Certificates = memo(function Certificates({ certificates }: CertificatesPr
       </div>
 
       {/* Modal */}
-      <AnimatePresence>
-        {selectedCert && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
-          >
-            {/* Backdrop */}
-            <div
-              className="absolute inset-0 bg-background/90 backdrop-blur-md"
-              onClick={() => setSelectedCert(null)}
-            />
-
-            {/* Modal Content */}
+      {mounted && createPortal(
+        <AnimatePresence>
+          {selectedCert && (
             <motion.div
-              initial={{ scale: 0.95, y: 20, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.95, y: 20, opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-3xl bg-surface border border-border shadow-2xl flex flex-col md:flex-row overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
             >
-              <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary z-20 m-2" />
+              {/* Backdrop */}
+              <div
+                className="absolute inset-0 bg-background/90 backdrop-blur-md z-0"
+                onClick={() => setSelectedCert(null)}
+              />
 
-              {/* Image Section */}
-              <div className="w-full md:w-1/2 relative bg-background border-b md:border-b-0 md:border-r border-border min-h-[250px] md:min-h-[400px]">
-                {selectedCert.image ? (
-                  <Image
-                    src={selectedCert.image}
-                    alt={selectedCert.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-contain p-4 md:p-8"
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center opacity-20">
-                    <Award size={80} className="text-muted-foreground" />
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-80" />
-              </div>
+              {/* Modal Content */}
+              <motion.div
+                initial={{ scale: 0.95, y: 20, opacity: 0 }}
+                animate={{ scale: 1, y: 0, opacity: 1 }}
+                exit={{ scale: 0.95, y: 20, opacity: 0 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                className="relative z-10 w-full max-w-3xl bg-card border border-border shadow-2xl flex flex-col md:flex-row overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary z-20 m-2" />
 
-              {/* Detail Section */}
-              <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col">
-                <button
-                  onClick={() => setSelectedCert(null)}
-                  className="absolute top-4 right-4 z-30 p-2 bg-background border border-border text-foreground hover:text-primary transition-colors hover:border-primary/50"
-                  aria-label="Close certificate detail"
-                >
-                  <X size={16} />
-                </button>
-
-                <div className="mb-2">
-                  <span className="text-[10px] font-mono tracking-widest text-primary uppercase">
-                    Certificate Detail
-                  </span>
-                </div>
-
-                <h3 className="text-2xl md:text-3xl font-black text-foreground mb-6 tracking-tight leading-tight">
-                  {selectedCert.title}
-                </h3>
-
-                <div className="space-y-4 mb-8 flex-1">
-                  <div>
-                    <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Issuer</p>
-                    <p className="font-semibold">{selectedCert.issuer}</p>
-                  </div>
-
-                  {selectedCert.issue_date && (
-                    <div>
-                      <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Issue Date</p>
-                      <p className="font-semibold">{formatDate(selectedCert.issue_date)}</p>
+                {/* Image Section */}
+                <div className="w-full md:w-1/2 relative bg-background border-b md:border-b-0 md:border-r border-border min-h-[250px] md:min-h-[400px]">
+                  {selectedCert.image ? (
+                    <Image
+                      src={selectedCert.image}
+                      alt={selectedCert.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-contain p-4 md:p-8"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center opacity-20">
+                      <Award size={80} className="text-muted-foreground" />
                     </div>
                   )}
-
-                  {selectedCert.credential_id && (
-                    <div>
-                      <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Credential ID</p>
-                      <p className="font-mono text-sm">{selectedCert.credential_id}</p>
-                    </div>
-                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-80" />
                 </div>
 
-                {selectedCert.credential_url && (
-                  <a
-                    href={selectedCert.credential_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-auto flex w-full inline-flex items-center justify-center gap-2 p-4 bg-primary text-white hover:bg-primary/90 transition-colors font-bold tracking-widest uppercase font-mono text-xs"
+                {/* Detail Section */}
+                <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col">
+                  <button
+                    onClick={() => setSelectedCert(null)}
+                    className="absolute top-4 right-4 z-30 p-2 bg-background border border-border text-foreground hover:text-primary transition-colors hover:border-primary/50"
+                    aria-label="Close certificate detail"
                   >
-                    Verify Credential
-                    <ExternalLink size={14} />
-                  </a>
-                )}
-              </div>
+                    <X size={16} />
+                  </button>
+
+                  <div className="mb-2">
+                    <span className="text-[10px] font-mono tracking-widest text-primary uppercase">
+                      Certificate Detail
+                    </span>
+                  </div>
+
+                  <h3 className="text-2xl md:text-3xl font-black text-foreground mb-6 tracking-tight leading-tight">
+                    {selectedCert.title}
+                  </h3>
+
+                  <div className="space-y-4 mb-8 flex-1">
+                    <div>
+                      <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Issuer</p>
+                      <p className="font-semibold">{selectedCert.issuer}</p>
+                    </div>
+
+                    {selectedCert.issue_date && (
+                      <div>
+                        <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Issue Date</p>
+                        <p className="font-semibold">{formatDate(selectedCert.issue_date)}</p>
+                      </div>
+                    )}
+
+                    {selectedCert.credential_id && (
+                      <div>
+                        <p className="text-[10px] uppercase font-mono tracking-wider text-muted-foreground mb-1">Credential ID</p>
+                        <p className="font-mono text-sm">{selectedCert.credential_id}</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {selectedCert.credential_url && (
+                    <a
+                      href={selectedCert.credential_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-auto flex w-full inline-flex items-center justify-center gap-2 p-4 bg-primary text-white hover:bg-primary/90 transition-colors font-bold tracking-widest uppercase font-mono text-xs"
+                    >
+                      Verify Credential
+                      <ExternalLink size={14} />
+                    </a>
+                  )}
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 });
