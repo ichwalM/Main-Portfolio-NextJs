@@ -100,9 +100,13 @@ const AboutSection = memo(function AboutSection({ about }: AboutSectionProps) {
                     &ldquo;
                   </div>
 
-                  <p className="text-base md:text-lg text-muted-foreground leading-relaxed font-normal mb-8 pt-2 text-justify">
-                    {about.about_deskripsi}
-                  </p>
+                  <div className="text-xs md:text-lg text-muted-foreground leading-relaxed font-normal mb-8 pt-2 text-justify space-y-4">
+                    {about.about_deskripsi.split('\n').map((paragraph, index) => (
+                      paragraph.trim() ? (
+                        <p key={index}>{paragraph}</p>
+                      ) : null
+                    ))}
+                  </div>
 
                   {/* Decorative dots */}
                   <div className="flex gap-2" aria-hidden="true">
