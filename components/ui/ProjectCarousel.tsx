@@ -26,11 +26,11 @@ const ProjectCard = memo(function ProjectCard({ project, idx }: { project: Proje
     <motion.div
       key={project.id}
       variants={staggerItem}
-      className="group relative border border-border hover:border-primary/40 transition-all duration-300 bg-card overflow-hidden"
+      className="group relative rounded-xl overflow-hidden glass-card hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300"
     >
       {/* Image */}
       <Link href={`/projects/${project.slug}`} className="block relative">
-        <div className="relative h-52 overflow-hidden bg-surface">
+        <div className="relative h-52 overflow-hidden">
           <Image
             src={thumbnail}
             alt={project.title}
@@ -42,13 +42,13 @@ const ProjectCard = memo(function ProjectCard({ project, idx }: { project: Proje
           <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/30 to-transparent" />
 
           {/* Arrow on hover */}
-          <div className="absolute top-4 right-4 w-8 h-8 bg-background border border-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute top-4 right-4 w-9 h-9 rounded-lg glass-card flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <ArrowUpRight className="w-4 h-4 text-primary" />
           </div>
 
           {/* Featured badge */}
           {project.featured && (
-            <div className="absolute top-4 left-4 flex items-center gap-1.5 px-2.5 py-1 bg-primary text-white">
+            <div className="absolute top-4 left-4 tag-solid flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 bg-white animate-pulse" />
               <span className="text-[9px] font-bold uppercase tracking-[0.12em]">Featured</span>
             </div>
@@ -68,7 +68,7 @@ const ProjectCard = memo(function ProjectCard({ project, idx }: { project: Proje
           </h3>
         </Link>
 
-        <div className="h-px bg-border" />
+        <div className="h-px bg-gradient-to-r from-primary/30 via-border to-transparent" />
 
         <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2">
           {project.description}
@@ -113,7 +113,7 @@ const ProjectCard = memo(function ProjectCard({ project, idx }: { project: Proje
           <Link href={`/projects/${project.slug}`} className="ml-auto">
             <motion.div
               whileHover={{ x: 2 }}
-              className="flex items-center gap-1.5 px-4 py-1.5 bg-primary text-white text-xs font-bold tracking-wide hover:bg-primary/90 transition-colors"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg btn-shimmer text-white text-xs font-bold tracking-wide shadow-md shadow-primary/20"
             >
               Details
               <ArrowUpRight className="w-3 h-3" />
@@ -139,9 +139,9 @@ const ProjectCarousel = memo(function ProjectCarousel({ projects }: ProjectCarou
         <ScrollReveal>
           <div className="mb-12">
             <p className="section-label mb-6">Work</p>
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-4">
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-4 gradient-text">
               Featured<br />
-              <span className="text-primary">Work.</span>
+              <span className="text-accent">Work.</span>
             </h2>
             <p className="text-muted-foreground text-base max-w-xl">
               A selection of my best projects, crafted with precision and passion.

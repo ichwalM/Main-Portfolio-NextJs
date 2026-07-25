@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import Image from 'next/image';
@@ -60,11 +60,11 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
       className="group relative h-full"
     >
-      <div className="relative h-full border border-border hover:border-primary/50 transition-all duration-300 bg-card overflow-hidden">
+      <div className="relative h-full rounded-xl overflow-hidden glass-card hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300">
 
         {/* Image Section */}
         <Link href={`/projects/${project.slug}`} className="block relative">
-          <div className="relative h-56 overflow-hidden bg-surface">
+          <div className="relative h-56 overflow-hidden">
             <motion.div
               className="w-full h-full relative"
               animate={isHovered ? { scale: 1.06 } : { scale: 1 }}
@@ -80,7 +80,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             </motion.div>
 
             {/* Dark gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-card via-card/60 to-transparent opacity-90" />
+            <div className="absolute inset-0 bg-gradient-to-t from-card/95 via-card/50 to-transparent" />
             
             {/* Blue overlay on hover */}
             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
@@ -118,7 +118,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           </Link>
 
           {/* Thin separator */}
-          <div className="h-px bg-border" />
+          <div className="h-px bg-gradient-to-r from-primary/30 via-border to-transparent" />
 
           {/* Description */}
           <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2">
@@ -178,7 +178,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               <motion.div
                 whileHover={{ x: 3 }}
                 whileTap={{ scale: 0.97 }}
-                className="flex items-center gap-1.5 px-4 py-2 bg-primary text-white text-xs font-bold tracking-wide hover:bg-primary/90 transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg btn-shimmer text-white text-xs font-bold tracking-wide shadow-md shadow-primary/20"
               >
                 View Details
                 <ArrowUpRight className="w-3.5 h-3.5" />
@@ -193,4 +193,3 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
     </motion.div>
   );
 }
-

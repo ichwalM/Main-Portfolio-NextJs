@@ -152,7 +152,7 @@ export default function ContactForm() {
   };
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-5">
+    <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-6">
 
       {/* ── Success banner ── */}
       <AnimatePresence>
@@ -161,7 +161,7 @@ export default function ContactForm() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="flex items-start gap-3 p-4 border border-primary/30 bg-primary/5"
+            className="flex items-start gap-3 p-4 rounded-lg glass-card border border-primary/30"
           >
             <CheckCircle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
             <div>
@@ -181,7 +181,7 @@ export default function ContactForm() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="flex items-start gap-3 p-4 border border-red-500/30 bg-red-500/5"
+            className="flex items-start gap-3 p-4 rounded-lg glass-card border border-red-500/30"
           >
             <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
             <div>
@@ -193,7 +193,7 @@ export default function ContactForm() {
       </AnimatePresence>
 
       {/* ── Name + Email ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <InputField
           id="contact-name"
           label="Name"
@@ -242,7 +242,7 @@ export default function ContactForm() {
         type="submit"
         disabled={status === 'loading'}
         whileTap={{ scale: 0.98 }}
-        className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 bg-primary text-white text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl btn-shimmer text-white font-bold text-sm tracking-wide shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-shadow duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {status === 'loading' ? (
           <>

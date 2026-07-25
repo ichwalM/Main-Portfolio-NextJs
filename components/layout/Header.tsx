@@ -146,7 +146,7 @@ export default function Header() {
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`flex items-center justify-center px-4 py-2 text-[10px] font-black tracking-[0.12em] uppercase border transition-all duration-300 ${
                     isActive 
-                      ? 'bg-foreground text-background border-foreground' 
+                      ? 'border-primary/60 text-primary' 
                       : 'border-border text-muted-foreground hover:bg-foreground hover:text-background'
                   }`}
                 >
@@ -173,7 +173,7 @@ export default function Header() {
 
         {/* Mobile Menu Button */}
         <button
-          className="xl:hidden z-50 relative text-foreground p-2 border border-border hover:bg-foreground hover:text-background transition-colors h-10 w-10 flex items-center justify-center"
+          className="xl:hidden z-50 relative w-12 h-12 rounded-full glass-card flex items-center justify-center"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -188,7 +188,7 @@ export default function Header() {
               animate="open"
               exit="closed"
               variants={menuVariants}
-              className="fixed inset-0 top-0 left-0 w-full h-dvh bg-background z-40 flex flex-col items-start justify-center xl:hidden overflow-hidden border-l border-border"
+              className="fixed inset-0 top-0 left-0 w-full h-dvh bg-background/80 backdrop-blur-2xl z-40 flex flex-col items-start justify-center xl:hidden overflow-hidden"
               style={{ padding: '3rem 2.5rem' }}
             >
               {/* Decorative number */}
@@ -206,10 +206,10 @@ export default function Header() {
                     <motion.li key={item.name} variants={itemVariants} className="w-full pb-2">
                       <Link
                         href={href}
-                        className={`flex items-center gap-4 text-3xl font-black tracking-tighter uppercase transition-colors px-4 py-3 border ${
+                        className={`flex items-center gap-4 text-3xl font-black tracking-tighter uppercase transition-colors px-4 py-3 rounded-xl glass-card hover:border-primary/40 ${
                           isActive
-                            ? 'bg-foreground text-background border-foreground'
-                            : 'border-border text-foreground hover:bg-foreground hover:text-background'
+                            ? 'border-primary/60 text-primary'
+                            : 'border-transparent'
                         }`}
                         onClick={(e) => handleNavClick(e, item.href)}
                       >

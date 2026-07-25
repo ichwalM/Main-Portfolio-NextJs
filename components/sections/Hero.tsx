@@ -27,7 +27,7 @@ const Hero = memo(function Hero({ profile }: HeroProps) {
   const socialLinks = profile?.social_links || {};
 
   return (
-    <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden w-full py-20 lg:py-0">
+    <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden w-full py-20 lg:py-0 bg-background">
       {/* Background */}
       <div className="absolute inset-0 z-0 bg-background">
         <Threads amplitude={1} distance={0} enableMouseInteraction={true} />
@@ -70,9 +70,9 @@ const Hero = memo(function Hero({ profile }: HeroProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25 }}
             >
-              <h1 className="text-6xl sm:text-7xl lg:text-9xl font-black tracking-tighter leading-none">
+              <h1 className="text-6xl sm:text-7xl lg:text-9xl font-black tracking-tighter leading-none text-glow">
                 {name}
-                <span className="text-primary">.</span>
+                <span className="text-accent">.</span>
               </h1>
             </motion.div>
 

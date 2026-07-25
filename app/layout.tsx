@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, DM_Mono } from "next/font/google";
+import { Orbitron, Exo_2 } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -9,18 +9,18 @@ import { ThemeProvider } from "@/lib/context/ThemeContext";
 import { WebVitalsReporter } from "@/app/web-vitals";
 import { Analytics } from "@vercel/analytics/next";
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
+const orbitron = Orbitron({
+  subsets: ['latin'],
   variable: '--font-sans',
-  weight: ['300', '400', '500', '600', '700'],
-  display: 'swap',  // Prevents invisible text during font load (FOIT)
+  weight: ['400','500','600','700','800','900'],
+  display: 'swap',
 });
 
-const dmMono = DM_Mono({
-  subsets: ["latin"],
+const exo2 = Exo_2({
+  subsets: ['latin'],
   variable: '--font-mono',
-  weight: ['300', '400', '500'],
-  style: ['normal', 'italic'],
+  weight: ['300','400','500','600'],
+  style: ['normal','italic'],
   display: 'swap',
 });
 
@@ -119,7 +119,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${dmMono.variable}`}>
+    <html lang="en" className={`${orbitron.variable} ${exo2.variable}`}>
       <body className="antialiased">
         <ThemeProvider>
           <WebVitalsReporter />

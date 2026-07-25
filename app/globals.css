@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 @plugin "tailwindcss-animate";
 
@@ -33,8 +33,8 @@
   --color-surface: hsl(var(--surface));
 
   --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-sm: calc(var(--radius) - 8px);
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
@@ -42,7 +42,7 @@
   --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
   --animate-beam: beam 10s linear infinite;
 
-  /* Aceternity Animations — kept for Threads component */
+  /* Aceternity Animations â€” kept for Threads component */
   --animate-first: moveVertical 30s ease infinite;
   --animate-second: moveInCircle 20s reverse infinite;
   --animate-third: moveInCircle 40s linear infinite;
@@ -90,53 +90,53 @@
 }
 
 :root {
-  /* Dark Mode — Sharp Dark Editorial Palette */
-  --background: 0 0% 3.9%;        /* #0a0a0a near-black */
-  --foreground: 0 0% 96%;          /* #f5f5f5 */
+  /* Dark Mode â€” Sharp Dark Editorial Palette */
+  --background: 240 11% 9%;        /* #0a0a0a near-black */
+  --foreground: 210 40% 98%;          /* #f5f5f5 */
   --card: 0 0% 6%;
   --card-foreground: 0 0% 96%;
   --popover: 0 0% 6%;
   --popover-foreground: 0 0% 96%;
-  --primary: 220 100% 32%;         /* #0043CC dark sharp blue */
+  --primary: 262 83% 58%;         /* #0043CC dark sharp blue */
   --primary-foreground: 0 0% 100%;
   --secondary: 0 0% 9%;
   --secondary-foreground: 0 0% 96%;
   --muted: 0 0% 9%;
   --muted-foreground: 0 0% 55%;
-  --accent: 220 100% 32%;          /* Same as primary — dark sharp blue */
+  --accent: 43 96% 56%;          /* Same as primary â€” dark sharp blue */
   --accent-foreground: 0 0% 100%;
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 98%;
-  --border: 0 0% 14%;              /* #242424 */
-  --input: 0 0% 14%;
-  --ring: 220 100% 32%;
-  --surface: 0 0% 8%;              /* #141414 */
-  --radius: 0rem;                   /* SHARP — no border radius */
+  --border: 240 8% 18%;              /* #242424 */
+  --input: 240 8% 18%;
+  --ring: 262 83% 58%;
+  --surface: 240 10% 13%;              /* #141414 */
+  --radius: 0.75rem;                   /* SHARP â€” no border radius */
 }
 
 :root[data-theme="light"] {
-  /* Light Mode — Minimalist Dark Sharp Blue & White */
+  /* Light Mode â€” Minimalist Dark Sharp Blue & White */
   --background: 0 0% 100%;         /* #ffffff pure white SOLID */
   --foreground: 220 40% 18%;       /* #0d2454 very dark blue for text */
   --card: 0 0% 100%;               /* #ffffff pure white SOLID */
   --card-foreground: 220 40% 18%;  /* #0d2454 very dark blue */
   --popover: 0 0% 100%;            /* #ffffff pure white SOLID */
   --popover-foreground: 220 40% 18%; /* #0d2454 very dark blue */
-  --primary: 220 100% 32%;         /* #0043CC dark sharp blue */
+  --primary: 262 83% 58%;         /* #0043CC dark sharp blue */
   --primary-foreground: 0 0% 100%; /* white */
   --secondary: 220 30% 75%;        /* #7b92c7 muted blue */
   --secondary-foreground: 220 40% 18%; /* #0d2454 dark blue */
   --muted: 220 30% 75%;            /* #7b92c7 muted blue */
   --muted-foreground: 220 30% 50%; /* #3d5a9e dark medium blue */
-  --accent: 220 100% 32%;          /* #0043CC dark sharp blue */
+  --accent: 43 96% 56%;          /* #0043CC dark sharp blue */
   --accent-foreground: 0 0% 100%;  /* white */
   --destructive: 0 72% 51%;        /* red stays same */
   --destructive-foreground: 0 0% 100%;
   --border: 220 30% 85%;           /* #c7d2e8 light blue border */
   --input: 220 30% 92%;            /* #e8ecf6 very light blue */
-  --ring: 220 100% 32%;            /* #0043CC dark sharp blue */
+  --ring: 262 83% 58%;            /* #0043CC dark sharp blue */
   --surface: 0 0% 100%;            /* #ffffff pure white SOLID */
-  --radius: 0rem;                   /* SHARP — no border radius */
+  --radius: 0.75rem;                   /* SHARP â€” no border radius */
 }
 
 @layer base {
@@ -165,7 +165,7 @@
     letter-spacing: -0.02em;
   }
 
-  /* Respect user's motion preference — critical for accessibility */
+  /* Respect user's motion preference â€” critical for accessibility */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
@@ -177,7 +177,7 @@
 }
 
 @layer utilities {
-  /* Editorial gradient text — dark mode: white to dark blue, light mode: dark blue gradient */
+  /* Editorial gradient text â€” dark mode: white to dark blue, light mode: dark blue gradient */
   .gradient-text {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(135deg, #f5f5f5 40%, #0043CC 100%);
@@ -187,13 +187,13 @@
     background-image: linear-gradient(135deg, #0d2454 40%, #0043CC 100%);
   }
 
-  /* Sharp card style — replaces glass */
+  /* Sharp card style â€” replaces glass */
   .sharp-card {
     background: hsl(var(--surface));
     border: 1px solid hsl(var(--border));
   }
 
-  /* Section label style — uppercase mono tag */
+  /* Section label style â€” uppercase mono tag */
   .section-label {
     font-family: var(--font-mono), 'DM Mono', monospace;
     font-size: 0.7rem;
@@ -229,7 +229,7 @@
     border-style: solid;
   }
 
-  /* Solid tag — replaces rounded-full Badge */
+  /* Solid tag â€” replaces rounded-full Badge */
   .tag-solid {
     display: inline-flex;
     align-items: center;
@@ -259,7 +259,7 @@
     font-family: var(--font-mono), 'DM Mono', monospace;
   }
 
-  /* Underline grow hover — editorial nav style */
+  /* Underline grow hover â€” editorial nav style */
   .hover-underline {
     position: relative;
   }
@@ -279,7 +279,7 @@
     width: 100%;
   }
 
-  /* Animated progress bar — sharp */
+  /* Animated progress bar â€” sharp */
   .progress-track {
     height: 2px;
     background: hsl(var(--border));
@@ -293,7 +293,7 @@
     transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  /* Background Gradient Animation Styles — for Threads component */
+  /* Background Gradient Animation Styles â€” for Threads component */
   .gradients-container {
     filter: url(#goo) blur(40px);
     width: 100%;
@@ -371,3 +371,23 @@
     isolation: isolate;
   }
 }
+
+
+
+  /* Ambient glow blobs */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    animation: glow-pulse 4s ease-in-out infinite;
+  }
+  .orb-purple {
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, transparent 70%);
+  }
+  .orb-gold {
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.2) 0%, transparent 70%);
+  }
+  .orb-blue {
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+  }
