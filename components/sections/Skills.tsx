@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { motion } from 'framer-motion';
 import { useState, memo } from 'react';
@@ -17,13 +17,13 @@ const SkillCard = memo(function SkillCard({ skill, index }: { skill: any; index:
   return (
     <motion.div
       variants={staggerItem}
-      className="group relative border border-border hover:border-primary/40 transition-all duration-300 bg-card"
+      className="group relative border border-border hover:border-primary/50 hover:shadow-[0_0_20px_-5px_hsl(var(--primary)/0.25)] transition-all duration-300 bg-card overflow-hidden"
     >
       <div className="p-6">
         {/* Skill name and icon */}
         <div className="flex justify-between items-center mb-5">
           <div className="flex items-center gap-3">
-            <div className="relative w-9 h-9 overflow-hidden bg-surface border border-border flex items-center justify-center">
+            <div className="relative w-9 h-9 overflow-hidden bg-surface border border-border flex items-center justify-center group-hover:border-primary/50 transition-colors">
               <Image
                 src={skill.icon}
                 alt={skill.name}
@@ -38,7 +38,7 @@ const SkillCard = memo(function SkillCard({ skill, index }: { skill: any; index:
             </h3>
           </div>
           <motion.span
-            className="text-2xl font-black text-primary font-mono"
+            className="text-2xl font-black text-primary font-mono group-hover:drop-shadow-[0_0_8px_hsl(var(--primary)/0.5)] transition-all duration-300"
             initial={{ opacity: 0, scale: 0 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -51,7 +51,7 @@ const SkillCard = memo(function SkillCard({ skill, index }: { skill: any; index:
         {/* Progress bar */}
         <div className="relative h-0.5 bg-border overflow-hidden">
           <motion.div
-            className="absolute top-0 left-0 h-full bg-primary"
+            className="absolute top-0 left-0 h-full bg-primary group-hover:shadow-[0_0_10px_hsl(var(--primary)/0.8)]"
             initial={{ width: 0 }}
             whileInView={{ width: `${skill.proficiency}%` }}
             viewport={{ once: true }}
@@ -183,3 +183,4 @@ const Skills = memo(function Skills({ skills }: SkillsProps) {
 });
 
 export default Skills;
+

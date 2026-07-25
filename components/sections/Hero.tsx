@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -7,10 +7,14 @@ import type { Profile } from '@/types/profile';
 import MagneticButton from '@/components/animations/MagneticButton';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import Threads from '@/components/ui/Threads';
+import FloatingParticles from '@/components/animations/FloatingParticles';
+import HeroTechStack from '@/components/sections/HeroTechStack';
 import { memo } from 'react';
+import type { SkillsByCategory } from '@/types/skill';
 
 interface HeroProps {
   profile: Profile | null;
+  skills?: SkillsByCategory;
 }
 
 const socialIcons: Record<string, any> = {
@@ -20,7 +24,7 @@ const socialIcons: Record<string, any> = {
   instagram: Instagram,
 };
 
-const Hero = memo(function Hero({ profile }: HeroProps) {
+const Hero = memo(function Hero({ profile, skills }: HeroProps) {
   const name = profile?.name || 'Ichwal';
   const bio = profile?.bio || 'Passionate Full Stack Developer with 5+ years of experience in building scalable web applications. I specialize in Laravel, React, and Modern Cloud Architecture.';
   const heroImage = profile?.hero_image;
@@ -31,6 +35,8 @@ const Hero = memo(function Hero({ profile }: HeroProps) {
       {/* Background */}
       <div className="absolute inset-0 z-0 bg-background">
         <Threads amplitude={1} distance={0} enableMouseInteraction={true} />
+        <FloatingParticles count={28} />
+        <div className="absolute left-1/2 top-1/4 h-72 w-72 -translate-x-1/2 bg-primary/10 blur-[90px] pointer-events-none" aria-hidden="true" />
         <div className="absolute inset-0 bg-gradient-to-br from-background via-background/80 to-background/60 pointer-events-none" />
       </div>
 
@@ -49,138 +55,80 @@ const Hero = memo(function Hero({ profile }: HeroProps) {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="w-full lg:w-1/2 space-y-6 lg:space-y-8 lg:text-left text-center mt-8 lg:mt-0"
           >
-            {/* Open to work badge */}
-            {profile?.open_work && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="flex items-center gap-3 justify-center lg:justify-start"
-              >
-                <span className="tag-solid flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-green-400 animate-pulse inline-block" />
-                  Available for freelance
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-primary/30 bg-primary/5 text-primary text-xs font-mono font-semibold uppercase tracking-[0.2em]">
+              <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+              <span>Full Stack Developer</span>
+            </div>
+
+            <div className="space-y-2">
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight leading-[1.1]">
+                HI, I&apos;M <br className="hidden lg:block" />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">
+                  {name.toUpperCase()}
                 </span>
-              </motion.div>
-            )}
-
-            {/* Name — h1 for SEO, priority */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 }}
-            >
-              <h1 className="text-6xl sm:text-7xl lg:text-9xl font-black tracking-tighter leading-none">
-                {name}
-                <span className="text-primary">.</span>
               </h1>
-            </motion.div>
+            </div>
 
-            {/* Role label */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.35 }}
-              className="flex items-center gap-3 justify-center lg:justify-start"
-            >
-              <div className="h-px w-10 bg-primary" />
-              <span className="font-mono text-xs tracking-[0.15em] uppercase text-primary">
-                Full Stack Developer
-              </span>
-            </motion.div>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
+              <TextGenerateEffect words={bio} className="font-normal" />
+            </p>
 
-            {/* Bio */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.45 }}
-              className="max-w-xl mx-auto lg:mx-0"
-            >
-              <TextGenerateEffect
-                words={bio}
-                className="text-sm sm:text-base text-muted-foreground leading-relaxed font-normal"
-                duration={1.2}
-              />
-            </motion.div>
-
-            {/* Social Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="flex gap-3 pt-2 justify-center lg:justify-start"
-            >
-              {Object.entries(socialLinks).map(([key, url]) => {
-                const Icon = socialIcons[key];
-                if (!Icon || !url) return null;
-
-                return (
-                  <MagneticButton key={key}>
-                    <motion.a
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ y: -3 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-10 h-10 border border-border flex items-center justify-center group hover:border-primary hover:text-primary transition-all duration-200"
-                      aria-label={`${key} profile`}
-                    >
-                      <Icon className="w-4 h-4" />
-                    </motion.a>
-                  </MagneticButton>
-                );
-              })}
-            </motion.div>
-
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.75 }}
-              className="flex flex-wrap gap-4 pt-2 justify-center lg:justify-start"
-            >
+            <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start pt-2">
               <motion.a
-                href="projects"
-                whileHover={{ x: 4 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-7 py-3 bg-primary text-white font-bold text-sm tracking-wide flex items-center gap-2 hover:bg-primary/90 transition-colors"
+                href="#projects"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full sm:w-auto px-8 py-3.5 bg-primary text-white font-bold text-sm tracking-[0.1em] uppercase hover:bg-primary/90 transition-colors flex items-center justify-center gap-3 web3-glow"
               >
-                View Projects
+                View Work
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </motion.a>
 
-              <motion.a
-                href="#contact"
-                whileHover={{ x: 4 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-7 py-3 border border-border text-foreground font-bold text-sm tracking-wide hover:border-foreground transition-colors"
-              >
-                Contact Me
-              </motion.a>
-            </motion.div>
+              <div className="flex items-center gap-3">
+                {Object.entries(socialLinks).map(([key, url]) => {
+                  if (!url || !socialIcons[key]) return null;
+                  const Icon = socialIcons[key];
+
+                  return (
+                    <MagneticButton key={key}>
+                      <motion.a
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ y: -3 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="w-11 h-11 border border-border flex items-center justify-center group hover:border-primary hover:text-primary hover:shadow-[0_0_16px_2px_hsl(var(--primary)/0.4)] transition-all duration-200"
+                        aria-label={`${key} profile`}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </motion.a>
+                    </MagneticButton>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* System Stack Strip */}
+            <HeroTechStack skills={skills} />
           </motion.div>
 
-          {/* Profile Frame */}
+          {/* Image / Visual Content */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
-            className="w-full lg:w-1/2 flex justify-center lg:justify-end relative mb-12 lg:mb-0"
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            className="w-full sm:w-3/4 lg:w-1/2 max-w-md lg:max-w-none relative"
           >
-            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[400px] md:h-[400px]">
+            <div className="relative aspect-[4/5] lg:aspect-square w-full">
+              {/* Decorative brackets */}
+              <div className="absolute -top-4 -left-4 w-12 h-12 border-t-2 border-l-2 border-primary z-20" />
+              <div className="absolute -bottom-4 -right-4 w-12 h-12 border-b-2 border-r-2 border-primary z-20" />
 
-              {/* Corner bracket decorations */}
-              <div className="absolute -top-3 -left-3 w-10 h-10 border-t-2 border-l-2 border-primary z-20" />
-              <div className="absolute -top-3 -right-3 w-10 h-10 border-t-2 border-r-2 border-primary z-20" />
-              <div className="absolute -bottom-3 -left-3 w-10 h-10 border-b-2 border-l-2 border-primary z-20" />
-              <div className="absolute -bottom-3 -right-3 w-10 h-10 border-b-2 border-r-2 border-primary z-20" />
-
-              {/* Main image frame */}
-              <div className="absolute inset-0 overflow-hidden border border-border bg-surface z-10 group">
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors duration-500 z-10" />
+              <div className="absolute inset-0 bg-surface border border-border overflow-hidden group">
+                {/* Glitch overlay on hover */}
+                <div className="absolute inset-0 bg-primary/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
 
                 {heroImage ? (
                   <Image

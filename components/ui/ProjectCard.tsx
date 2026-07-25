@@ -60,7 +60,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
       className="group relative h-full"
     >
-      <div className="relative h-full border border-border hover:border-primary/50 transition-all duration-300 bg-card overflow-hidden">
+      <div className="relative h-full border border-border hover:border-primary/50 hover:shadow-[0_0_24px_-4px_hsl(var(--primary)/0.35)] transition-all duration-300 bg-card overflow-hidden">
 
         {/* Image Section */}
         <Link href={`/projects/${project.slug}`} className="block relative">

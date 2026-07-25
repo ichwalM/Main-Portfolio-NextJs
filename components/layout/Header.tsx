@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
@@ -173,7 +173,7 @@ export default function Header() {
 
         {/* Mobile Menu Button */}
         <button
-          className="xl:hidden z-50 relative text-foreground p-2 border border-border hover:bg-foreground hover:text-background transition-colors h-10 w-10 flex items-center justify-center"
+          className="xl:hidden z-50 relative text-foreground p-2 border border-border hover:bg-foreground hover:text-background transition-colors h-11 w-11 flex items-center justify-center"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -228,7 +228,7 @@ export default function Header() {
                     href="/wall-app"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full inline-flex justify-center items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-bold text-lg tracking-wide hover:bg-primary/90 transition-colors text-center border border-primary"
+                    className="w-full inline-flex justify-center items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-bold text-lg tracking-wide hover:bg-primary/90 transition-colors text-center border border-primary web3-glow"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <LayoutGrid size={20} strokeWidth={2.5} />
@@ -243,3 +243,4 @@ export default function Header() {
     </header>
   );
 }
+

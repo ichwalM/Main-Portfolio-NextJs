@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -26,7 +26,7 @@ const ProjectCard = memo(function ProjectCard({ project, idx }: { project: Proje
     <motion.div
       key={project.id}
       variants={staggerItem}
-      className="group relative border border-border hover:border-primary/40 transition-all duration-300 bg-card overflow-hidden"
+      className="group relative border border-border hover:border-primary/50 hover:shadow-[0_0_24px_-4px_hsl(var(--primary)/0.35)] transition-all duration-300 bg-card overflow-hidden"
     >
       {/* Image */}
       <Link href={`/projects/${project.slug}`} className="block relative">
@@ -41,14 +41,17 @@ const ProjectCard = memo(function ProjectCard({ project, idx }: { project: Proje
           />
           <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/30 to-transparent" />
 
+          {/* Blue overlay on hover - Web3 subtle tint */}
+          <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
           {/* Arrow on hover */}
-          <div className="absolute top-4 right-4 w-8 h-8 bg-background border border-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute top-4 right-4 w-8 h-8 bg-background border border-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_12px_hsl(var(--primary)/0.5)]">
             <ArrowUpRight className="w-4 h-4 text-primary" />
           </div>
 
           {/* Featured badge */}
           {project.featured && (
-            <div className="absolute top-4 left-4 flex items-center gap-1.5 px-2.5 py-1 bg-primary text-white">
+            <div className="absolute top-4 left-4 flex items-center gap-1.5 px-2.5 py-1 bg-primary text-white web3-glow">
               <div className="w-1.5 h-1.5 bg-white animate-pulse" />
               <span className="text-[9px] font-bold uppercase tracking-[0.12em]">Featured</span>
             </div>
@@ -113,7 +116,7 @@ const ProjectCard = memo(function ProjectCard({ project, idx }: { project: Proje
           <Link href={`/projects/${project.slug}`} className="ml-auto">
             <motion.div
               whileHover={{ x: 2 }}
-              className="flex items-center gap-1.5 px-4 py-1.5 bg-primary text-white text-xs font-bold tracking-wide hover:bg-primary/90 transition-colors"
+              className="flex items-center gap-1.5 px-4 py-1.5 bg-primary text-white text-xs font-bold tracking-wide hover:bg-primary/90 transition-colors group-hover:web3-glow"
             >
               Details
               <ArrowUpRight className="w-3 h-3" />
@@ -167,3 +170,4 @@ const ProjectCarousel = memo(function ProjectCarousel({ projects }: ProjectCarou
 });
 
 export default ProjectCarousel;
+

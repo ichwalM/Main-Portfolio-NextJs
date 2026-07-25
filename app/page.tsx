@@ -1,4 +1,4 @@
-import Hero from '@/components/sections/Hero';
+﻿import Hero from '@/components/sections/Hero';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import { getProfile } from '@/lib/api/profile';
 import { getProjects } from '@/lib/api/projects';
@@ -96,7 +96,7 @@ export default async function Home() {
       <PersonJsonLd profile={profile} about={about} />
 
       {/* Hero Section — static import, above fold, critical */}
-      <Hero profile={profile} />
+      <Hero profile={profile} skills={skills} />
 
       {/* Marquee Separator */}
       <section className="py-8 relative bg-surface border-y border-border overflow-hidden">
@@ -285,3 +285,4 @@ export default async function Home() {
     </main>
   );
 }
+

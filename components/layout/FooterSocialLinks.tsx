@@ -54,7 +54,7 @@ export default function FooterSocialLinks({ social, email }: FooterSocialLinksPr
           rel="noopener noreferrer"
           whileHover={{ y: -3 }}
           whileTap={{ scale: 0.95 }}
-          className="w-9 h-9 border border-border flex items-center justify-center hover:border-primary hover:text-primary transition-all duration-200"
+          className="w-11 h-11 border border-border flex items-center justify-center hover:border-primary hover:text-primary hover:shadow-[0_0_16px_2px_hsl(var(--primary)/0.4)] transition-all duration-200"
           aria-label={label}
           title={label}
         >

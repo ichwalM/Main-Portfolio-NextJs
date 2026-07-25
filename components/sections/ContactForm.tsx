@@ -46,7 +46,7 @@ function InputField({
   id, label, type = 'text', value, onChange, error, required, placeholder, rows,
 }: InputFieldProps) {
   const base =
-    'w-full bg-background border text-foreground text-sm px-4 py-3 font-mono placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary transition-colors duration-200 resize-none';
+    'w-full bg-background border text-foreground text-sm px-4 py-3 font-mono placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:shadow-[0_0_0_2px_hsl(var(--primary)/0.25)] transition-colors duration-200 resize-none';
   const border = error ? 'border-red-500/60' : 'border-border hover:border-muted-foreground/40';
 
   return (
@@ -242,7 +242,7 @@ export default function ContactForm() {
         type="submit"
         disabled={status === 'loading'}
         whileTap={{ scale: 0.98 }}
-        className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 bg-primary text-white text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 bg-primary text-white text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:animate-none web3-glow"
       >
         {status === 'loading' ? (
           <>

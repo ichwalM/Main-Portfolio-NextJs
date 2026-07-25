@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
@@ -14,6 +14,15 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('dark');
   const [mounted, setMounted] = useState(false);
+
+  const applyTheme = (newTheme: Theme) => {
+    const root = document.documentElement;
+    if (newTheme === 'light') {
+      root.setAttribute('data-theme', 'light');
+    } else {
+      root.removeAttribute('data-theme');
+    }
+  };
 
   // Initialize theme from localStorage and system preference
   useEffect(() => {
@@ -32,15 +41,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     
     setMounted(true);
   }, []);
-
-  const applyTheme = (newTheme: Theme) => {
-    const root = document.documentElement;
-    if (newTheme === 'light') {
-      root.setAttribute('data-theme', 'light');
-    } else {
-      root.removeAttribute('data-theme');
-    }
-  };
 
   const toggleTheme = () => {
     const newTheme: Theme = theme === 'dark' ? 'light' : 'dark';
@@ -67,3 +67,4 @@ export function useTheme() {
   }
   return context;
 }
+

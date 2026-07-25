@@ -202,7 +202,7 @@ const Certificates = memo(function Certificates({ certificates }: CertificatesPr
                 <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col">
                   <button
                     onClick={() => setSelectedCert(null)}
-                    className="absolute top-4 right-4 z-30 p-2 bg-background border border-border text-foreground hover:text-primary transition-colors hover:border-primary/50"
+                    className="absolute top-4 right-4 z-30 w-11 h-11 flex items-center justify-center bg-background border border-border text-foreground hover:text-primary transition-colors hover:border-primary/50"
                     aria-label="Close certificate detail"
                   >
                     <X size={16} />
