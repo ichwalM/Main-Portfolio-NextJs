@@ -1,4 +1,4 @@
-import Hero from '@/components/sections/Hero';
+﻿import Hero from '@/components/sections/Hero';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import { getProfile } from '@/lib/api/profile';
 import { getProjects } from '@/lib/api/projects';
@@ -138,46 +138,6 @@ export default async function Home() {
       </Suspense>
 
       {/* Blog Section */}
-      <section id="blog" className="py-24 md:py-32 relative overflow-hidden">
-        {/* Decorative large number */}
-        <div className="absolute top-8 left-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter" aria-hidden="true">
-          06
-        </div>
-        <div className="container mx-auto px-6">
-          <ScrollReveal>
-            <div className="mb-16">
-              <p className="section-label mb-6">Blog</p>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-none">
-                Latest<br />
-                <span className="text-primary">Posts.</span>
-              </h2>
-              <p className="text-muted-foreground text-base mt-4 max-w-xl">
-                Thoughts, tutorials, and insights on web development.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-            {blogPosts.map((post, index) => (
-              <Suspense key={post.id} fallback={<div className="h-64 bg-border animate-pulse" />}>
-                <BlogCard post={post} index={index} />
-              </Suspense>
-            ))}
-          </div>
-
-          <ScrollReveal>
-            <div>
-              <Link
-                href="/blog"
-                className="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors group"
-              >
-                View All Posts
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
 
       {/* Contact Section */}
       <section id="contact" className="py-24 md:py-32 relative border-t border-border overflow-hidden">

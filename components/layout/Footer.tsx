@@ -6,7 +6,7 @@ import FooterSocialLinks from './FooterSocialLinks';
 const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'Projects', href: '/#projects' },
-  { name: 'Blog', href: '/blog' },
+  // { name: 'Blog', href: '/blog' },
   { name: 'Contact', href: '/#contact' },
 ];
 
