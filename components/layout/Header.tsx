@@ -118,7 +118,7 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled || isMobileMenuOpen
-          ? 'bg-background/95 backdrop-blur-md border-b border-border py-4 shadow-sm'
+          ? 'bg-background/95 backdrop-blur-md border-b-2 border-foreground py-4 shadow-[0_4px_0_hsl(var(--secondary))]'
           : 'bg-transparent py-6'
       }`}
     >
@@ -126,7 +126,7 @@ export default function Header() {
         {/* Logo */}
         <Link
           href="/"
-          className="text-xl font-black tracking-tighter text-foreground z-50 relative hover:text-primary transition-colors duration-200"
+          className="text-xl font-black tracking-tight text-foreground z-50 relative hover:text-primary transition-colors duration-200"
           onClick={() => setIsMobileMenuOpen(false)}
         >
           ICHWAL<span className="text-primary">.</span>
@@ -146,7 +146,7 @@ export default function Header() {
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`flex items-center justify-center px-4 py-2 text-[10px] font-black tracking-[0.12em] uppercase border transition-all duration-300 ${
                     isActive 
-                      ? 'bg-foreground text-background border-foreground' 
+                      ? 'bg-primary text-primary-foreground border-foreground shadow-[3px_3px_0_hsl(var(--foreground))]' 
                       : 'border-border text-muted-foreground hover:bg-foreground hover:text-background'
                   }`}
                 >
@@ -164,7 +164,7 @@ export default function Header() {
             href="/wall-app"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground text-[10px] font-black tracking-[0.1em] uppercase hover:bg-primary/90 transition-all duration-300 border border-primary h-10"
+            className="brutalist-button flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground text-[10px] font-black tracking-[0.1em] uppercase hover:bg-secondary transition-all duration-300 h-10"
           >
             <LayoutGrid size={14} strokeWidth={2.5} />
             Wall App

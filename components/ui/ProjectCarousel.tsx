@@ -26,7 +26,7 @@ const ProjectCard = memo(function ProjectCard({ project, idx }: { project: Proje
     <motion.div
       key={project.id}
       variants={staggerItem}
-      className="group relative border border-border hover:border-primary/40 transition-all duration-300 bg-card overflow-hidden"
+      className="group relative border-2 border-foreground hover:-translate-y-1 transition-all duration-300 bg-card overflow-hidden shadow-[6px_6px_0_hsl(var(--foreground))] hover:shadow-[8px_8px_0_hsl(var(--secondary))]"
     >
       {/* Image */}
       <Link href={`/projects/${project.slug}`} className="block relative">
@@ -113,7 +113,7 @@ const ProjectCard = memo(function ProjectCard({ project, idx }: { project: Proje
           <Link href={`/projects/${project.slug}`} className="ml-auto">
             <motion.div
               whileHover={{ x: 2 }}
-              className="flex items-center gap-1.5 px-4 py-1.5 bg-primary text-white text-xs font-bold tracking-wide hover:bg-primary/90 transition-colors"
+              className="brutalist-button flex items-center gap-1.5 px-4 py-1.5 bg-primary text-primary-foreground text-xs font-bold tracking-wide hover:bg-secondary transition-colors"
             >
               Details
               <ArrowUpRight className="w-3 h-3" />

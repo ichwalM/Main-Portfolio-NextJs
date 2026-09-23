@@ -6,7 +6,6 @@ import { Github, Linkedin, Mail, Instagram } from 'lucide-react';
 import type { Profile } from '@/types/profile';
 import MagneticButton from '@/components/animations/MagneticButton';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
-import Threads from '@/components/ui/Threads';
 import { memo } from 'react';
 
 interface HeroProps {
@@ -27,12 +26,8 @@ const Hero = memo(function Hero({ profile }: HeroProps) {
   const socialLinks = profile?.social_links || {};
 
   return (
-    <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden w-full py-20 lg:py-0">
-      {/* Background */}
-      <div className="absolute inset-0 z-0 bg-background">
-        <Threads amplitude={1} distance={0} enableMouseInteraction={true} />
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background/80 to-background/60 pointer-events-none" />
-      </div>
+    <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden w-full py-24 lg:py-0 paper-grid">
+      <div className="absolute inset-0 z-0 bg-background/75 pointer-events-none" />
 
       {/* Large decorative text */}
       <div className="absolute bottom-0 right-0 text-[20vw] font-black text-border/10 leading-none select-none pointer-events-none z-0 tracking-tighter" aria-hidden="true">
@@ -143,7 +138,7 @@ const Hero = memo(function Hero({ profile }: HeroProps) {
                 href="projects"
                 whileHover={{ x: 4 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-7 py-3 bg-primary text-white font-bold text-sm tracking-wide flex items-center gap-2 hover:bg-primary/90 transition-colors"
+                className="brutalist-button px-7 py-3 bg-primary text-primary-foreground font-bold text-sm tracking-wide flex items-center gap-2 hover:bg-secondary transition-colors"
               >
                 View Projects
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -155,7 +150,7 @@ const Hero = memo(function Hero({ profile }: HeroProps) {
                 href="#contact"
                 whileHover={{ x: 4 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-7 py-3 border border-border text-foreground font-bold text-sm tracking-wide hover:border-foreground transition-colors"
+                className="brutalist-button px-7 py-3 bg-background text-foreground font-bold text-sm tracking-wide hover:bg-muted transition-colors"
               >
                 Contact Me
               </motion.a>
@@ -178,9 +173,9 @@ const Hero = memo(function Hero({ profile }: HeroProps) {
               <div className="absolute -bottom-3 -right-3 w-10 h-10 border-b-2 border-r-2 border-primary z-20" />
 
               {/* Main image frame */}
-              <div className="absolute inset-0 overflow-hidden border border-border bg-surface z-10 group">
+              <div className="absolute inset-0 overflow-hidden border-2 border-foreground bg-surface z-10 group shadow-[10px_10px_0_hsl(var(--secondary))]">
                 {/* Hover overlay */}
-                <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors duration-500 z-10" />
+                <div className="absolute inset-0 bg-primary/10 group-hover:bg-primary/20 transition-colors duration-500 z-10" />
 
                 {heroImage ? (
                   <Image
@@ -241,7 +236,7 @@ const Hero = memo(function Hero({ profile }: HeroProps) {
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
@@ -256,7 +251,7 @@ const Hero = memo(function Hero({ profile }: HeroProps) {
             transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
           />
         </div>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 });

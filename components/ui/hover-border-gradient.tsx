@@ -20,13 +20,17 @@ export const HoverBorderGradient = ({
     clockwise?: boolean;
   } & React.HTMLAttributes<HTMLElement> & React.AnchorHTMLAttributes<HTMLAnchorElement>
 >) => {
+  const Component = Tag as unknown as React.ComponentType<
+    React.HTMLAttributes<HTMLElement> & { children?: React.ReactNode }
+  >;
+
   return (
-    <Tag
+    <Component
       className={cn(
         "relative p-[1px] overflow-hidden",
         containerClassName
       )}
-      {...props}
+      {...(props as React.HTMLAttributes<HTMLElement>)}
     >
       <div
         className="absolute inset-0 rounded-[inherit] [mask:linear-gradient(white,transparent)]"
@@ -47,6 +51,6 @@ export const HoverBorderGradient = ({
       >
         {children}
       </div>
-    </Tag>
+    </Component>
   );
 };
