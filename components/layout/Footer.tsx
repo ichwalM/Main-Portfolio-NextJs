@@ -52,7 +52,7 @@ export default async function Footer() {
           {/* Social — rendered client-side for animation */}
           <div>
             <p className="section-label mb-5">Connect</p>
-            <FooterSocialLinks social={social} email={email} />
+            <FooterSocialLinks social={social} email={email ?? undefined} />
           </div>
         </div>
 

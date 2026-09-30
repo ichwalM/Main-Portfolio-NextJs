@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Github, Linkedin, Mail, Instagram } from 'lucide-react';
+import { Github, Linkedin, Mail, Instagram, FileText, type LucideIcon } from 'lucide-react';
 import type { Profile } from '@/types/profile';
 import MagneticButton from '@/components/animations/MagneticButton';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
@@ -12,7 +12,7 @@ interface HeroProps {
   profile: Profile | null;
 }
 
-const socialIcons: Record<string, any> = {
+const socialIcons: Record<string, LucideIcon> = {
   github: Github,
   linkedin: Linkedin,
   email: Mail,
@@ -23,6 +23,7 @@ const Hero = memo(function Hero({ profile }: HeroProps) {
   const name = profile?.name || 'Ichwal';
   const bio = profile?.bio || 'Passionate Full Stack Developer with 5+ years of experience in building scalable web applications. I specialize in Laravel, React, and Modern Cloud Architecture.';
   const heroImage = profile?.hero_image;
+  const resumeLink = profile?.resume_link;
   const socialLinks = profile?.social_links || {};
 
   return (
@@ -135,7 +136,7 @@ const Hero = memo(function Hero({ profile }: HeroProps) {
               className="flex flex-wrap gap-4 pt-2 justify-center lg:justify-start"
             >
               <motion.a
-                href="projects"
+                href="/projects"
                 whileHover={{ x: 4 }}
                 whileTap={{ scale: 0.98 }}
                 className="brutalist-button px-7 py-3 bg-primary text-primary-foreground font-bold text-sm tracking-wide flex items-center gap-2 hover:bg-secondary transition-colors"
@@ -145,6 +146,21 @@ const Hero = memo(function Hero({ profile }: HeroProps) {
                   <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </motion.a>
+
+              {resumeLink && (
+                <motion.a
+                  href={resumeLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ x: 4 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="brutalist-button px-7 py-3 bg-foreground text-background font-bold text-sm tracking-wide flex items-center gap-2 hover:bg-secondary hover:text-secondary-foreground transition-colors"
+                  aria-label={`View ${name}'s CV in a new tab`}
+                >
+                  <FileText className="h-4 w-4" aria-hidden="true" />
+                  View CV
+                </motion.a>
+              )}
 
               <motion.a
                 href="#contact"

@@ -1,15 +1,16 @@
 export interface Profile {
   id: number;
   name: string;
-  bio: string;
-  hero_image: string;
+  bio: string | null;
+  hero_image: string | null;
+  resume_link: string | null;
   social_links: {
     github?: string;
     linkedin?: string;
     twitter?: string;
     instagram?: string;
-  };
-  email?: string;
+  } | null;
+  email?: string | null;
   open_work?: boolean;
 }
 

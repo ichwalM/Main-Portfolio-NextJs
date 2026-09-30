@@ -251,7 +251,7 @@ export default async function Home() {
                   <p className="section-label mb-5">Connect</p>
                   <FooterSocialLinks
                     social={profile?.social_links ?? {}}
-                    email={profile?.email}
+                    email={profile?.email ?? undefined}
                   />
                 </div>
               </ScrollReveal>
