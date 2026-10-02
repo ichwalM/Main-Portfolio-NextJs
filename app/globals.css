@@ -9,6 +9,7 @@
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-primary: hsl(var(--primary));
+  --color-primary-highlight: hsl(var(--primary-highlight));
   --color-primary-foreground: hsl(var(--primary-foreground));
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
@@ -39,26 +40,27 @@
 
 :root,
 :root[data-theme="light"] {
-  --background: 42 33% 94%;
-  --foreground: 30 12% 9%;
-  --card: 42 30% 97%;
-  --card-foreground: 30 12% 9%;
-  --popover: 42 30% 97%;
-  --popover-foreground: 30 12% 9%;
-  --primary: 74 83% 51%;
-  --primary-foreground: 30 12% 9%;
-  --secondary: 29 100% 63%;
-  --secondary-foreground: 30 12% 9%;
-  --muted: 40 16% 87%;
-  --muted-foreground: 30 8% 38%;
-  --accent: 29 100% 63%;
-  --accent-foreground: 30 12% 9%;
+  --background: 43 32% 92%;
+  --foreground: 60 8% 8%;
+  --card: 45 43% 96%;
+  --card-foreground: 60 8% 8%;
+  --popover: 45 43% 96%;
+  --popover-foreground: 60 8% 8%;
+  --primary: 222 72% 45%;
+  --primary-highlight: 196 100% 52%;
+  --primary-foreground: 43 32% 96%;
+  --secondary: 19 66% 51%;
+  --secondary-foreground: 43 32% 96%;
+  --muted: 42 18% 85%;
+  --muted-foreground: 48 7% 35%;
+  --accent: 19 66% 51%;
+  --accent-foreground: 43 32% 96%;
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 98%;
-  --border: 30 12% 9%;
-  --input: 40 16% 80%;
-  --ring: 74 83% 51%;
-  --surface: 42 30% 97%;
+  --border: 60 8% 12%;
+  --input: 42 18% 78%;
+  --ring: 222 72% 45%;
+  --surface: 45 43% 96%;
   --radius: 0rem;
 }
 
@@ -69,19 +71,20 @@
   --card-foreground: 42 33% 94%;
   --popover: 30 10% 13%;
   --popover-foreground: 42 33% 94%;
-  --primary: 74 83% 51%;
+  --primary: 217 100% 65%;
+  --primary-highlight: 190 100% 60%;
   --primary-foreground: 30 12% 9%;
-  --secondary: 29 100% 63%;
+  --secondary: 25 90% 60%;
   --secondary-foreground: 30 12% 9%;
   --muted: 30 8% 18%;
   --muted-foreground: 40 10% 68%;
-  --accent: 29 100% 63%;
+  --accent: 25 90% 60%;
   --accent-foreground: 30 12% 9%;
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 98%;
   --border: 42 33% 94%;
   --input: 30 8% 24%;
-  --ring: 74 83% 51%;
+  --ring: 217 100% 65%;
   --surface: 30 10% 13%;
 }
 
@@ -101,7 +104,7 @@
     font-weight: 700;
     letter-spacing: 0;
   }
-  ::selection { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+  ::selection { background: hsl(var(--primary-highlight)); color: hsl(60 8% 8%); }
   :focus-visible { outline: 3px solid hsl(var(--secondary)); outline-offset: 3px; }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -128,7 +131,7 @@
   .hover-underline::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: hsl(var(--primary)); transition: width 0.3s ease; }
   .hover-underline:hover::after { width: 100%; }
   .progress-track { height: 2px; background: hsl(var(--border)); position: relative; overflow: hidden; }
-  .progress-fill { height: 100%; background: hsl(var(--primary)); transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1); }
+  .progress-fill { height: 100%; background: hsl(var(--primary-highlight)); transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1); }
   .gradients-container { filter: url(#goo) blur(40px); width: 100%; height: 100%; }
   .g1, .g2, .g3, .g4, .g5, .interactive { position: absolute; mix-blend-mode: var(--blending-value, hard-light); width: var(--size, 80%); height: var(--size, 80%); border-radius: 50%; filter: blur(calc(var(--size, 80%) / 5)); animation: moveVertical 30s ease infinite; }
   section:not(#home) { content-visibility: auto; contain-intrinsic-size: 0 600px; }

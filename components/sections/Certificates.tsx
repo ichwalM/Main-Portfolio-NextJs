@@ -188,7 +188,7 @@ const Certificates = memo(function Certificates({ certificates }: CertificatesPr
             </div>
             <div className="mx-auto mt-5 max-w-[620px]">
               <div className="mb-3 h-1 overflow-hidden bg-foreground/10" aria-hidden="true">
-                {!reducedMotion && !deckHovered && <motion.div key={safeIndex} className="h-full bg-primary" initial={{ width: '0%' }} animate={{ width: '100%' }} transition={{ duration: 2, ease: 'linear' }} />}
+                {!reducedMotion && !deckHovered && <motion.div key={safeIndex} className="h-full bg-primary-highlight" initial={{ width: '0%' }} animate={{ width: '100%' }} transition={{ duration: 2, ease: 'linear' }} />}
               </div>
               <div className="flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
                 <span>Deck {String(safeIndex + 1).padStart(2, '0')} / {String(filteredCertificates.length).padStart(2, '0')}</span>
