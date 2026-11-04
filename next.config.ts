@@ -33,16 +33,6 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        // Aggressive cache for Next.js Image Optimization output
-        source: '/_next/image(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
         // JS chunks with content-hash — revalidate on deploy
         source: '/_next/static/chunks/:path*',
         headers: [

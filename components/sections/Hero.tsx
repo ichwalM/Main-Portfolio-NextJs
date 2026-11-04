@@ -39,6 +39,17 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
   const gpa = about?.GPA || '3.90';
   const univ = about?.about_univ ? about.about_univ.split('-')[0].trim() : 'Universitas Muslim Indonesia';
 
+  // Dynamic profile photo from backend CMS with local fallback
+  const [imageSrc, setImageSrc] = useState<string>(
+    profile?.hero_image || '/ichwal-cutout.webp'
+  );
+
+  useEffect(() => {
+    if (profile?.hero_image) {
+      setImageSrc(profile.hero_image);
+    }
+  }, [profile?.hero_image]);
+
   // State for card interactions
   const [activeCard, setActiveCard] = useState<number | null>(null);
   const [isPointerFine, setIsPointerFine] = useState(false);
@@ -219,11 +230,11 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
         </div>
 
         {/* Hero Interactive Stage: Center Cutout Figure + 4 Pointing Containers */}
-        <div className="relative w-full flex-1 min-h-[480px] sm:min-h-[540px] lg:min-h-[620px] flex items-center justify-center my-2 sm:my-4">
+        <div className="relative w-full flex-1 min-h-[540px] sm:min-h-[620px] md:min-h-[700px] lg:min-h-[760px] xl:min-h-[820px] flex items-center justify-center my-2 sm:my-4">
 
           {/* =========================================================================
               CENTER ANIMATED CUTOUT PHOTO (NO WATERMARK, NO BACKGROUND)
-              Sits in front of crossing ribbons, with smooth 3D tilt & idle float
+              Sits in front of crossing ribbons and arrows (z-30), with smooth 3D tilt & idle float
               ========================================================================= */}
           <motion.div
             style={
@@ -240,7 +251,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
             initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="relative z-20 flex flex-col items-center justify-center pointer-events-auto"
+            className="relative z-30 flex flex-col items-center justify-center pointer-events-auto"
           >
             {/* Gentle idle float animation */}
             <motion.div
@@ -254,15 +265,16 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                 aria-hidden="true"
               />
 
-              {/* The Cutout Image (Watermark-free, transparent background) */}
-              <div className="relative w-[300px] sm:w-[380px] md:w-[440px] lg:w-[480px] h-[390px] sm:h-[460px] md:h-[530px] lg:h-[580px] drop-shadow-[0_20px_35px_rgba(0,0,0,0.45)]">
+              {/* The Cutout Image (Watermark-free, transparent background, heroic size) */}
+              <div className="relative w-[340px] sm:w-[440px] md:w-[520px] lg:w-[600px] xl:w-[680px] 2xl:w-[740px] h-[480px] sm:h-[580px] md:h-[680px] lg:h-[760px] xl:h-[840px] 2xl:h-[890px] drop-shadow-[0_25px_45px_rgba(0,0,0,0.5)]">
                 <Image
-                  src="/ichwal-cutout.webp"
+                  src={imageSrc}
                   alt={`${name} — Full Stack Developer & Network Administrator`}
                   fill
                   priority
-                  sizes="(max-width: 640px) 300px, (max-width: 768px) 380px, (max-width: 1024px) 440px, 480px"
+                  sizes="(max-width: 640px) 340px, (max-width: 768px) 460px, (max-width: 1024px) 540px, (max-width: 1280px) 620px, 740px"
                   className="object-contain object-bottom select-none pointer-events-none"
+                  onError={() => setImageSrc('/ichwal-cutout.webp')}
                 />
               </div>
 
@@ -271,7 +283,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="mt-[-12px] z-30 px-5 py-2 bg-card text-foreground border-2 border-border font-bold text-xs sm:text-sm tracking-tight flex items-center gap-2.5"
+                className="mt-[-16px] sm:mt-[-20px] z-40 px-5 sm:px-6 py-2 sm:py-2.5 bg-card text-foreground border-2 border-border font-bold text-xs sm:text-sm tracking-tight flex items-center gap-2.5"
               >
                 <span className="w-2 h-2 bg-primary rounded-full" />
                 <span>ICHWAL · FULL STACK &amp; NETWORK ENGINEER</span>
@@ -280,12 +292,13 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           </motion.div>
 
           {/* =========================================================================
-              FOUR POINTING CONTAINERS WITH ORGANIC CURVED ARROWS (DESKTOP)
-              Color harmony: Consistent border & accent with matching emerald pointers!
+              FOUR POINTING CONTAINERS WITH TECHNICAL ANGULAR ARROWS (DESKTOP)
+              Layered at z-20 so arrows tuck cleanly BEHIND the person figure (z-30)!
+              Arrows are technical, stiff / angular (not rounded) with sharp chamfers.
               ========================================================================= */}
 
           {/* CARD 1: TOP LEFT — Full Stack Engineer */}
-          <div className="hidden lg:block absolute top-4 xl:top-8 left-4 xl:left-12 z-30 max-w-[310px] xl:max-w-[340px]">
+          <div className="hidden lg:block absolute top-4 xl:top-8 left-4 xl:left-12 z-20 max-w-[310px] xl:max-w-[340px]">
             <motion.div
               initial={{ opacity: 0, x: -25 }}
               animate={{ opacity: 1, x: 0 }}
@@ -313,19 +326,20 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                 ))}
               </div>
 
-              {/* Curved SVG Arrow Pointing from Card to Person */}
-              <div className="absolute left-full top-1/2 -translate-y-1/2 pointer-events-none w-32 xl:w-36 h-24 overflow-visible">
-                <svg className="w-full h-full overflow-visible" viewBox="0 0 120 70" fill="none">
-                  <circle cx="5" cy="18" r="3.5" fill="hsl(var(--primary))" />
+              {/* Technical Angular Arrow (Behind the Person) */}
+              <div className="absolute left-full top-1/2 -translate-y-1/2 pointer-events-none w-40 xl:w-52 h-24 overflow-visible">
+                <svg className="w-full h-full overflow-visible" viewBox="0 0 150 80" fill="none">
+                  <rect x="0" y="16" width="4.5" height="4.5" fill="hsl(var(--primary))" />
                   <path
-                    d="M 5,18 C 50,18 80,45 110,55"
+                    d="M 0,18 L 55,18 L 135,58"
                     stroke="hsl(var(--primary))"
                     strokeWidth="2.5"
-                    strokeLinecap="round"
+                    strokeLinecap="square"
+                    strokeLinejoin="miter"
                     className="transition-colors"
                   />
                   <polygon
-                    points="110,55 98,48 102,62"
+                    points="135,58 120,48 124,62"
                     fill="hsl(var(--primary))"
                     className="transition-colors"
                   />
@@ -335,7 +349,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           </div>
 
           {/* CARD 2: BOTTOM LEFT — Network & SysAdmin */}
-          <div className="hidden lg:block absolute bottom-4 xl:bottom-8 left-4 xl:left-12 z-30 max-w-[310px] xl:max-w-[340px]">
+          <div className="hidden lg:block absolute bottom-4 xl:bottom-8 left-4 xl:left-12 z-20 max-w-[310px] xl:max-w-[340px]">
             <motion.div
               initial={{ opacity: 0, x: -25 }}
               animate={{ opacity: 1, x: 0 }}
@@ -363,19 +377,20 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                 ))}
               </div>
 
-              {/* Curved SVG Arrow Pointing from Card to Person */}
-              <div className="absolute left-full top-1/2 -translate-y-1/2 pointer-events-none w-32 xl:w-36 h-24 overflow-visible">
-                <svg className="w-full h-full overflow-visible" viewBox="0 0 120 70" fill="none">
-                  <circle cx="5" cy="52" r="3.5" fill="hsl(var(--primary))" />
+              {/* Technical Angular Arrow (Behind the Person) */}
+              <div className="absolute left-full top-1/2 -translate-y-1/2 pointer-events-none w-40 xl:w-52 h-24 overflow-visible">
+                <svg className="w-full h-full overflow-visible" viewBox="0 0 150 80" fill="none">
+                  <rect x="0" y="58" width="4.5" height="4.5" fill="hsl(var(--primary))" />
                   <path
-                    d="M 5,52 C 50,52 80,25 110,15"
+                    d="M 0,60 L 55,60 L 135,20"
                     stroke="hsl(var(--primary))"
                     strokeWidth="2.5"
-                    strokeLinecap="round"
+                    strokeLinecap="square"
+                    strokeLinejoin="miter"
                     className="transition-colors"
                   />
                   <polygon
-                    points="110,15 98,22 103,8"
+                    points="135,20 124,16 120,30"
                     fill="hsl(var(--primary))"
                     className="transition-colors"
                   />
@@ -385,7 +400,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           </div>
 
           {/* CARD 3: TOP RIGHT — Cloud & AI Solutions */}
-          <div className="hidden lg:block absolute top-4 xl:top-8 right-4 xl:right-12 z-30 max-w-[310px] xl:max-w-[340px]">
+          <div className="hidden lg:block absolute top-4 xl:top-8 right-4 xl:right-12 z-20 max-w-[310px] xl:max-w-[340px]">
             <motion.div
               initial={{ opacity: 0, x: 25 }}
               animate={{ opacity: 1, x: 0 }}
@@ -413,19 +428,20 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                 ))}
               </div>
 
-              {/* Curved SVG Arrow Pointing from Card to Person */}
-              <div className="absolute right-full top-1/2 -translate-y-1/2 pointer-events-none w-32 xl:w-36 h-24 overflow-visible">
-                <svg className="w-full h-full overflow-visible" viewBox="0 0 120 70" fill="none">
-                  <circle cx="115" cy="18" r="3.5" fill="hsl(var(--primary))" />
+              {/* Technical Angular Arrow (Behind the Person) */}
+              <div className="absolute right-full top-1/2 -translate-y-1/2 pointer-events-none w-40 xl:w-52 h-24 overflow-visible">
+                <svg className="w-full h-full overflow-visible" viewBox="0 0 150 80" fill="none">
+                  <rect x="145.5" y="16" width="4.5" height="4.5" fill="hsl(var(--primary))" />
                   <path
-                    d="M 115,18 C 70,18 40,45 10,55"
+                    d="M 150,18 L 95,18 L 15,58"
                     stroke="hsl(var(--primary))"
                     strokeWidth="2.5"
-                    strokeLinecap="round"
+                    strokeLinecap="square"
+                    strokeLinejoin="miter"
                     className="transition-colors"
                   />
                   <polygon
-                    points="10,55 22,48 18,62"
+                    points="15,58 26,62 30,48"
                     fill="hsl(var(--primary))"
                     className="transition-colors"
                   />
@@ -435,7 +451,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           </div>
 
           {/* CARD 4: BOTTOM RIGHT — Informatics Engineering */}
-          <div className="hidden lg:block absolute bottom-4 xl:bottom-8 right-4 xl:right-12 z-30 max-w-[310px] xl:max-w-[340px]">
+          <div className="hidden lg:block absolute bottom-4 xl:bottom-8 right-4 xl:right-12 z-20 max-w-[310px] xl:max-w-[340px]">
             <motion.div
               initial={{ opacity: 0, x: 25 }}
               animate={{ opacity: 1, x: 0 }}
@@ -463,19 +479,20 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                 ))}
               </div>
 
-              {/* Curved SVG Arrow Pointing from Card to Person */}
-              <div className="absolute right-full top-1/2 -translate-y-1/2 pointer-events-none w-32 xl:w-36 h-24 overflow-visible">
-                <svg className="w-full h-full overflow-visible" viewBox="0 0 120 70" fill="none">
-                  <circle cx="115" cy="52" r="3.5" fill="hsl(var(--primary))" />
+              {/* Technical Angular Arrow (Behind the Person) */}
+              <div className="absolute right-full top-1/2 -translate-y-1/2 pointer-events-none w-40 xl:w-52 h-24 overflow-visible">
+                <svg className="w-full h-full overflow-visible" viewBox="0 0 150 80" fill="none">
+                  <rect x="145.5" y="58" width="4.5" height="4.5" fill="hsl(var(--primary))" />
                   <path
-                    d="M 115,52 C 70,52 40,25 10,15"
+                    d="M 150,60 L 95,60 L 15,20"
                     stroke="hsl(var(--primary))"
                     strokeWidth="2.5"
-                    strokeLinecap="round"
+                    strokeLinecap="square"
+                    strokeLinejoin="miter"
                     className="transition-colors"
                   />
                   <polygon
-                    points="10,15 22,22 17,8"
+                    points="15,20 30,30 26,16"
                     fill="hsl(var(--primary))"
                     className="transition-colors"
                   />

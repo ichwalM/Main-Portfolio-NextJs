@@ -30,8 +30,8 @@ import { GithubStatsClient, ContactFormClient } from '@/components/dynamic-clien
 import { Metadata } from 'next';
 import PersonJsonLd from '@/components/seo/PersonJsonLd';
 
-// Match API client revalidate (1 hour) — avoid TTFB spikes from too-frequent revalidation
-export const revalidate = 3600;
+// Fast revalidation (60 seconds) so CMS updates reflect automatically
+export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
   const [profile, about] = await Promise.all([

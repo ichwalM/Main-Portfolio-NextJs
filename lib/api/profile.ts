@@ -2,5 +2,5 @@ import { apiClient } from './client';
 import type { ProfileResponse } from '@/types/profile';
 
 export async function getProfile(): Promise<ProfileResponse> {
-  return apiClient<ProfileResponse>('/profile');
+  return apiClient<ProfileResponse>('/profile', { revalidate: 60 });
 }
