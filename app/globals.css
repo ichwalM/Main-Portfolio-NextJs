@@ -141,23 +141,23 @@
   #about, #skills, #experience, #certificates, #projects, #blog, #contact { isolation: isolate; }
   .skeleton-shimmer {
     background: linear-gradient(
-      90deg,
-      hsl(var(--muted) / 0.6) 0%,
-      hsl(var(--muted) / 0.9) 25%,
-      hsl(var(--primary) / 0.15) 50%,
-      hsl(var(--muted) / 0.9) 75%,
-      hsl(var(--muted) / 0.6) 100%
+      105deg,
+      hsl(var(--muted) / 0.4) 0%,
+      hsl(var(--muted) / 0.75) 30%,
+      hsl(var(--primary) / 0.18) 50%,
+      hsl(var(--muted) / 0.75) 70%,
+      hsl(var(--muted) / 0.4) 100%
     );
-    background-size: 200% 100%;
-    animation: skeleton-sweep 2s infinite ease-in-out;
+    background-size: 250% 100%;
+    animation: skeleton-sweep 2.4s infinite cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
 @keyframes skeleton-sweep {
   0% {
-    background-position: 200% 0;
+    background-position: 250% 0;
   }
   100% {
-    background-position: -200% 0;
+    background-position: -250% 0;
   }
 }

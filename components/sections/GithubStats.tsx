@@ -121,8 +121,8 @@ export default function GithubStats({ stats }: GithubStatsProps) {
                 {/* Snake Grid Animation */}
                 <div className="relative w-full opacity-90 hover:opacity-100 transition-opacity duration-500 hover:scale-[1.01] transform-gpu">
                   <picture className="w-full flex justify-center">
-                    <source media="(prefers-color-scheme: dark)" srcSet="https://raw.githubusercontent.com/ichwalM/ichwalM/output/snake.svg?color_snake=#ffffff&color_dots=#1a1a1a,#0c2d6b,#1551c5,#2563EB,#4f8af8" />
-                    <source media="(prefers-color-scheme: light)" srcSet="https://raw.githubusercontent.com/ichwalM/ichwalM/output/snake.svg?color_snake=#ffffff&color_dots=#1a1a1a,#0c2d6b,#1551c5,#2563EB,#4f8af8" />
+                    <source media="(prefers-color-scheme: dark)" srcSet="https://raw.githubusercontent.com/ichwalM/ichwalM/output/snake.svg?color_snake=#10b981&color_dots=#161b22,#064e3b,#047857,#10b981,#34d399" />
+                    <source media="(prefers-color-scheme: light)" srcSet="https://raw.githubusercontent.com/ichwalM/ichwalM/output/snake.svg?color_snake=#10b981&color_dots=#ebedf0,#9be9a8,#40c463,#10b981,#047857" />
                     <img
                       alt="github contribution grid snake animation"
                       src="https://raw.githubusercontent.com/ichwalM/ichwalM/output/snake.svg"
@@ -137,11 +137,11 @@ export default function GithubStats({ stats }: GithubStatsProps) {
                   <div className="flex items-center gap-2">
                     <span>Less</span>
                     <div className="flex gap-1 md:gap-1.5">
-                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#1a1a1a] rounded-[1px] md:rounded-sm" />
-                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#0c2d6b] rounded-[1px] md:rounded-sm" />
-                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#1551c5] rounded-[1px] md:rounded-sm" />
-                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#2563EB] rounded-[1px] md:rounded-sm" />
-                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#4f8af8] rounded-[1px] md:rounded-sm" />
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#161b22] border border-border/40 rounded-[1px] md:rounded-sm" />
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#064e3b] rounded-[1px] md:rounded-sm" />
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#047857] rounded-[1px] md:rounded-sm" />
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#10b981] rounded-[1px] md:rounded-sm" />
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#34d399] rounded-[1px] md:rounded-sm" />
                     </div>
                     <span>More</span>
                   </div>
@@ -155,12 +155,12 @@ export default function GithubStats({ stats }: GithubStatsProps) {
                 href={stats.profile_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ x: 4 }}
-                whileTap={{ scale: 0.97 }}
-                className="flex items-center gap-2 px-6 py-3 bg-[#24292e] text-white text-sm font-bold hover:bg-[#2f363d] transition-colors"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center gap-2 px-6 py-3 bg-card border-2 border-border hover:border-primary text-foreground text-sm font-bold tracking-wide hover:text-primary transition-colors"
               >
-                <Github className="w-4 h-4" />
-                Visit GitHub Profile
+                <Github className="w-4 h-4 text-primary" />
+                <span>Visit GitHub Profile</span>
               </motion.a>
             </div>
           </div>

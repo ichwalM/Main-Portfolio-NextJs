@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import HeroSkeleton from '@/components/ui/HeroSkeleton';
 import { Terminal, CheckCircle2 } from 'lucide-react';
 
@@ -9,38 +9,39 @@ export default function InitialLoader() {
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const animFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
     setMounted(true);
 
-    // Fast, responsive boot sequence (400ms duration)
-    const duration = 400;
-    const intervalTime = 16;
-    const steps = duration / intervalTime;
-    let currentStep = 0;
+    const startTime = performance.now();
+    const duration = 480; // 480ms ultra-smooth 60fps interpolation
 
     const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
-    const interval = setInterval(() => {
-      currentStep++;
-      const timeFraction = Math.min(currentStep / steps, 1);
-      const currentProgress = Math.floor(easeOutCubic(timeFraction) * 100);
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      const current = Math.min(100, Math.round(easeOutCubic(t) * 100));
 
-      setProgress(currentProgress);
+      setProgress(current);
 
-      if (currentStep >= steps) {
-        clearInterval(interval);
+      if (t < 1) {
+        animFrameRef.current = requestAnimationFrame(tick);
+      } else {
         setTimeout(() => {
           setIsLoading(false);
-        }, 120);
+        }, 100);
       }
-    }, intervalTime);
+    };
 
-    // Prevent scroll during initial 400ms boot
+    animFrameRef.current = requestAnimationFrame(tick);
+
+    // Prevent body scroll during initial boot
     document.body.style.overflow = 'clip';
 
     return () => {
-      clearInterval(interval);
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       document.body.style.overflow = '';
     };
   }, []);
@@ -63,8 +64,7 @@ export default function InitialLoader() {
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            scale: 1.02,
-            transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+            transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
           }}
           className="fixed inset-0 z-[100] bg-background flex flex-col justify-between overflow-hidden pointer-events-none select-none"
         >
@@ -83,8 +83,8 @@ export default function InitialLoader() {
 
             <div className="flex items-center gap-3">
               <div className="w-24 sm:w-36 h-2 bg-muted border border-border overflow-hidden">
-                <motion.div
-                  className="h-full bg-primary"
+                <div
+                  className="h-full bg-primary transition-all duration-75 ease-out"
                   style={{ width: `${progress}%` }}
                 />
               </div>
