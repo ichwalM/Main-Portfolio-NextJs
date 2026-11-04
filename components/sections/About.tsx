@@ -86,7 +86,7 @@ const AboutSection = memo(function AboutSection({ about }: AboutSectionProps) {
                     <span>·</span>
                     <span>Ubuntu Server</span>
                     <span>·</span>
-                    <span>Cisco Networking</span>
+                    <span>DevOps &amp; CI/CD</span>
                   </div>
                 </div>
               </motion.div>

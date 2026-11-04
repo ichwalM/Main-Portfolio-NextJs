@@ -39,8 +39,8 @@ export async function generateMetadata(): Promise<Metadata> {
     getAbout().catch(() => null),
   ]);
 
-  const title = profile?.name ? `${profile.name} - Full Stack Developer & Network Engineer` : 'Ichwal - Full Stack Developer & Network Engineer';
-  const description = about?.about_deskripsi || profile?.bio || 'Passionate Full Stack Developer specializing in modern web technologies.';
+  const title = profile?.name ? `${profile.name} - Full Stack Developer & DevOps Engineer` : 'Ichwal - Full Stack Developer & DevOps Engineer';
+  const description = about?.about_deskripsi || profile?.bio || 'Passionate Full Stack Developer and DevOps Engineer specializing in modern web technologies and resilient cloud infrastructure.';
   const image = '/ichwal-cutout.webp';
 
   return {
@@ -61,14 +61,23 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-// Section skeleton for Suspense fallback
+// Technical section skeleton for Suspense fallback
 function SectionSkeleton() {
   return (
-    <div className="py-24 animate-pulse">
+    <div className="py-24 border-t border-border bg-card/20 select-none">
       <div className="container mx-auto px-6">
-        <div className="h-4 w-24 bg-border rounded mb-6" />
-        <div className="h-12 w-64 bg-border rounded mb-4" />
-        <div className="h-4 w-48 bg-border rounded" />
+        <div className="h-4 w-28 skeleton-shimmer border border-primary/30 mb-4" />
+        <div className="h-10 w-72 sm:w-96 skeleton-shimmer mb-3" />
+        <div className="h-4 w-60 skeleton-shimmer mb-10" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="h-40 border-2 border-border bg-card p-5 space-y-3">
+              <div className="h-5 w-32 skeleton-shimmer" />
+              <div className="h-3 w-full skeleton-shimmer" />
+              <div className="h-3 w-4/5 skeleton-shimmer" />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

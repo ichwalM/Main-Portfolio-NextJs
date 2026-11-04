@@ -2,9 +2,8 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { Loader2, Check } from 'lucide-react';
-
-const LOADER_SESSION_KEY = 'portfolio_loader_shown';
+import HeroSkeleton from '@/components/ui/HeroSkeleton';
+import { Terminal, CheckCircle2 } from 'lucide-react';
 
 export default function InitialLoader() {
   const [progress, setProgress] = useState(0);
@@ -12,20 +11,11 @@ export default function InitialLoader() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Skip loader on repeat visits within the same session
-    if (typeof sessionStorage !== 'undefined') {
-      const alreadyShown = sessionStorage.getItem(LOADER_SESSION_KEY);
-      if (alreadyShown) {
-        setIsLoading(false);
-        return;
-      }
-    }
-
     setMounted(true);
 
-    // Fast sleek intro tick: 350ms duration + 100ms hold = 450ms total
-    const duration = 350;
-    const intervalTime = 15;
+    // Fast, responsive boot sequence (400ms duration)
+    const duration = 400;
+    const intervalTime = 16;
     const steps = duration / intervalTime;
     let currentStep = 0;
 
@@ -42,21 +32,16 @@ export default function InitialLoader() {
         clearInterval(interval);
         setTimeout(() => {
           setIsLoading(false);
-          // Mark as shown for this session
-          try {
-            sessionStorage.setItem(LOADER_SESSION_KEY, '1');
-          } catch (_) {
-            // sessionStorage may be unavailable in some contexts
-          }
-        }, 100);
+        }, 120);
       }
     }, intervalTime);
 
-    // Use overflow:clip instead of hidden — doesn't affect scroll position measurement
+    // Prevent scroll during initial 400ms boot
     document.body.style.overflow = 'clip';
 
     return () => {
       clearInterval(interval);
+      document.body.style.overflow = '';
     };
   }, []);
 
@@ -74,54 +59,47 @@ export default function InitialLoader() {
     <AnimatePresence>
       {isLoading && (
         <motion.div
-          key="loader"
+          key="initial-skeleton-loader"
           initial={{ opacity: 1 }}
-          exit={{ y: "-100%", transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] } }}
-          className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center transform-gpu overflow-hidden"
+          exit={{
+            opacity: 0,
+            scale: 1.02,
+            transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+          }}
+          className="fixed inset-0 z-[100] bg-background flex flex-col justify-between overflow-hidden pointer-events-none select-none"
         >
-          <div className="relative border border-border/20 p-12 md:p-24 flex flex-col items-center justify-center min-w-[300px] md:min-w-[600px]">
-
-            {/* Top Left Status Badge */}
-            <div className="absolute -top-3 left-4 px-2 py-0.5 bg-primary text-primary-foreground text-xs font-bold tracking-wider uppercase">
-              {isComplete ? 'RENDER COMPLETE' : 'RENDERING...'}
+          {/* Top Real-time HUD Telemetry Bar */}
+          <div className="w-full bg-card/95 border-b border-border px-4 py-2 flex items-center justify-between text-xs font-mono z-50 backdrop-blur-md">
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1.5 text-primary font-bold">
+                <Terminal className="w-3.5 h-3.5" />
+                <span>WALLLDEV // OS</span>
+              </span>
+              <span className="text-muted-foreground hidden sm:inline">|</span>
+              <span className="text-muted-foreground hidden sm:inline">
+                {isComplete ? 'CORE HYDRATED' : 'HYDRATING FULL STACK & DEVOPS RUNTIME...'}
+              </span>
             </div>
 
-            {/* Small Circle Indicator */}
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full border-[1.5px] border-foreground/50 flex items-center justify-center">
-              {!isComplete && (
+            <div className="flex items-center gap-3">
+              <div className="w-24 sm:w-36 h-2 bg-muted border border-border overflow-hidden">
                 <motion.div
-                  className="w-1.5 h-1.5 bg-primary rounded-full"
-                  animate={{ opacity: [0, 1, 0] }}
-                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="h-full bg-primary"
+                  style={{ width: `${progress}%` }}
                 />
+              </div>
+              <span className="font-bold text-primary w-10 text-right">
+                {progress}%
+              </span>
+              {isComplete && (
+                <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
               )}
             </div>
+          </div>
 
-            {/* Corner Decorative Dots */}
-            <div className="absolute top-0 left-0 w-1.5 h-1.5 border border-primary/50 -translate-x-1/2 -translate-y-1/2 bg-background" />
-            <div className="absolute top-0 right-0 w-1.5 h-1.5 border border-primary/50 translate-x-1/2 -translate-y-1/2 bg-background" />
-            <div className="absolute bottom-0 left-0 w-1.5 h-1.5 border border-primary/50 -translate-x-1/2 translate-y-1/2 bg-background" />
-            <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border border-primary/50 translate-x-1/2 translate-y-1/2 bg-background" />
-
-            {/* Massive Percentage Text */}
-            <div className="text-[25vw] md:text-[200px] font-black tracking-tighter text-foreground leading-[0.8] select-none py-8">
-              {progress}<span className="text-primary">%</span>
-            </div>
-
-            {/* Bottom Status Box */}
-            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
-              <div className="bg-foreground text-background px-4 py-2 flex items-center gap-3">
-                {isComplete ? (
-                  <Check className="w-4 h-4 text-primary" strokeWidth={3} />
-                ) : (
-                  <Loader2 className="w-4 h-4 text-primary animate-spin" />
-                )}
-                <span className="text-xs font-bold tracking-wider uppercase whitespace-nowrap">
-                  {isComplete ? 'READY' : 'LOADING...'}
-                </span>
-              </div>
-            </div>
-
+          {/* High-Fidelity Blueprint / Skeleton Component */}
+          <div className="flex-1 overflow-hidden relative">
+            <HeroSkeleton fullPage={false} />
           </div>
         </motion.div>
       )}

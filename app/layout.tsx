@@ -27,10 +27,10 @@ const dmMono = DM_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://walldev.my.id'),
   title: {
-    default: 'Ichwal — Full Stack Developer & Network Administrator | Portfolio',
+    default: 'Ichwal — Full Stack Developer & DevOps Engineer | Portfolio',
     template: 'Ichwal | %s',
   },
-  description: 'Portfolio resmi Ichwal — Full Stack Developer dan Network Administrator dari Makassar, Indonesia. Spesialis Laravel, React, Next.js, dan administrasi jaringan.',
+  description: 'Portfolio resmi Ichwal — Full Stack Developer dan DevOps Engineer dari Makassar, Indonesia. Spesialis Laravel, React, Next.js, Docker, CI/CD, dan cloud infrastructure.',
   keywords: [
     // Nama / Branding
     'Ichwal',
@@ -42,8 +42,8 @@ export const metadata: Metadata = {
     'walldev.my.id',
     // Profesi
     'Full Stack Developer',
-    'Web Developer',
-    'Network Administrator',
+    'DevOps Engineer',
+    'Cloud Engineer',
     'Server Administrator',
     'Backend Developer',
     'Frontend Developer',
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     'Web Developer Indonesia',
     'Freelance Developer Indonesia',
     'Tailwind CSS', 'Inertia.js', 'REST API Specialist', 'Git/GitHub',
-    'MikroTik Configuration', 'Cisco Certified Specialist', 'Linux Administrator', 'Docker Container', 'Cloudflare Specialist',
+    'Docker Container', 'CI/CD Pipeline', 'Linux Administrator', 'Cloudflare Specialist', 'Nginx Tuning',
     'IoT Engineer', 'Embedded Systems Developer', 'Computer Vision Project', 'ESP32 Developer',
     
     'Jasa Website Makassar', 'IT Consultant Makassar', 'Software Engineer Makassar', 'Freelance Web Developer'
@@ -73,8 +73,8 @@ export const metadata: Metadata = {
     locale: 'id_ID',
     url: 'https://walldev.my.id',
     siteName: 'Ichwal Portfolio',
-    title: 'Ichwal — Full Stack Developer & Network Administrator',
-    description: 'Portfolio resmi Ichwal — Full Stack Developer dan Network Administrator dari Makassar, Indonesia.',
+    title: 'Ichwal — Full Stack Developer & DevOps Engineer',
+    description: 'Portfolio resmi Ichwal — Full Stack Developer dan DevOps Engineer dari Makassar, Indonesia.',
     images: [
       {
         url: '/og-image.jpg',
@@ -86,8 +86,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ichwal — Full Stack Developer & Network Administrator',
-    description: 'Portfolio resmi Ichwal — Full Stack Developer dan Network Administrator dari Makassar, Indonesia.',
+    title: 'Ichwal — Full Stack Developer & DevOps Engineer',
+    description: 'Portfolio resmi Ichwal — Full Stack Developer dan DevOps Engineer dari Makassar, Indonesia.',
     images: ['/og-image.jpg'],
   },
   robots: {

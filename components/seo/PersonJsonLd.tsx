@@ -8,7 +8,7 @@ interface PersonJsonLdProps {
 
 export default function PersonJsonLd({ profile, about }: PersonJsonLdProps) {
   const name = profile?.name || 'Ichwal';
-  const description = about?.about_deskripsi || 'Full Stack Developer & Network Administrator dari Makassar, Indonesia.';
+  const description = about?.about_deskripsi || 'Full Stack Developer & DevOps Engineer dari Makassar, Indonesia.';
   
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -16,7 +16,7 @@ export default function PersonJsonLd({ profile, about }: PersonJsonLdProps) {
     name: name,
     alternateName: ['IchwalM', 'Ichwal Developer', 'Ichwal Full Stack'],
     description: description.slice(0, 160),
-    jobTitle: 'Full Stack Developer & Network Administrator',
+    jobTitle: 'Full Stack Developer & DevOps Engineer',
     url: 'https://walldev.my.id',
     image: profile?.hero_image || 'https://walldev.my.id/og-image.jpg',
     email: profile?.email || 'contact@walldev.my.id',
@@ -47,7 +47,9 @@ export default function PersonJsonLd({ profile, about }: PersonJsonLdProps) {
       'Node.js',
       'Laravel',
       'PHP',
-      'Network Administration',
+      'DevOps & Cloud Infrastructure',
+      'Docker & Containerization',
+      'CI/CD Pipelines',
       'Server Administration',
       'Linux',
       'Cyber Security',

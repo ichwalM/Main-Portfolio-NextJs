@@ -99,11 +99,11 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
     },
     {
       id: 2,
-      title: 'Network & SysAdmin',
-      role: 'Infrastructure Defense',
-      description: 'Cisco certified in Network Defense. Hands-on Ubuntu Server management, Nginx tuning, and network routing.',
+      title: 'DevOps & SysAdmin',
+      role: 'Infrastructure & Automation',
+      description: 'CI/CD pipeline automation, Docker containerization, Ubuntu Server tuning, and reliable cloud deployments.',
       icon: Server,
-      tags: ['Cisco Certified', 'Ubuntu Server', 'Nginx', 'Security'],
+      tags: ['Docker', 'CI/CD', 'Ubuntu Server', 'Nginx', 'DevOps'],
       position: 'bottom-left',
     },
     {
@@ -156,13 +156,18 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
       </div>
 
       {/* =========================================================================
-          CROSSING DIAGONAL MARQUEE RIBBONS ("Text full stack network engineer")
+          CROSSING DIAGONAL MARQUEE RIBBONS ("Text full stack devops engineer")
           Two diagonal ribbons crossing in an "X" shape directly behind the person!
           Color harmony: Deep slate-emerald tone that blends cleanly with the theme.
           ========================================================================= */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 overflow-hidden" aria-hidden="true">
         {/* Ribbon 1: Slanted top-left to bottom-right (-9deg) */}
-        <div className="absolute w-[180vw] -rotate-[9deg] bg-card/90 text-primary border-y border-primary/30 py-2 sm:py-2.5 font-sans text-xs sm:text-sm font-bold tracking-wider uppercase flex overflow-hidden backdrop-blur-xs">
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0.85 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute w-[180vw] -rotate-[9deg] bg-card/90 text-primary border-y border-primary/30 py-2 sm:py-2.5 font-sans text-xs sm:text-sm font-bold tracking-wider uppercase flex overflow-hidden backdrop-blur-xs"
+        >
           <motion.div
             className="flex shrink-0 items-center gap-8 whitespace-nowrap"
             animate={{ x: ['0%', '-50%'] }}
@@ -172,7 +177,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
               <span key={i} className="flex items-center gap-8">
                 <span>FULL STACK DEVELOPER</span>
                 <span className="opacity-50">/</span>
-                <span>NETWORK ADMINISTRATOR</span>
+                <span>DEVOPS ENGINEER</span>
                 <span className="opacity-50">/</span>
                 <span>UBUNTU SERVER MANAGEMENT</span>
                 <span className="opacity-50">/</span>
@@ -183,10 +188,15 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
               </span>
             ))}
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* Ribbon 2: Slanted bottom-left to top-right (+9deg) (crossing Ribbon 1) */}
-        <div className="absolute w-[180vw] rotate-[9deg] bg-muted/80 text-foreground border-y border-border py-2 sm:py-2.5 font-sans text-xs sm:text-sm font-bold tracking-wider uppercase flex overflow-hidden backdrop-blur-xs">
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0.85 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute w-[180vw] rotate-[9deg] bg-muted/80 text-foreground border-y border-border py-2 sm:py-2.5 font-sans text-xs sm:text-sm font-bold tracking-wider uppercase flex overflow-hidden backdrop-blur-xs"
+        >
           <motion.div
             className="flex shrink-0 items-center gap-8 whitespace-nowrap"
             animate={{ x: ['-50%', '0%'] }}
@@ -194,40 +204,45 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           >
             {[...Array(4)].map((_, i) => (
               <span key={i} className="flex items-center gap-8">
-                <span>CISCO CERTIFIED NETWORK DEFENSE</span>
+                <span>CI/CD &amp; DOCKER DEPLOYMENTS</span>
                 <span className="opacity-50">/</span>
                 <span>15+ GOOGLE CLOUD SKILL BADGES</span>
                 <span className="opacity-50">/</span>
-                <span>DOCKER &amp; VIRTUALIZATION</span>
+                <span>DEVOPS &amp; LINUX INFRASTRUCTURE</span>
                 <span className="opacity-50">/</span>
                 <span>GEMINI AI SOLUTIONS</span>
                 <span className="opacity-50">/</span>
-                <span>LINUX SYSTEMS</span>
+                <span>SYSTEM OBSERVABILITY</span>
                 <span className="opacity-50">/</span>
               </span>
             ))}
           </motion.div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Main Content Layout Container */}
       <div className="relative z-20 w-full max-w-7xl mx-auto flex-1 flex flex-col justify-between items-center py-2 sm:py-4">
 
         {/* Top Header Bar — Display H1 Headline with Harmonious Contrast */}
-        <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4 px-2 sm:px-4">
+        <motion.div
+          initial={{ opacity: 0, y: -15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4 px-2 sm:px-4"
+        >
           <div className="flex items-center gap-3">
-            <span className="w-2.5 h-2.5 bg-primary rounded-full inline-block" />
+            <span className="w-2.5 h-2.5 bg-primary rounded-full inline-block animate-pulse" />
             <h1 className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight uppercase">
               {name}
               <span className="text-muted-foreground text-sm sm:text-base font-medium normal-case tracking-normal ml-3">
-                · Full Stack &amp; Network Engineer
+                · Full Stack &amp; DevOps Engineer
               </span>
             </h1>
           </div>
           <div className="text-xs sm:text-sm text-muted-foreground font-medium">
             Makassar, Indonesia · Open for Projects
           </div>
-        </div>
+        </motion.div>
 
         {/* Hero Interactive Stage: Center Cutout Figure + 4 Pointing Containers */}
         <div className="relative w-full flex-1 min-h-[540px] sm:min-h-[620px] md:min-h-[700px] lg:min-h-[760px] xl:min-h-[820px] flex items-center justify-center my-2 sm:my-4">
@@ -248,9 +263,9 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                   }
                 : {}
             }
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, scale: 0.90, y: 35 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="relative z-30 flex flex-col items-center justify-center pointer-events-auto"
           >
             {/* Gentle idle float animation */}
@@ -260,8 +275,11 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
               className="relative flex flex-col items-center"
             >
               {/* Grounding Halo for Depth */}
-              <div
-                className="absolute inset-0 bg-primary/10 blur-3xl rounded-full scale-90 -z-10 pointer-events-none"
+              <motion.div
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.1, delay: 0.3 }}
+                className="absolute inset-0 bg-primary/15 blur-3xl rounded-full scale-90 -z-10 pointer-events-none"
                 aria-hidden="true"
               />
 
@@ -269,7 +287,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
               <div className="relative w-[340px] sm:w-[440px] md:w-[520px] lg:w-[600px] xl:w-[680px] 2xl:w-[740px] h-[480px] sm:h-[580px] md:h-[680px] lg:h-[760px] xl:h-[840px] 2xl:h-[890px] drop-shadow-[0_25px_45px_rgba(0,0,0,0.5)]">
                 <Image
                   src={imageSrc}
-                  alt={`${name} — Full Stack Developer & Network Administrator`}
+                  alt={`${name} — Full Stack Developer & DevOps Engineer`}
                   fill
                   priority
                   sizes="(max-width: 640px) 340px, (max-width: 768px) 460px, (max-width: 1024px) 540px, (max-width: 1280px) 620px, 740px"
@@ -280,13 +298,13 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
 
               {/* Center Grounding Pedestal Label */}
               <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="mt-[-16px] sm:mt-[-20px] z-40 px-5 sm:px-6 py-2 sm:py-2.5 bg-card text-foreground border-2 border-border font-bold text-xs sm:text-sm tracking-tight flex items-center gap-2.5"
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: 0.5, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className="mt-[-16px] sm:mt-[-20px] z-40 px-5 sm:px-6 py-2 sm:py-2.5 bg-card text-foreground border-2 border-border font-bold text-xs sm:text-sm tracking-tight flex items-center gap-2.5 shadow-sm"
               >
-                <span className="w-2 h-2 bg-primary rounded-full" />
-                <span>ICHWAL · FULL STACK &amp; NETWORK ENGINEER</span>
+                <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                <span>ICHWAL · FULL STACK &amp; DEVOPS ENGINEER</span>
               </motion.div>
             </motion.div>
           </motion.div>
@@ -300,9 +318,9 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           {/* CARD 1: TOP LEFT — Full Stack Engineer */}
           <div className="hidden lg:block absolute top-4 xl:top-8 left-4 xl:left-12 z-20 max-w-[310px] xl:max-w-[340px]">
             <motion.div
-              initial={{ opacity: 0, x: -25 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
+              initial={{ opacity: 0, x: -35, y: -15, scale: 0.96 }}
+              animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={() => setActiveCard(1)}
               onMouseLeave={() => setActiveCard(null)}
               className={`relative p-5 bg-card border-2 transition-colors duration-200 ${
@@ -326,34 +344,49 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                 ))}
               </div>
 
-              {/* Technical Angular Arrow (Behind the Person) */}
+              {/* Technical Angular Arrow (Behind the Person, Staged SVG Draw Animation) */}
               <div className="absolute left-full top-1/2 -translate-y-1/2 pointer-events-none w-40 xl:w-52 h-24 overflow-visible">
                 <svg className="w-full h-full overflow-visible" viewBox="0 0 150 80" fill="none">
-                  <rect x="0" y="16" width="4.5" height="4.5" fill="hsl(var(--primary))" />
-                  <path
+                  <motion.rect
+                    x="0"
+                    y="16"
+                    width="4.5"
+                    height="4.5"
+                    fill="hsl(var(--primary))"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.4, duration: 0.2 }}
+                  />
+                  <motion.path
                     d="M 0,18 L 55,18 L 135,58"
                     stroke="hsl(var(--primary))"
                     strokeWidth="2.5"
                     strokeLinecap="square"
                     strokeLinejoin="miter"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ delay: 0.45, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     className="transition-colors"
                   />
-                  <polygon
+                  <motion.polygon
                     points="135,58 120,48 124,62"
                     fill="hsl(var(--primary))"
-                    className="transition-colors"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.85, duration: 0.25 }}
+                    className="transition-colors origin-center"
                   />
                 </svg>
               </div>
             </motion.div>
           </div>
 
-          {/* CARD 2: BOTTOM LEFT — Network & SysAdmin */}
+          {/* CARD 2: BOTTOM LEFT — DevOps & SysAdmin */}
           <div className="hidden lg:block absolute bottom-4 xl:bottom-8 left-4 xl:left-12 z-20 max-w-[310px] xl:max-w-[340px]">
             <motion.div
-              initial={{ opacity: 0, x: -25 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
+              initial={{ opacity: 0, x: -35, y: 15, scale: 0.96 }}
+              animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+              transition={{ delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={() => setActiveCard(2)}
               onMouseLeave={() => setActiveCard(null)}
               className={`relative p-5 bg-card border-2 transition-colors duration-200 ${
@@ -377,22 +410,37 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                 ))}
               </div>
 
-              {/* Technical Angular Arrow (Behind the Person) */}
+              {/* Technical Angular Arrow (Behind the Person, Staged SVG Draw Animation) */}
               <div className="absolute left-full top-1/2 -translate-y-1/2 pointer-events-none w-40 xl:w-52 h-24 overflow-visible">
                 <svg className="w-full h-full overflow-visible" viewBox="0 0 150 80" fill="none">
-                  <rect x="0" y="58" width="4.5" height="4.5" fill="hsl(var(--primary))" />
-                  <path
+                  <motion.rect
+                    x="0"
+                    y="58"
+                    width="4.5"
+                    height="4.5"
+                    fill="hsl(var(--primary))"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.5, duration: 0.2 }}
+                  />
+                  <motion.path
                     d="M 0,60 L 55,60 L 135,20"
                     stroke="hsl(var(--primary))"
                     strokeWidth="2.5"
                     strokeLinecap="square"
                     strokeLinejoin="miter"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ delay: 0.55, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     className="transition-colors"
                   />
-                  <polygon
+                  <motion.polygon
                     points="135,20 124,16 120,30"
                     fill="hsl(var(--primary))"
-                    className="transition-colors"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.95, duration: 0.25 }}
+                    className="transition-colors origin-center"
                   />
                 </svg>
               </div>
@@ -402,9 +450,9 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           {/* CARD 3: TOP RIGHT — Cloud & AI Solutions */}
           <div className="hidden lg:block absolute top-4 xl:top-8 right-4 xl:right-12 z-20 max-w-[310px] xl:max-w-[340px]">
             <motion.div
-              initial={{ opacity: 0, x: 25 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.25, duration: 0.5 }}
+              initial={{ opacity: 0, x: 35, y: -15, scale: 0.96 }}
+              animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+              transition={{ delay: 0.35, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={() => setActiveCard(3)}
               onMouseLeave={() => setActiveCard(null)}
               className={`relative p-5 bg-card border-2 transition-colors duration-200 ${
@@ -428,22 +476,37 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                 ))}
               </div>
 
-              {/* Technical Angular Arrow (Behind the Person) */}
+              {/* Technical Angular Arrow (Behind the Person, Staged SVG Draw Animation) */}
               <div className="absolute right-full top-1/2 -translate-y-1/2 pointer-events-none w-40 xl:w-52 h-24 overflow-visible">
                 <svg className="w-full h-full overflow-visible" viewBox="0 0 150 80" fill="none">
-                  <rect x="145.5" y="16" width="4.5" height="4.5" fill="hsl(var(--primary))" />
-                  <path
+                  <motion.rect
+                    x="145.5"
+                    y="16"
+                    width="4.5"
+                    height="4.5"
+                    fill="hsl(var(--primary))"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.45, duration: 0.2 }}
+                  />
+                  <motion.path
                     d="M 150,18 L 95,18 L 15,58"
                     stroke="hsl(var(--primary))"
                     strokeWidth="2.5"
                     strokeLinecap="square"
                     strokeLinejoin="miter"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ delay: 0.5, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     className="transition-colors"
                   />
-                  <polygon
+                  <motion.polygon
                     points="15,58 26,62 30,48"
                     fill="hsl(var(--primary))"
-                    className="transition-colors"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.9, duration: 0.25 }}
+                    className="transition-colors origin-center"
                   />
                 </svg>
               </div>
@@ -453,9 +516,9 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           {/* CARD 4: BOTTOM RIGHT — Informatics Engineering */}
           <div className="hidden lg:block absolute bottom-4 xl:bottom-8 right-4 xl:right-12 z-20 max-w-[310px] xl:max-w-[340px]">
             <motion.div
-              initial={{ opacity: 0, x: 25 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.35, duration: 0.5 }}
+              initial={{ opacity: 0, x: 35, y: 15, scale: 0.96 }}
+              animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+              transition={{ delay: 0.45, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={() => setActiveCard(4)}
               onMouseLeave={() => setActiveCard(null)}
               className={`relative p-5 bg-card border-2 transition-colors duration-200 ${
@@ -479,22 +542,37 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                 ))}
               </div>
 
-              {/* Technical Angular Arrow (Behind the Person) */}
+              {/* Technical Angular Arrow (Behind the Person, Staged SVG Draw Animation) */}
               <div className="absolute right-full top-1/2 -translate-y-1/2 pointer-events-none w-40 xl:w-52 h-24 overflow-visible">
                 <svg className="w-full h-full overflow-visible" viewBox="0 0 150 80" fill="none">
-                  <rect x="145.5" y="58" width="4.5" height="4.5" fill="hsl(var(--primary))" />
-                  <path
+                  <motion.rect
+                    x="145.5"
+                    y="58"
+                    width="4.5"
+                    height="4.5"
+                    fill="hsl(var(--primary))"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.55, duration: 0.2 }}
+                  />
+                  <motion.path
                     d="M 150,60 L 95,60 L 15,20"
                     stroke="hsl(var(--primary))"
                     strokeWidth="2.5"
                     strokeLinecap="square"
                     strokeLinejoin="miter"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ delay: 0.6, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     className="transition-colors"
                   />
-                  <polygon
+                  <motion.polygon
                     points="15,20 30,30 26,16"
                     fill="hsl(var(--primary))"
-                    className="transition-colors"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 1.0, duration: 0.25 }}
+                    className="transition-colors origin-center"
                   />
                 </svg>
               </div>
@@ -504,7 +582,12 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
         </div>
 
         {/* Mobile / Tablet 2x2 Grid of Callout Cards (Harmonious borders) */}
-        <div className="lg:hidden w-full grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-4 z-30">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, duration: 0.5 }}
+          className="lg:hidden w-full grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-4 z-30"
+        >
           {calloutCards.map((card) => {
             const Icon = card.icon;
             return (
@@ -529,7 +612,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
               </div>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* Action Controls & Social Links Bar */}
         <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-border z-30">
