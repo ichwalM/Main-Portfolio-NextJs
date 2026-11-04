@@ -53,9 +53,19 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
   // State for card interactions
   const [activeCard, setActiveCard] = useState<number | null>(null);
   const [isPointerFine, setIsPointerFine] = useState(false);
+  const [introDone, setIntroDone] = useState(false);
 
   useEffect(() => {
     setIsPointerFine(window.matchMedia('(pointer: fine)').matches);
+
+    const handleIntroDone = () => setIntroDone(true);
+    window.addEventListener('portfolio_intro_complete', handleIntroDone);
+    const fallbackTimer = setTimeout(() => setIntroDone(true), 2400);
+
+    return () => {
+      window.removeEventListener('portfolio_intro_complete', handleIntroDone);
+      clearTimeout(fallbackTimer);
+    };
   }, []);
 
   // Mouse parallax motion for 3D depth on center figure
@@ -164,7 +174,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
         {/* Ribbon 1: Slanted top-left to bottom-right (-9deg) */}
         <motion.div
           initial={{ opacity: 0, scaleX: 0.85 }}
-          animate={{ opacity: 1, scaleX: 1 }}
+          animate={introDone ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0.85 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="absolute w-[180vw] -rotate-[9deg] bg-card/90 text-primary border-y border-primary/30 py-2 sm:py-2.5 font-sans text-xs sm:text-sm font-bold tracking-wider uppercase flex overflow-hidden backdrop-blur-xs"
         >
@@ -193,7 +203,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
         {/* Ribbon 2: Slanted bottom-left to top-right (+9deg) (crossing Ribbon 1) */}
         <motion.div
           initial={{ opacity: 0, scaleX: 0.85 }}
-          animate={{ opacity: 1, scaleX: 1 }}
+          animate={introDone ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0.85 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="absolute w-[180vw] rotate-[9deg] bg-muted/80 text-foreground border-y border-border py-2 sm:py-2.5 font-sans text-xs sm:text-sm font-bold tracking-wider uppercase flex overflow-hidden backdrop-blur-xs"
         >
@@ -226,7 +236,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
         {/* Top Header Bar — Display H1 Headline with Harmonious Contrast */}
         <motion.div
           initial={{ opacity: 0, y: -15 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={introDone ? { opacity: 1, y: 0 } : { opacity: 0, y: -15 }}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="w-full flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4 px-2 sm:px-4"
         >
@@ -264,7 +274,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                 : {}
             }
             initial={{ opacity: 0, scale: 0.90, y: 35 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
+            animate={introDone ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.90, y: 35 }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="relative z-30 flex flex-col items-center justify-center pointer-events-auto"
           >
@@ -277,7 +287,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
               {/* Grounding Halo for Depth */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.6 }}
-                animate={{ opacity: 1, scale: 1 }}
+                animate={introDone ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.6 }}
                 transition={{ duration: 1.1, delay: 0.3 }}
                 className="absolute inset-0 bg-primary/15 blur-3xl rounded-full scale-90 -z-10 pointer-events-none"
                 aria-hidden="true"
@@ -299,7 +309,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
               {/* Center Grounding Pedestal Label */}
               <motion.div
                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
+                animate={introDone ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.95 }}
                 transition={{ delay: 0.5, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                 className="mt-[-16px] sm:mt-[-20px] z-40 px-5 sm:px-6 py-2 sm:py-2.5 bg-card text-foreground border-2 border-border font-bold text-xs sm:text-sm tracking-tight flex items-center gap-2.5 shadow-sm"
               >
@@ -319,7 +329,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           <div className="hidden lg:block absolute top-4 xl:top-8 left-4 xl:left-12 z-20 max-w-[310px] xl:max-w-[340px]">
             <motion.div
               initial={{ opacity: 0, x: -35, y: -15, scale: 0.96 }}
-              animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+              animate={introDone ? { opacity: 1, x: 0, y: 0, scale: 1 } : { opacity: 0, x: -35, y: -15, scale: 0.96 }}
               transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={() => setActiveCard(1)}
               onMouseLeave={() => setActiveCard(null)}
@@ -354,7 +364,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                     height="4.5"
                     fill="hsl(var(--primary))"
                     initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
+                    animate={introDone ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
                     transition={{ delay: 0.4, duration: 0.2 }}
                   />
                   <motion.path
@@ -364,7 +374,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                     strokeLinecap="square"
                     strokeLinejoin="miter"
                     initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
+                    animate={introDone ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
                     transition={{ delay: 0.45, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     className="transition-colors"
                   />
@@ -372,7 +382,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                     points="135,58 120,48 124,62"
                     fill="hsl(var(--primary))"
                     initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
+                    animate={introDone ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
                     transition={{ delay: 0.85, duration: 0.25 }}
                     className="transition-colors origin-center"
                   />
@@ -385,7 +395,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           <div className="hidden lg:block absolute bottom-4 xl:bottom-8 left-4 xl:left-12 z-20 max-w-[310px] xl:max-w-[340px]">
             <motion.div
               initial={{ opacity: 0, x: -35, y: 15, scale: 0.96 }}
-              animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+              animate={introDone ? { opacity: 1, x: 0, y: 0, scale: 1 } : { opacity: 0, x: -35, y: 15, scale: 0.96 }}
               transition={{ delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={() => setActiveCard(2)}
               onMouseLeave={() => setActiveCard(null)}
@@ -420,7 +430,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                     height="4.5"
                     fill="hsl(var(--primary))"
                     initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
+                    animate={introDone ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
                     transition={{ delay: 0.5, duration: 0.2 }}
                   />
                   <motion.path
@@ -430,7 +440,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                     strokeLinecap="square"
                     strokeLinejoin="miter"
                     initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
+                    animate={introDone ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
                     transition={{ delay: 0.55, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     className="transition-colors"
                   />
@@ -438,7 +448,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                     points="135,20 124,16 120,30"
                     fill="hsl(var(--primary))"
                     initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
+                    animate={introDone ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
                     transition={{ delay: 0.95, duration: 0.25 }}
                     className="transition-colors origin-center"
                   />
@@ -451,7 +461,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           <div className="hidden lg:block absolute top-4 xl:top-8 right-4 xl:right-12 z-20 max-w-[310px] xl:max-w-[340px]">
             <motion.div
               initial={{ opacity: 0, x: 35, y: -15, scale: 0.96 }}
-              animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+              animate={introDone ? { opacity: 1, x: 0, y: 0, scale: 1 } : { opacity: 0, x: 35, y: -15, scale: 0.96 }}
               transition={{ delay: 0.35, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={() => setActiveCard(3)}
               onMouseLeave={() => setActiveCard(null)}
@@ -486,7 +496,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                     height="4.5"
                     fill="hsl(var(--primary))"
                     initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
+                    animate={introDone ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
                     transition={{ delay: 0.45, duration: 0.2 }}
                   />
                   <motion.path
@@ -496,7 +506,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                     strokeLinecap="square"
                     strokeLinejoin="miter"
                     initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
+                    animate={introDone ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
                     transition={{ delay: 0.5, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     className="transition-colors"
                   />
@@ -504,7 +514,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                     points="15,58 26,62 30,48"
                     fill="hsl(var(--primary))"
                     initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
+                    animate={introDone ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
                     transition={{ delay: 0.9, duration: 0.25 }}
                     className="transition-colors origin-center"
                   />
@@ -517,7 +527,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           <div className="hidden lg:block absolute bottom-4 xl:bottom-8 right-4 xl:right-12 z-20 max-w-[310px] xl:max-w-[340px]">
             <motion.div
               initial={{ opacity: 0, x: 35, y: 15, scale: 0.96 }}
-              animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+              animate={introDone ? { opacity: 1, x: 0, y: 0, scale: 1 } : { opacity: 0, x: 35, y: 15, scale: 0.96 }}
               transition={{ delay: 0.45, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={() => setActiveCard(4)}
               onMouseLeave={() => setActiveCard(null)}
@@ -552,7 +562,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                     height="4.5"
                     fill="hsl(var(--primary))"
                     initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
+                    animate={introDone ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
                     transition={{ delay: 0.55, duration: 0.2 }}
                   />
                   <motion.path
@@ -562,7 +572,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                     strokeLinecap="square"
                     strokeLinejoin="miter"
                     initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
+                    animate={introDone ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
                     transition={{ delay: 0.6, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     className="transition-colors"
                   />
@@ -570,7 +580,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                     points="15,20 30,30 26,16"
                     fill="hsl(var(--primary))"
                     initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
+                    animate={introDone ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
                     transition={{ delay: 1.0, duration: 0.25 }}
                     className="transition-colors origin-center"
                   />
@@ -584,7 +594,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
         {/* Mobile / Tablet 2x2 Grid of Callout Cards (Harmonious borders) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={introDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ delay: 0.35, duration: 0.5 }}
           className="lg:hidden w-full grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-4 z-30"
         >
