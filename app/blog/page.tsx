@@ -33,14 +33,9 @@ export default async function BlogPage() {
 
   return (
     <div className="pt-32 pb-20 overflow-hidden">
-      {/* Decorative watermark */}
-      <div className="absolute top-24 right-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter">
-        BLG
-      </div>
       <div className="container mx-auto px-6 relative z-10">
         <ScrollReveal>
           <div className="mb-16">
-            <p className="section-label mb-6">Writing</p>
             <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-none mb-4">
               Blog<span className="text-primary">.</span>
             </h1>

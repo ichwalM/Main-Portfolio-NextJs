@@ -118,7 +118,7 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled || isMobileMenuOpen
-          ? 'bg-background/95 backdrop-blur-md border-b-2 border-foreground py-4 shadow-[0_4px_0_hsl(var(--secondary))]'
+          ? 'bg-background/95 backdrop-blur-md border-b border-border py-4 shadow-sm'
           : 'bg-transparent py-6'
       }`}
     >
@@ -133,7 +133,7 @@ export default function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <ul className="hidden xl:flex items-center gap-3">
+        <ul className="hidden xl:flex items-center gap-2">
           {navItems.map((item) => {
             const href = item.href.startsWith('#') && !isHome ? `/${item.href}` : item.href;
             const targetId = item.href.replace('#', '');
@@ -144,10 +144,10 @@ export default function Header() {
                 <Link
                   href={href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className={`flex items-center justify-center px-4 py-2 text-[10px] font-black tracking-[0.12em] uppercase border transition-all duration-300 ${
+                  className={`flex items-center justify-center px-3.5 py-1.5 text-xs font-bold tracking-wider uppercase border transition-colors duration-200 ${
                     isActive 
-                      ? 'bg-primary text-primary-foreground border-foreground shadow-[3px_3px_0_hsl(var(--foreground))]' 
-                      : 'border-border text-muted-foreground hover:bg-foreground hover:text-background'
+                      ? 'bg-primary text-primary-foreground border-primary' 
+                      : 'border-border text-foreground hover:bg-muted'
                   }`}
                 >
                   {item.name}
@@ -164,7 +164,7 @@ export default function Header() {
             href="/wall-app"
             target="_blank"
             rel="noopener noreferrer"
-            className="brutalist-button flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground text-[10px] font-black tracking-[0.1em] uppercase hover:bg-secondary transition-all duration-300 h-10"
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground text-xs font-bold tracking-wide uppercase hover:opacity-90 transition-opacity h-9 border border-primary"
           >
             <LayoutGrid size={14} strokeWidth={2.5} />
             Wall App
@@ -191,13 +191,8 @@ export default function Header() {
               className="fixed inset-0 top-0 left-0 w-full h-dvh bg-background z-40 flex flex-col items-start justify-center xl:hidden overflow-hidden border-l border-border"
               style={{ padding: '3rem 2.5rem' }}
             >
-              {/* Decorative number */}
-              <span className="absolute top-8 right-8 font-mono text-[80px] font-black text-border/30 leading-none select-none">
-                M
-              </span>
-
               <ul className="flex flex-col gap-3 w-full">
-                {navItems.map((item, i) => {
+                {navItems.map((item) => {
                   const href = item.href.startsWith('#') && !isHome ? `/${item.href}` : item.href;
                   const targetId = item.href.replace('#', '');
                   const isActive = isHome && activeSection === targetId;
@@ -213,7 +208,6 @@ export default function Header() {
                         }`}
                         onClick={(e) => handleNavClick(e, item.href)}
                       >
-                        <span className={`text-xs font-mono ${isActive ? 'text-background/60' : 'text-primary/60'}`}>0{i + 1}</span>
                         {item.name}
                       </Link>
                     </motion.li>

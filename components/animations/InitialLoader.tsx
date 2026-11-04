@@ -23,9 +23,9 @@ export default function InitialLoader() {
 
     setMounted(true);
 
-    // Reduced: 1200ms duration + 400ms hold = 1600ms total (was 2800ms)
-    const duration = 1200;
-    const intervalTime = 20;
+    // Fast sleek intro tick: 350ms duration + 100ms hold = 450ms total
+    const duration = 350;
+    const intervalTime = 15;
     const steps = duration / intervalTime;
     let currentStep = 0;
 
@@ -48,7 +48,7 @@ export default function InitialLoader() {
           } catch (_) {
             // sessionStorage may be unavailable in some contexts
           }
-        }, 400); // Was 800ms — tighter hold
+        }, 100);
       }
     }, intervalTime);
 
@@ -82,7 +82,7 @@ export default function InitialLoader() {
           <div className="relative border border-border/20 p-12 md:p-24 flex flex-col items-center justify-center min-w-[300px] md:min-w-[600px]">
 
             {/* Top Left Status Badge */}
-            <div className="absolute -top-3 left-4 px-2 py-0.5 bg-primary text-primary-foreground text-[10px] font-bold tracking-wider uppercase font-mono">
+            <div className="absolute -top-3 left-4 px-2 py-0.5 bg-primary text-primary-foreground text-xs font-bold tracking-wider uppercase">
               {isComplete ? 'RENDER COMPLETE' : 'RENDERING...'}
             </div>
 
@@ -110,14 +110,14 @@ export default function InitialLoader() {
 
             {/* Bottom Status Box */}
             <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
-              <div className="bg-foreground text-background px-4 py-2 flex items-center gap-3 font-mono">
+              <div className="bg-foreground text-background px-4 py-2 flex items-center gap-3">
                 {isComplete ? (
-                  <Check className="w-4 h-4 text-green-400" strokeWidth={3} />
+                  <Check className="w-4 h-4 text-primary" strokeWidth={3} />
                 ) : (
                   <Loader2 className="w-4 h-4 text-primary animate-spin" />
                 )}
-                <span className="text-[10px] sm:text-xs font-bold tracking-wider uppercase whitespace-nowrap">
-                  {isComplete ? 'WAITING FOR USER INPUT...' : 'INITIALIZING SYSTEM...'}
+                <span className="text-xs font-bold tracking-wider uppercase whitespace-nowrap">
+                  {isComplete ? 'READY' : 'LOADING...'}
                 </span>
               </div>
             </div>

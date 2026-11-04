@@ -129,7 +129,6 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 </Link>
               </div>
 
-              <p className="section-label mb-4">Project</p>
               <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-6">
                 {project.title}
               </h1>
@@ -189,7 +188,6 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           {/* Description */}
           <ScrollReveal>
             <div className="border border-border bg-card p-8 mb-6">
-              <p className="section-label mb-4">About</p>
               <h2 className="text-xl font-black mb-4 tracking-tight">About This Project</h2>
               <p className="text-muted-foreground text-base leading-relaxed text-justify">
                 {description}
@@ -201,7 +199,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           {techStack.length > 0 && (
             <ScrollReveal>
               <div className="border border-border bg-card p-8">
-                <p className="section-label mb-5">Stack</p>
+                <h3 className="text-base font-bold mb-4 tracking-tight">Tech Stack</h3>
                 <div className="flex flex-wrap gap-2">
                   {techStack.map((tech: string, i: number) => (
                     <span

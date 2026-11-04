@@ -38,7 +38,7 @@ const SkillCard = memo(function SkillCard({ skill, index }: { skill: any; index:
             </h3>
           </div>
           <motion.span
-            className="text-2xl font-black text-primary font-mono"
+            className="text-2xl font-black text-primary"
             initial={{ opacity: 0, scale: 0 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -76,7 +76,7 @@ const SkillCard = memo(function SkillCard({ skill, index }: { skill: any; index:
               />
             ))}
           </div>
-          <span className="text-[10px] text-muted-foreground font-mono uppercase tracking-wider">
+          <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
             {skill.proficiency >= 90
               ? 'Expert'
               : skill.proficiency >= 70
@@ -103,21 +103,15 @@ const Skills = memo(function Skills({ skills }: SkillsProps) {
   const allSkills = Object.values(skills).flat();
 
   return (
-    <section id="skills" className="py-24 md:py-32 relative overflow-hidden">
-      {/* Decorative large number */}
-      <div className="absolute top-8 left-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter" aria-hidden="true">
-        03
-      </div>
-
+    <section id="skills" className="py-24 md:py-32 relative overflow-hidden bg-background">
       <div className="container mx-auto px-6">
         <ScrollReveal>
-          <div className="mb-16">
-            <p className="section-label mb-6">Expertise</p>
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-4">
-              Skills <span className="text-primary">&</span><br />Expertise.
+          <div className="mb-14">
+            <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-tight mb-3">
+              Technical Stack &amp; Domain Expertise.
             </h2>
-            <p className="text-muted-foreground text-base max-w-xl mt-4">
-              Technologies and tools I work with to bring ideas to life.
+            <p className="text-muted-foreground text-base max-w-xl">
+              Languages, frameworks, and infrastructure tools utilized in production environments.
             </p>
           </div>
         </ScrollReveal>

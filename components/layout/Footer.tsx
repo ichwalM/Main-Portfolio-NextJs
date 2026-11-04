@@ -34,7 +34,7 @@ export default async function Footer() {
 
           {/* Quick Links */}
           <div>
-            <p className="section-label mb-5">Navigation</p>
+            <h4 className="text-sm font-bold tracking-tight mb-4">Navigation</h4>
             <ul className="space-y-2">
               {navLinks.map((item) => (
                 <li key={item.name}>
@@ -51,7 +51,7 @@ export default async function Footer() {
 
           {/* Social — rendered client-side for animation */}
           <div>
-            <p className="section-label mb-5">Connect</p>
+            <h4 className="text-sm font-bold tracking-tight mb-4">Connect</h4>
             <FooterSocialLinks social={social} email={email ?? undefined} />
           </div>
         </div>
@@ -60,8 +60,8 @@ export default async function Footer() {
           <p className="text-muted-foreground text-xs tracking-wider">
             © {new Date().getFullYear()} ICHWAL. ALL RIGHTS RESERVED.
           </p>
-          <p className="text-muted-foreground/50 text-xs font-mono">
-            BUILD WITH NEXT.JS
+          <p className="text-muted-foreground/50 text-xs uppercase tracking-wider font-semibold">
+            BUILT WITH NEXT.JS
           </p>
         </div>
       </div>

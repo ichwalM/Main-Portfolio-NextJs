@@ -46,12 +46,12 @@ function InputField({
   id, label, type = 'text', value, onChange, error, required, placeholder, rows,
 }: InputFieldProps) {
   const base =
-    'w-full bg-background border text-foreground text-sm px-4 py-3 font-mono placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary transition-colors duration-200 resize-none';
+    'w-full bg-background border text-foreground text-sm px-4 py-3 placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary transition-colors duration-200 resize-none';
   const border = error ? 'border-red-500/60' : 'border-border hover:border-muted-foreground/40';
 
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="block text-[10px] font-mono text-muted-foreground uppercase tracking-[0.15em]">
+      <label htmlFor={id} className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider">
         {label}
         {required && <span className="text-primary ml-1">*</span>}
       </label>
@@ -77,7 +77,7 @@ function InputField({
       )}
 
       {error && (
-        <p className="text-[10px] text-red-400 font-mono flex items-center gap-1">
+        <p className="text-xs text-red-400 flex items-center gap-1">
           <AlertCircle className="w-3 h-3 flex-shrink-0" />
           {error}
         </p>

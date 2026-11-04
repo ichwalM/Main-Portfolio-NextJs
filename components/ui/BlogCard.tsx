@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -53,7 +53,7 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
           {/* Content */}
           <div className="p-6 space-y-3">
             {/* Meta */}
-            <div className="flex items-center gap-4 text-[10px] text-muted-foreground font-mono uppercase tracking-wider">
+            <div className="flex items-center gap-4 text-xs text-muted-foreground uppercase tracking-wider font-medium">
               <div className="flex items-center gap-1">
                 <Calendar className="w-3 h-3" />
                 <span>{formatDate(post.published_at)}</span>

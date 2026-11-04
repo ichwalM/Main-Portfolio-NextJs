@@ -27,8 +27,6 @@ export default function Error({
       <div className="max-w-md w-full">
         <div className="h-0.5 w-16 bg-primary mb-6" />
 
-        <p className="section-label mb-4">Page Error</p>
-
         <h2 className="text-4xl font-black tracking-tighter mb-4">
           Something went<br />
           <span className="text-primary">wrong.</span>

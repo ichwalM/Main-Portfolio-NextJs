@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import Image from 'next/image';
@@ -105,14 +105,9 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
 
         {/* Content Section */}
         <div className="p-6 space-y-4" style={{ transform: 'translateZ(10px)' }}>
-          {/* Index number */}
-          <span className="text-xs font-mono text-muted-foreground/40 font-semibold">
-            {String(index + 1).padStart(2, '0')}
-          </span>
-
           {/* Title */}
           <Link href={`/projects/${project.slug}`}>
-            <h3 className="text-xl font-black tracking-tight cursor-pointer group-hover:text-primary transition-colors duration-200 mt-1">
+            <h3 className="text-xl font-black tracking-tight cursor-pointer group-hover:text-primary transition-colors duration-200">
               {project.title}
             </h3>
           </Link>

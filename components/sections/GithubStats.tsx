@@ -36,7 +36,7 @@ export default function GithubStats({ stats }: GithubStatsProps) {
       label: "Stars Earned",
       value: stats.total_stars,
       icon: Star,
-      accent: "text-yellow-400",
+      accent: "text-primary",
     },
     {
       label: "Total Repos",
@@ -48,7 +48,7 @@ export default function GithubStats({ stats }: GithubStatsProps) {
       label: "Followers",
       value: stats.followers,
       icon: Users,
-      accent: "text-green-400",
+      accent: "text-primary",
     },
     {
       label: "Commits",
@@ -59,22 +59,15 @@ export default function GithubStats({ stats }: GithubStatsProps) {
   ];
 
   return (
-    <section className="py-24 relative overflow-hidden">
-      {/* Decorative large number */}
-      <div className="absolute top-8 left-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter">
-        05
-      </div>
-
+    <section className="py-24 relative overflow-hidden bg-background">
       <div className="container mx-auto px-6">
         <ScrollReveal>
-          <div className="mb-16">
-            <p className="section-label mb-6">Open Source</p>
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-none">
-              Coding<br />
-              <span className="text-primary">Activity.</span>
+          <div className="mb-14">
+            <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-tight">
+              Open Source Activity.
             </h2>
-            <p className="text-muted-foreground text-base mt-4 max-w-xl">
-              My contributions and open source statistics on GitHub.
+            <p className="text-muted-foreground text-base mt-3 max-w-xl">
+              Consistent commit history, repository management, and code contributions.
             </p>
           </div>
         </ScrollReveal>
@@ -92,8 +85,8 @@ export default function GithubStats({ stats }: GithubStatsProps) {
                   <div className="w-1.5 h-1.5 bg-border group-hover:bg-primary transition-colors" />
                 </div>
                 <div>
-                  <h3 className="text-4xl font-black text-foreground font-mono">{item.value}</h3>
-                  <p className="text-muted-foreground text-xs font-mono uppercase tracking-wider mt-1">{item.label}</p>
+                  <h3 className="text-4xl font-black text-foreground">{item.value}</h3>
+                  <p className="text-muted-foreground text-xs uppercase tracking-wider mt-1 font-semibold">{item.label}</p>
                 </div>
               </motion.div>
             </ScrollReveal>
@@ -107,11 +100,11 @@ export default function GithubStats({ stats }: GithubStatsProps) {
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-border">
               <div className="flex items-center gap-2">
                 <Github className="w-4 h-4 text-primary" />
-                <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
                   @{stats.username}
                 </span>
               </div>
-              <span className="text-xs font-mono text-muted-foreground/50">Contribution Graph</span>
+              <span className="text-xs text-muted-foreground/60 font-semibold">Contribution Graph</span>
             </div>
 
             {/* GitHub Calendar & Snake Section */}
@@ -119,7 +112,7 @@ export default function GithubStats({ stats }: GithubStatsProps) {
             <div className="w-full flex justify-center pb-8 pt-4">
               <div className="w-full max-w-[900px] flex flex-col">
                 {/* Custom Month Labels */}
-                <div className="flex w-full justify-between text-muted-foreground text-[10px] md:text-xs font-mono px-4 md:px-6 mb-2 opacity-80">
+                <div className="flex w-full justify-between text-muted-foreground text-xs px-4 md:px-6 mb-2 opacity-80 font-medium">
                   {getPast12Months().map((m, i) => (
                     <span key={i} className="flex-1 text-center">{m}</span>
                   ))}
@@ -133,13 +126,13 @@ export default function GithubStats({ stats }: GithubStatsProps) {
                     <img
                       alt="github contribution grid snake animation"
                       src="https://raw.githubusercontent.com/ichwalM/ichwalM/output/snake.svg"
-                      className="w-full max-w-full drop-shadow-[0_0_15px_rgba(37,99,235,0.08)]"
+                      className="w-full max-w-full"
                     />
                   </picture>
                 </div>
 
                 {/* Footer Labels */}
-                <div className="flex flex-col md:flex-row w-full justify-between items-center md:items-start border-t border-border mt-4 pt-3 text-muted-foreground text-[10px] md:text-xs font-mono px-2 opacity-80 gap-3">
+                <div className="flex flex-col md:flex-row w-full justify-between items-center md:items-start border-t border-border mt-4 pt-3 text-muted-foreground text-xs px-2 opacity-80 gap-3">
                   <span>{stats.total_contributions} contributions in the last year</span>
                   <div className="flex items-center gap-2">
                     <span>Less</span>

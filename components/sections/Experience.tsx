@@ -30,7 +30,7 @@ const ExperienceCard = memo(function ExperienceCard({ experience, index }: { exp
 
   const spotX = useTransform(mouseX, [0, 1], ['0%', '100%']);
   const spotY = useTransform(mouseY, [0, 1], ['0%', '100%']);
-  const spotlight = useMotionTemplate`radial-gradient(400px circle at ${spotX} ${spotY}, rgba(37, 99, 235, 0.08), transparent 80%)`;
+  const spotlight = useMotionTemplate`radial-gradient(400px circle at ${spotX} ${spotY}, rgba(16, 185, 129, 0.08), transparent 80%)`;
 
   return (
     <div className="relative pl-8 md:pl-0">
@@ -80,14 +80,14 @@ const ExperienceCard = memo(function ExperienceCard({ experience, index }: { exp
             {isCurrent && (
               <div className="absolute top-5 right-5 flex items-center gap-1.5 px-2.5 py-1 bg-primary/10 border border-primary/30">
                 <div className="w-1.5 h-1.5 bg-primary animate-pulse" />
-                <span className="text-[9px] font-bold text-primary uppercase tracking-wider font-mono">Present</span>
+                <span className="text-xs font-semibold text-primary uppercase tracking-wider">Present</span>
               </div>
             )}
 
             {/* Company */}
             <div className="flex items-center gap-2 mb-2 text-primary">
               <Briefcase size={14} />
-              <span className="font-mono text-xs tracking-wider uppercase font-medium opacity-80">
+              <span className="text-xs tracking-wider uppercase font-semibold opacity-90">
                 {experience.company}
               </span>
             </div>
@@ -98,11 +98,11 @@ const ExperienceCard = memo(function ExperienceCard({ experience, index }: { exp
             </h3>
 
             {/* Meta */}
-            <div className="flex flex-wrap gap-4 text-[10px] font-mono text-muted-foreground mb-5 uppercase tracking-wider">
+            <div className="flex flex-wrap gap-4 text-xs text-muted-foreground mb-5 uppercase tracking-wider font-medium">
               <div className="flex items-center gap-1.5">
                 <Calendar size={11} />
                 <span>
-                  {formatDate(experience.start_date)} — {experience.end_date ? formatDate(experience.end_date) : 'Now'}
+                  {formatDate(experience.start_date)} - {experience.end_date ? formatDate(experience.end_date) : 'Now'}
                 </span>
               </div>
               {experience.location && (
@@ -149,22 +149,15 @@ const ExperienceTimeline = memo(function ExperienceTimeline({ experiences }: Exp
   const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
 
   return (
-    <section id="experience" className="py-24 md:py-32 relative overflow-hidden">
-      {/* Decorative large number */}
-      <div className="absolute top-8 right-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter" aria-hidden="true">
-        04
-      </div>
-
+    <section id="experience" className="py-24 md:py-32 relative overflow-hidden bg-background">
       <div className="container mx-auto px-6" ref={containerRef}>
         <ScrollReveal>
-          <div className="mb-20">
-            <p className="section-label mb-6">Experience</p>
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-none">
-              Career<br />
-              <span className="text-primary">Journey.</span>
+          <div className="mb-16">
+            <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-tight">
+              Career Milestones &amp; Industry Experience.
             </h2>
-            <p className="text-muted-foreground text-base mt-4 max-w-xl">
-              My professional milestones and industry experience.
+            <p className="text-muted-foreground text-base mt-3 max-w-xl">
+              Professional journey across software engineering, server administration, and infrastructure management.
             </p>
           </div>
         </ScrollReveal>

@@ -53,7 +53,7 @@ const ConnectedSkills = memo(function AllSkillsGrid({ skills }: ConnectedSkillsP
           </div>
 
           {/* Percentage */}
-          <span className="text-[10px] font-mono text-muted-foreground/60">
+          <span className="text-xs text-muted-foreground/80 font-medium">
             {skill.proficiency}%
           </span>
 

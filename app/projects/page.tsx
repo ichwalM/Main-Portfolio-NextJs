@@ -21,15 +21,9 @@ export default async function ProjectsPage() {
 
   return (
     <div className="pt-32 pb-20 overflow-hidden">
-      {/* Decorative number */}
-      <div className="absolute top-24 right-4 text-[15vw] font-black text-border/10 leading-none select-none pointer-events-none tracking-tighter">
-        PRJ
-      </div>
-
       <div className="container mx-auto px-6 relative z-10">
         <ScrollReveal>
           <div className="mb-16">
-            <p className="section-label mb-6">Portfolio</p>
             <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-none mb-4">
               My<br />
               <span className="text-primary">Projects.</span>
