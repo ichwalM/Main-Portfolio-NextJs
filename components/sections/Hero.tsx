@@ -171,9 +171,9 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
         {/* Hero Interactive Stage: Center Cutout Figure + Ribbons Anchored Right Behind the Person */}
         <div className="relative w-full flex-1 min-h-[480px] sm:min-h-[580px] md:min-h-[680px] lg:min-h-[760px] xl:min-h-[820px] flex items-center justify-center my-2 sm:my-4">
 
-          {/* Background Architectural Watermark SVG (Directly behind the person) */}
+          {/* Background Architectural Watermark SVG (Full Screen Width, behind the person) */}
           <div
-            className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-full flex items-center justify-center pointer-events-none select-none z-0 overflow-visible"
             aria-hidden="true"
           >
             <svg className="w-full h-full opacity-[0.035] dark:opacity-[0.05]" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid meet">
@@ -195,16 +195,16 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           {/* =========================================================================
               CROSSING DIAGONAL MARQUEE RIBBONS ("Text full stack devops engineer")
               Two diagonal ribbons crossing in an "X" shape directly behind the person!
-              Centered within the Hero Interactive Stage so they sit PAS DI BELAKANG
-              on both mobile and desktop!
+              Centered within the Hero Stage so they sit PAS DI BELAKANG on mobile,
+              and spanning FULL SCREEN (edge-to-edge) on desktop without being cut off by the card container!
               ========================================================================= */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 overflow-hidden" aria-hidden="true">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-full flex items-center justify-center pointer-events-none z-10 overflow-visible" aria-hidden="true">
             {/* Ribbon 1: Slanted top-left to bottom-right (-10deg on mobile, -9deg on desktop) */}
             <motion.div
               initial={{ opacity: 0, scaleX: 0.85 }}
               animate={introDone ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0.85 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute w-[280vw] sm:w-[220vw] lg:w-[180vw] -rotate-[10deg] lg:-rotate-[9deg] bg-card/90 text-primary border-y border-primary/30 py-2 sm:py-2.5 font-sans text-xs sm:text-sm font-bold tracking-wider uppercase flex overflow-hidden backdrop-blur-xs shadow-xs"
+              className="absolute w-[280vw] sm:w-[220vw] lg:w-[200vw] -rotate-[10deg] lg:-rotate-[9deg] bg-card/90 text-primary border-y border-primary/30 py-2 sm:py-2.5 font-sans text-xs sm:text-sm font-bold tracking-wider uppercase flex overflow-hidden backdrop-blur-xs shadow-xs"
             >
               <motion.div
                 className="flex shrink-0 items-center gap-6 sm:gap-8 whitespace-nowrap"
@@ -233,7 +233,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
               initial={{ opacity: 0, scaleX: 0.85 }}
               animate={introDone ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0.85 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute w-[280vw] sm:w-[220vw] lg:w-[180vw] rotate-[10deg] lg:rotate-[9deg] bg-muted/80 text-foreground border-y border-border py-2 sm:py-2.5 font-sans text-xs sm:text-sm font-bold tracking-wider uppercase flex overflow-hidden backdrop-blur-xs shadow-xs"
+              className="absolute w-[280vw] sm:w-[220vw] lg:w-[200vw] rotate-[10deg] lg:rotate-[9deg] bg-muted/80 text-foreground border-y border-border py-2 sm:py-2.5 font-sans text-xs sm:text-sm font-bold tracking-wider uppercase flex overflow-hidden backdrop-blur-xs shadow-xs"
             >
               <motion.div
                 className="flex shrink-0 items-center gap-6 sm:gap-8 whitespace-nowrap"
