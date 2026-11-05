@@ -144,92 +144,6 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
       onMouseLeave={handleMouseLeave}
       className="relative min-h-[100dvh] w-full flex flex-col justify-between items-center overflow-hidden bg-background text-foreground pt-20 pb-8 px-4 sm:px-6 lg:px-8 select-none"
     >
-      {/* Background Architectural Watermark SVG (Monochromatic depth) */}
-      <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden"
-        aria-hidden="true"
-      >
-        <svg className="w-full h-full opacity-[0.03]" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice">
-          <text
-            x="50%"
-            y="55%"
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fill="currentColor"
-            fontSize="260"
-            fontWeight="900"
-            letterSpacing="-0.06em"
-          >
-            {name.toUpperCase()}
-          </text>
-        </svg>
-      </div>
-
-      {/* =========================================================================
-          CROSSING DIAGONAL MARQUEE RIBBONS ("Text full stack devops engineer")
-          Two diagonal ribbons crossing in an "X" shape directly behind the person!
-          Color harmony: Deep slate-emerald tone that blends cleanly with the theme.
-          ========================================================================= */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 overflow-hidden" aria-hidden="true">
-        {/* Ribbon 1: Slanted top-left to bottom-right (-9deg) */}
-        <motion.div
-          initial={{ opacity: 0, scaleX: 0.85 }}
-          animate={introDone ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0.85 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute w-[180vw] -rotate-[9deg] bg-card/90 text-primary border-y border-primary/30 py-2 sm:py-2.5 font-sans text-xs sm:text-sm font-bold tracking-wider uppercase flex overflow-hidden backdrop-blur-xs"
-        >
-          <motion.div
-            className="flex shrink-0 items-center gap-8 whitespace-nowrap"
-            animate={{ x: ['0%', '-50%'] }}
-            transition={{ duration: 34, repeat: Infinity, ease: 'linear' }}
-          >
-            {[...Array(4)].map((_, i) => (
-              <span key={i} className="flex items-center gap-8">
-                <span>FULL STACK DEVELOPER</span>
-                <span className="opacity-50">/</span>
-                <span>DEVOPS ENGINEER</span>
-                <span className="opacity-50">/</span>
-                <span>UBUNTU SERVER MANAGEMENT</span>
-                <span className="opacity-50">/</span>
-                <span>LARAVEL &amp; NEXT.JS</span>
-                <span className="opacity-50">/</span>
-                <span>SYSTEM ARCHITECTURE</span>
-                <span className="opacity-50">/</span>
-              </span>
-            ))}
-          </motion.div>
-        </motion.div>
-
-        {/* Ribbon 2: Slanted bottom-left to top-right (+9deg) (crossing Ribbon 1) */}
-        <motion.div
-          initial={{ opacity: 0, scaleX: 0.85 }}
-          animate={introDone ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0.85 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute w-[180vw] rotate-[9deg] bg-muted/80 text-foreground border-y border-border py-2 sm:py-2.5 font-sans text-xs sm:text-sm font-bold tracking-wider uppercase flex overflow-hidden backdrop-blur-xs"
-        >
-          <motion.div
-            className="flex shrink-0 items-center gap-8 whitespace-nowrap"
-            animate={{ x: ['-50%', '0%'] }}
-            transition={{ duration: 34, repeat: Infinity, ease: 'linear' }}
-          >
-            {[...Array(4)].map((_, i) => (
-              <span key={i} className="flex items-center gap-8">
-                <span>CI/CD &amp; DOCKER DEPLOYMENTS</span>
-                <span className="opacity-50">/</span>
-                <span>15+ GOOGLE CLOUD SKILL BADGES</span>
-                <span className="opacity-50">/</span>
-                <span>DEVOPS &amp; LINUX INFRASTRUCTURE</span>
-                <span className="opacity-50">/</span>
-                <span>GEMINI AI SOLUTIONS</span>
-                <span className="opacity-50">/</span>
-                <span>SYSTEM OBSERVABILITY</span>
-                <span className="opacity-50">/</span>
-              </span>
-            ))}
-          </motion.div>
-        </motion.div>
-      </div>
-
       {/* Main Content Layout Container */}
       <div className="relative z-20 w-full max-w-7xl mx-auto flex-1 flex flex-col justify-between items-center py-2 sm:py-4">
 
@@ -238,13 +152,13 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           initial={{ opacity: 0, y: -15 }}
           animate={introDone ? { opacity: 1, y: 0 } : { opacity: 0, y: -15 }}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4 px-2 sm:px-4"
+          className="w-full flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4 px-2 sm:px-4 text-center sm:text-left"
         >
-          <div className="flex items-center gap-3">
-            <span className="w-2.5 h-2.5 bg-primary rounded-full inline-block animate-pulse" />
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight uppercase">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <span className="w-2.5 h-2.5 bg-primary rounded-full inline-block animate-pulse shrink-0" />
+            <h1 className="text-lg sm:text-2xl md:text-3xl font-black tracking-tight uppercase">
               {name}
-              <span className="text-muted-foreground text-sm sm:text-base font-medium normal-case tracking-normal ml-3">
+              <span className="text-muted-foreground text-xs sm:text-base font-medium normal-case tracking-normal ml-2 sm:ml-3">
                 · Full Stack &amp; DevOps Engineer
               </span>
             </h1>
@@ -254,8 +168,95 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
           </div>
         </motion.div>
 
-        {/* Hero Interactive Stage: Center Cutout Figure + 4 Pointing Containers */}
-        <div className="relative w-full flex-1 min-h-[540px] sm:min-h-[620px] md:min-h-[700px] lg:min-h-[760px] xl:min-h-[820px] flex items-center justify-center my-2 sm:my-4">
+        {/* Hero Interactive Stage: Center Cutout Figure + Ribbons Anchored Right Behind the Person */}
+        <div className="relative w-full flex-1 min-h-[480px] sm:min-h-[580px] md:min-h-[680px] lg:min-h-[760px] xl:min-h-[820px] flex items-center justify-center my-2 sm:my-4">
+
+          {/* Background Architectural Watermark SVG (Directly behind the person) */}
+          <div
+            className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden"
+            aria-hidden="true"
+          >
+            <svg className="w-full h-full opacity-[0.035] dark:opacity-[0.05]" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid meet">
+              <text
+                x="50%"
+                y="52%"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="currentColor"
+                fontSize="260"
+                fontWeight="900"
+                letterSpacing="-0.06em"
+              >
+                {name.toUpperCase()}
+              </text>
+            </svg>
+          </div>
+
+          {/* =========================================================================
+              CROSSING DIAGONAL MARQUEE RIBBONS ("Text full stack devops engineer")
+              Two diagonal ribbons crossing in an "X" shape directly behind the person!
+              Centered within the Hero Interactive Stage so they sit PAS DI BELAKANG
+              on both mobile and desktop!
+              ========================================================================= */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 overflow-hidden" aria-hidden="true">
+            {/* Ribbon 1: Slanted top-left to bottom-right (-10deg on mobile, -9deg on desktop) */}
+            <motion.div
+              initial={{ opacity: 0, scaleX: 0.85 }}
+              animate={introDone ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0.85 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute w-[280vw] sm:w-[220vw] lg:w-[180vw] -rotate-[10deg] lg:-rotate-[9deg] bg-card/90 text-primary border-y border-primary/30 py-2 sm:py-2.5 font-sans text-xs sm:text-sm font-bold tracking-wider uppercase flex overflow-hidden backdrop-blur-xs shadow-xs"
+            >
+              <motion.div
+                className="flex shrink-0 items-center gap-6 sm:gap-8 whitespace-nowrap"
+                animate={{ x: ['0%', '-50%'] }}
+                transition={{ duration: 34, repeat: Infinity, ease: 'linear' }}
+              >
+                {[...Array(4)].map((_, i) => (
+                  <span key={i} className="flex items-center gap-6 sm:gap-8">
+                    <span>FULL STACK DEVELOPER</span>
+                    <span className="opacity-50">/</span>
+                    <span>DEVOPS ENGINEER</span>
+                    <span className="opacity-50">/</span>
+                    <span>UBUNTU SERVER MANAGEMENT</span>
+                    <span className="opacity-50">/</span>
+                    <span>LARAVEL &amp; NEXT.JS</span>
+                    <span className="opacity-50">/</span>
+                    <span>SYSTEM ARCHITECTURE</span>
+                    <span className="opacity-50">/</span>
+                  </span>
+                ))}
+              </motion.div>
+            </motion.div>
+
+            {/* Ribbon 2: Slanted bottom-left to top-right (+10deg on mobile, +9deg on desktop) (crossing Ribbon 1) */}
+            <motion.div
+              initial={{ opacity: 0, scaleX: 0.85 }}
+              animate={introDone ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0.85 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute w-[280vw] sm:w-[220vw] lg:w-[180vw] rotate-[10deg] lg:rotate-[9deg] bg-muted/80 text-foreground border-y border-border py-2 sm:py-2.5 font-sans text-xs sm:text-sm font-bold tracking-wider uppercase flex overflow-hidden backdrop-blur-xs shadow-xs"
+            >
+              <motion.div
+                className="flex shrink-0 items-center gap-6 sm:gap-8 whitespace-nowrap"
+                animate={{ x: ['-50%', '0%'] }}
+                transition={{ duration: 34, repeat: Infinity, ease: 'linear' }}
+              >
+                {[...Array(4)].map((_, i) => (
+                  <span key={i} className="flex items-center gap-6 sm:gap-8">
+                    <span>CI/CD &amp; DOCKER DEPLOYMENTS</span>
+                    <span className="opacity-50">/</span>
+                    <span>15+ GOOGLE CLOUD SKILL BADGES</span>
+                    <span className="opacity-50">/</span>
+                    <span>DEVOPS &amp; LINUX INFRASTRUCTURE</span>
+                    <span className="opacity-50">/</span>
+                    <span>GEMINI AI SOLUTIONS</span>
+                    <span className="opacity-50">/</span>
+                    <span>SYSTEM OBSERVABILITY</span>
+                    <span className="opacity-50">/</span>
+                  </span>
+                ))}
+              </motion.div>
+            </motion.div>
+          </div>
 
           {/* =========================================================================
               CENTER ANIMATED CUTOUT PHOTO (NO WATERMARK, NO BACKGROUND)
@@ -294,13 +295,13 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
               />
 
               {/* The Cutout Image (Watermark-free, transparent background, heroic size) */}
-              <div className="relative w-[340px] sm:w-[440px] md:w-[520px] lg:w-[600px] xl:w-[680px] 2xl:w-[740px] h-[480px] sm:h-[580px] md:h-[680px] lg:h-[760px] xl:h-[840px] 2xl:h-[890px] drop-shadow-[0_25px_45px_rgba(0,0,0,0.5)]">
+              <div className="relative w-[320px] sm:w-[440px] md:w-[520px] lg:w-[600px] xl:w-[680px] 2xl:w-[740px] h-[460px] sm:h-[580px] md:h-[680px] lg:h-[760px] xl:h-[840px] 2xl:h-[890px] drop-shadow-[0_25px_45px_rgba(0,0,0,0.5)]">
                 <Image
                   src={imageSrc}
                   alt={`${name} — Full Stack Developer & DevOps Engineer`}
                   fill
                   priority
-                  sizes="(max-width: 640px) 340px, (max-width: 768px) 460px, (max-width: 1024px) 540px, (max-width: 1280px) 620px, 740px"
+                  sizes="(max-width: 640px) 320px, (max-width: 768px) 460px, (max-width: 1024px) 540px, (max-width: 1280px) 620px, 740px"
                   className="object-contain object-bottom select-none pointer-events-none"
                   onError={() => setImageSrc('/ichwal-cutout.webp')}
                 />
@@ -311,10 +312,10 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
                 animate={introDone ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.95 }}
                 transition={{ delay: 0.5, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className="mt-[-16px] sm:mt-[-20px] z-40 px-5 sm:px-6 py-2 sm:py-2.5 bg-card text-foreground border-2 border-border font-bold text-xs sm:text-sm tracking-tight flex items-center gap-2.5 shadow-sm"
+                className="mt-[-16px] sm:mt-[-20px] z-40 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full sm:rounded-none bg-card text-foreground border border-border sm:border-2 font-bold text-xs sm:text-sm tracking-tight flex items-center gap-2 sm:gap-2.5 shadow-sm max-w-[90vw] truncate"
               >
-                <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                <span>ICHWAL · FULL STACK &amp; DEVOPS ENGINEER</span>
+                <span className="w-2 h-2 bg-primary rounded-full animate-pulse shrink-0" />
+                <span className="truncate">ICHWAL · FULL STACK &amp; DEVOPS ENGINEER</span>
               </motion.div>
             </motion.div>
           </motion.div>
@@ -603,7 +604,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
             return (
               <div
                 key={card.id}
-                className="p-4 bg-card border-2 border-border hover:border-primary/60 transition-colors"
+                className="p-4 bg-card rounded-xl border border-border/80 hover:border-primary/60 transition-colors shadow-xs"
               >
                 <div className="flex items-center gap-2 mb-1.5">
                   <Icon className="w-4 h-4 text-primary" />
@@ -614,7 +615,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                 </p>
                 <div className="flex flex-wrap gap-1">
                   {card.tags.map((t) => (
-                    <span key={t} className="px-1.5 py-0.5 bg-muted text-xs font-medium text-foreground">
+                    <span key={t} className="px-2 py-0.5 bg-muted rounded-md text-[11px] font-semibold text-foreground">
                       {t}
                     </span>
                   ))}
@@ -625,12 +626,12 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
         </motion.div>
 
         {/* Action Controls & Social Links Bar */}
-        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-border z-30">
+        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-border/70 z-30">
           {/* Action CTAs — Harmonious styling */}
           <div className="flex flex-wrap items-center gap-3 justify-center sm:justify-start">
             <Link
               href="/projects"
-              className="px-6 py-2.5 bg-primary text-primary-foreground font-bold text-sm tracking-wide flex items-center gap-2 hover:opacity-90 transition-opacity"
+              className="px-6 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-sm tracking-wide flex items-center gap-2 hover:opacity-90 transition-opacity shadow-xs"
             >
               <span>Explore Projects</span>
               <ArrowRight className="w-4 h-4" />
@@ -641,7 +642,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                 href={resumeLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-2.5 bg-card hover:bg-muted border-2 border-border text-foreground font-bold text-sm tracking-wide flex items-center gap-2 transition-colors"
+                className="px-6 py-2.5 rounded-xl bg-card hover:bg-muted border border-border text-foreground font-bold text-sm tracking-wide flex items-center gap-2 transition-colors"
                 aria-label={`View ${name}'s CV in a new tab`}
               >
                 <FileText className="w-4 h-4" />
@@ -651,7 +652,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
 
             <a
               href="#contact"
-              className="px-6 py-2.5 bg-transparent hover:bg-primary/10 border-2 border-primary/50 text-primary font-bold text-sm tracking-wide flex items-center gap-2 transition-colors"
+              className="px-6 py-2.5 rounded-xl bg-transparent hover:bg-primary/10 border border-primary/50 text-primary font-bold text-sm tracking-wide flex items-center gap-2 transition-colors"
             >
               <span>Contact Me</span>
             </a>
@@ -669,7 +670,7 @@ export const Hero = memo(function Hero({ profile, about }: HeroProps) {
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 border border-border bg-card text-muted-foreground flex items-center justify-center hover:border-primary hover:text-primary transition-colors"
+                  className="w-9 h-9 rounded-lg border border-border bg-card text-muted-foreground flex items-center justify-center hover:border-primary hover:text-primary transition-colors"
                   aria-label={`${key} profile`}
                 >
                   <Icon className="w-4 h-4" />
