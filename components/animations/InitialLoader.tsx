@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, useRef } from 'react';
 
@@ -98,19 +99,31 @@ export default function InitialLoader() {
           {/* Centerpiece: Wordmark, Expanding Laser Beam & Telemetry */}
           <div className="relative z-10 flex flex-col items-center justify-center my-auto text-center px-4">
             
-            {/* Wordmark with smooth blur-to-sharp entrance */}
+            {/* Logo Emblem & Wordmark with smooth blur-to-sharp entrance */}
             <motion.div
               initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-baseline gap-1"
+              className="flex flex-col items-center gap-3"
             >
-              <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tighter text-foreground">
-                ICHWAL
-              </h1>
-              <span className="text-5xl sm:text-7xl md:text-8xl font-black text-primary animate-pulse">
-                .
-              </span>
+              <div className="w-16 h-16 sm:w-20 sm:h-20 relative drop-shadow-[0_0_25px_rgba(16,185,129,0.35)]">
+                <Image
+                  src="/aset/svg/logo_ic_badge.svg"
+                  alt="Ichwal Logo"
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-contain"
+                  priority
+                />
+              </div>
+              <div className="flex items-baseline gap-1">
+                <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tighter text-foreground">
+                  ICHWAL
+                </h1>
+                <span className="text-5xl sm:text-7xl md:text-8xl font-black text-primary animate-pulse">
+                  .
+                </span>
+              </div>
             </motion.div>
 
             {/* Expanding Laser Beam Line */}

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Github, Linkedin, Mail, Twitter, Instagram, ExternalLink } from 'lucide-react';
 import { getProfile } from '@/lib/api/profile';
 import FooterSocialLinks from './FooterSocialLinks';
@@ -24,9 +25,20 @@ export default async function Footer() {
           
           {/* Brand */}
           <div>
-            <h3 className="text-2xl font-black tracking-tighter mb-3">
-              ICHWAL<span className="text-primary">.</span>
-            </h3>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-9 h-9 relative rounded-xl overflow-hidden border border-emerald-500/30 shrink-0 shadow-sm">
+                <Image
+                  src="/aset/svg/logo_ic_badge.svg"
+                  alt="Ichwal Logo"
+                  width={36}
+                  height={36}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <h3 className="text-2xl font-black tracking-tighter">
+                ICHWAL<span className="text-primary">.</span>
+              </h3>
+            </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Full Stack Developer passionate about creating performant and purposeful web experiences.
             </p>

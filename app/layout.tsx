@@ -102,8 +102,15 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/ichwal-icon.svg',
-    apple: '/ichwal-icon.svg',
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/aset/svg/logo_ic_badge.svg', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
   alternates: {
     canonical: 'https://walldev.my.id',

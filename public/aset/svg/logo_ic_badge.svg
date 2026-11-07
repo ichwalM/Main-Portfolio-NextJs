@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80" fill="none">
+  <defs>
+    <linearGradient id="badge-border" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#34D399" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0EA5E9" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+  <!-- Squircle Base -->
+  <rect x="4" y="4" width="72" height="72" rx="18" fill="#0F172A" stroke="url(#badge-border)" stroke-width="2"/>
+  <!-- Ambient Inner Highlight -->
+  <circle cx="40" cy="40" r="22" fill="#10B981" opacity="0.12"/>
+  <!-- Monogram IC -->
+  <text x="17" y="53" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="34" fill="#F8FAFC" letter-spacing="-0.5">IC</text>
+  <!-- Accent Status Dot -->
+  <circle cx="62" cy="18" r="3.5" fill="#10B981"/>
+</svg>

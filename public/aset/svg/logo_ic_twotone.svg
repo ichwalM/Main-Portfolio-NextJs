@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 80" width="160" height="80" fill="none">
+  <!-- Glowing ambient filter -->
+  <defs>
+    <filter id="glow-teal" x="-20%" y="-20%" width="140%" height="140%" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <!-- Optional subtle backing glow -->
+  <circle cx="80" cy="40" r="30" fill="#10B981" opacity="0.15" filter="url(#glow-teal)" />
+  <!-- Letter I (Pure White #F8FAFC) -->
+  <text x="36" y="58" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="52" fill="#F8FAFC" letter-spacing="-1">I</text>
+  <!-- Letter C (Emerald Teal #10B981) -->
+  <text x="56" y="58" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="52" fill="#10B981" letter-spacing="-1">C</text>
+  <!-- Terminal Dot Accent (#34D399) -->
+  <circle cx="106" cy="54" r="5" fill="#34D399" />
+</svg>

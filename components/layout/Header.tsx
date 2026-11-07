@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
@@ -126,10 +127,22 @@ export default function Header() {
         {/* Logo */}
         <Link
           href="/"
-          className="text-xl font-black tracking-tight text-foreground z-50 relative hover:text-primary transition-colors duration-200"
+          className="flex items-center gap-2.5 z-50 relative group select-none"
           onClick={() => setIsMobileMenuOpen(false)}
         >
-          ICHWAL<span className="text-primary">.</span>
+          <div className="relative w-8 h-8 rounded-xl overflow-hidden shrink-0 shadow-sm border border-emerald-500/30 group-hover:border-emerald-500/60 transition-all duration-300">
+            <Image
+              src="/aset/svg/logo_ic_badge.svg"
+              alt="Ichwal Logo"
+              width={32}
+              height={32}
+              className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+              priority
+            />
+          </div>
+          <span className="text-xl font-black tracking-tight text-foreground group-hover:text-primary transition-colors duration-200">
+            ICHWAL<span className="text-primary">.</span>
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
